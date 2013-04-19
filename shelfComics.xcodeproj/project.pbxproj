@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		90147F93172181AB002C593A /* Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 90147F92172181AB002C593A /* Network.m */; };
 		904E946317201C630050A676 /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904E946217201C630050A676 /* AddViewController.m */; };
 		904E946717202FA70050A676 /* deadpool.png in Resources */ = {isa = PBXBuildFile; fileRef = 904E946617202FA70050A676 /* deadpool.png */; };
 		904E9469172140030050A676 /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904E9468172140030050A676 /* AWSRuntime.framework */; };
@@ -42,6 +43,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		90147F9017217FD8002C593A /* Constantes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constantes.h; sourceTree = "<group>"; };
+		90147F91172181AB002C593A /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
+		90147F92172181AB002C593A /* Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Network.m; sourceTree = "<group>"; };
 		904E946117201C630050A676 /* AddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddViewController.h; sourceTree = "<group>"; };
 		904E946217201C630050A676 /* AddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
 		904E946617202FA70050A676 /* deadpool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deadpool.png; sourceTree = "<group>"; };
@@ -158,9 +162,6 @@
 		90B8E85B171FE09D00452F68 = {
 			isa = PBXGroup;
 			children = (
-				904E9490172141DC0050A676 /* Security.framework */,
-				904E948E172141D40050A676 /* SystemConfiguration.framework */,
-				904E948C172141CB0050A676 /* CFNetwork.framework */,
 				90B8E86D171FE09D00452F68 /* shelfComics */,
 				90B8E866171FE09D00452F68 /* Frameworks */,
 				90B8E865171FE09D00452F68 /* Products */,
@@ -178,6 +179,9 @@
 		90B8E866171FE09D00452F68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				904E9490172141DC0050A676 /* Security.framework */,
+				904E948E172141D40050A676 /* SystemConfiguration.framework */,
+				904E948C172141CB0050A676 /* CFNetwork.framework */,
 				904E9468172140030050A676 /* AWSRuntime.framework */,
 				90B8E867171FE09D00452F68 /* UIKit.framework */,
 				90B8E869171FE09D00452F68 /* Foundation.framework */,
@@ -193,6 +197,9 @@
 				90B8E88D171FE0B400452F68 /* Externals */,
 				90B8E876171FE09E00452F68 /* AppDelegate.h */,
 				90B8E877171FE09E00452F68 /* AppDelegate.m */,
+				90147F9017217FD8002C593A /* Constantes.h */,
+				90147F91172181AB002C593A /* Network.h */,
+				90147F92172181AB002C593A /* Network.m */,
 				90B8E891171FEA7500452F68 /* MenuViewController.h */,
 				90B8E892171FEA7500452F68 /* MenuViewController.m */,
 				90B8E899171FF45A00452F68 /* HomeViewController.h */,
@@ -326,6 +333,7 @@
 				904E9489172141A90050A676 /* MKNetworkEngine.m in Sources */,
 				904E948A172141A90050A676 /* MKNetworkOperation.m in Sources */,
 				904E948B172141A90050A676 /* Reachability.m in Sources */,
+				90147F93172181AB002C593A /* Network.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
