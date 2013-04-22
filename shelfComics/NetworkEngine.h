@@ -1,13 +1,13 @@
 //
-//  Network.h
+//  NetworkEngine.h
 //  shelfComics
 //
-//  Created by Rémy ALEXANDRE on 19/04/13.
+//  Created by Rémy ALEXANDRE on 22/04/13.
 //  Copyright (c) 2013 Rémy ALEXANDRE. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface Network : NSObject
+@interface NetworkEngine : NSObject
 
 @end
