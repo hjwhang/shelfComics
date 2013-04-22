@@ -7,6 +7,7 @@
 //
 
 #import "AddViewController.h"
+#import "AppDelegate.h"
 
 @interface AddViewController ()
 
@@ -38,6 +39,25 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(IBAction)lookUp:(id)sender {
+    self.lookupOperation = [ApplicationDelegate.networkEngine itemForUPC:@"qsdfqsdf"
+                                                       completionHandler:^(NSString *response) {
+                                                           
+                                                           [[[UIAlertView alloc] initWithTitle:@"YOOOOOO"
+                                                                                       message:[NSString stringWithFormat:@"%@", response]
+                                                                                      delegate:nil
+                                                                             cancelButtonTitle:NSLocalizedString(@"Dismiss", @"")
+                                                                             otherButtonTitles:nil] show];
+                                                       }
+                                                            errorHandler:^(NSError* error) {
+                                                                
+                                                                
+                                                                DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],
+                                                                     [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
+                                                            }
+                            ];
 }
 
 @end

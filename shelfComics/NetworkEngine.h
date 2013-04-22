@@ -6,8 +6,10 @@
 //  Copyright (c) 2013 Rémy ALEXANDRE. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@interface NetworkEngine : MKNetworkEngine
 
-@interface NetworkEngine : NSObject
+typedef void (^ItemResponseBlock)(NSString *response);
+
+-(MKNetworkOperation*) itemForUPC:(NSString*)UPC completionHandler:(ItemResponseBlock) completionBlock errorHandler:(MKNKErrorBlock) errorBlock;
 
 @end

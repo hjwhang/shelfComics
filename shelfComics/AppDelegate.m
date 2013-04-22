@@ -12,7 +12,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    self.networkEngine = [[NetworkEngine alloc] initWithHostName:@"webservices.amazon.com/"];
+    [self.networkEngine useCache];
+    
     return YES;
 }
 							

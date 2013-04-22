@@ -10,4 +10,6 @@
 
 @interface AddViewController : UIViewController
 
+@property (strong, nonatomic) MKNetworkOperation *lookupOperation;
+
 @end

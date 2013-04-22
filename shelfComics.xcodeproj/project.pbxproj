@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		90147F93172181AB002C593A /* Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 90147F92172181AB002C593A /* Network.m */; };
+		90147F9617253DCA002C593A /* NetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 90147F9517253DCA002C593A /* NetworkEngine.m */; };
 		904E946317201C630050A676 /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904E946217201C630050A676 /* AddViewController.m */; };
 		904E946717202FA70050A676 /* deadpool.png in Resources */ = {isa = PBXBuildFile; fileRef = 904E946617202FA70050A676 /* deadpool.png */; };
 		904E9469172140030050A676 /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904E9468172140030050A676 /* AWSRuntime.framework */; };
@@ -44,8 +44,8 @@
 
 /* Begin PBXFileReference section */
 		90147F9017217FD8002C593A /* Constantes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constantes.h; sourceTree = "<group>"; };
-		90147F91172181AB002C593A /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
-		90147F92172181AB002C593A /* Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Network.m; sourceTree = "<group>"; };
+		90147F9417253DCA002C593A /* NetworkEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkEngine.h; sourceTree = "<group>"; };
+		90147F9517253DCA002C593A /* NetworkEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkEngine.m; sourceTree = "<group>"; };
 		904E946117201C630050A676 /* AddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddViewController.h; sourceTree = "<group>"; };
 		904E946217201C630050A676 /* AddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
 		904E946617202FA70050A676 /* deadpool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deadpool.png; sourceTree = "<group>"; };
@@ -198,8 +198,8 @@
 				90B8E876171FE09E00452F68 /* AppDelegate.h */,
 				90B8E877171FE09E00452F68 /* AppDelegate.m */,
 				90147F9017217FD8002C593A /* Constantes.h */,
-				90147F91172181AB002C593A /* Network.h */,
-				90147F92172181AB002C593A /* Network.m */,
+				90147F9417253DCA002C593A /* NetworkEngine.h */,
+				90147F9517253DCA002C593A /* NetworkEngine.m */,
 				90B8E891171FEA7500452F68 /* MenuViewController.h */,
 				90B8E892171FEA7500452F68 /* MenuViewController.m */,
 				90B8E899171FF45A00452F68 /* HomeViewController.h */,
@@ -333,7 +333,7 @@
 				904E9489172141A90050A676 /* MKNetworkEngine.m in Sources */,
 				904E948A172141A90050A676 /* MKNetworkOperation.m in Sources */,
 				904E948B172141A90050A676 /* Reachability.m in Sources */,
-				90147F93172181AB002C593A /* Network.m in Sources */,
+				90147F9617253DCA002C593A /* NetworkEngine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
