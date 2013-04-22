@@ -12,7 +12,7 @@
 
 -(MKNetworkOperation*) itemForUPC:(NSString *)UPC completionHandler:(ItemResponseBlock)completionBlock errorHandler:(MKNKErrorBlock)errorBlock {
     
-    MKNetworkOperation *op = [self operationWithPath:@"onca/xml?Service=AWSECommerceService&Operation=ItemLookup&Signature=P+eAQB0aBYfH8BQdTc3+tDW0npIgFMT9YjcbXLcR&AWSAccessKeyId=AKIAIV5TWEDO3TYFB4UA&ItemId=0735619530&Timestamp=1366306350"
+    MKNetworkOperation *op = [self operationWithPath:@"yopyop"
                                               params:nil
                                           httpMethod:@"GET"];
     
