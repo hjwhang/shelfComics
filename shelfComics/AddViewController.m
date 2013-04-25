@@ -42,18 +42,16 @@
 }
 
 -(IBAction)lookUp:(id)sender {
-    self.lookupOperation = [ApplicationDelegate.networkEngine itemForUPC:@"qsdfqsdf"
+    self.lookupOperation = [ApplicationDelegate.networkEngine itemForUPC:@"0785156658"
                                                        completionHandler:^(NSString *response) {
                                                            
-                                                           [[[UIAlertView alloc] initWithTitle:@"YOOOOOO"
+                                                           [[[UIAlertView alloc] initWithTitle:@"It Works!"
                                                                                        message:[NSString stringWithFormat:@"%@", response]
                                                                                       delegate:nil
-                                                                             cancelButtonTitle:NSLocalizedString(@"Dismiss", @"")
+                                                                             cancelButtonTitle:NSLocalizedString(@"Close", @"")
                                                                              otherButtonTitles:nil] show];
                                                        }
                                                             errorHandler:^(NSError* error) {
-                                                                
-                                                                
                                                                 DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],
                                                                      [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
                                                             }

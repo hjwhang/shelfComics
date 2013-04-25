@@ -10,6 +10,9 @@
 
 @interface MenuViewController : UITableViewController
 
+/*
+ * Is used to go back home without instantiating a new instance of HomeViewController
+ */
 - (void)backHome:(UIButton *)sender;
 
 @end

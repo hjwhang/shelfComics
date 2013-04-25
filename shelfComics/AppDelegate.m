@@ -7,12 +7,13 @@
 //
 
 #import "AppDelegate.h"
+#import "Constants.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.networkEngine = [[NetworkEngine alloc] initWithHostName:@"webservices.amazon.com/"];
+    self.networkEngine = [[NetworkEngine alloc] initWithHostName:kDomainName];
     [self.networkEngine useCache];
     
     return YES;

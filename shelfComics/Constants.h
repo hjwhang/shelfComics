@@ -9,11 +9,14 @@
 #ifndef shelfComics_Constantes_h
 #define shelfComics_Constantes_h
 
-#pragma mark - AWS Constantes
+#pragma mark - AWS Constants
 
-#define kBaseURL @"http://webservices.amazon.com/onca/xml?"
 #define kService @"AWSECommerceService"
-#define kAccessKey @"SECRET"
+#define kAccessKey @"IDEN"
+#define kPrivateKey @"IDEN"
 #define kOperation @"ItemLookup"
+#define kDomainName @"webservices.amazon.com"
+#define kAssociateTag @"mytag-20"
+#define kVersion @"2009-03-31"
 
 #endif
