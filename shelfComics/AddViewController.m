@@ -12,6 +12,7 @@
 @interface AddViewController ()
 
 @property (readwrite) IBOutlet UIBarButtonItem *revealButtonItem;
+@property (nonatomic, retain) IBOutlet UIScrollView *mainScrollView;
 
 @end
 
@@ -33,6 +34,13 @@
     [self.revealButtonItem setTarget: self.revealViewController];
     [self.revealButtonItem setAction: @selector(revealToggle:)];
     [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
+    
+    [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.05];
+}
+
+// Tweak de merde à cause du resizeWithOldSuperviewSize qui m'empèche de resizer dans le viewDidLoad. Sais pas pourquoi ;(
+-(void)adjustScrollViewContentSize {
+    self.mainScrollView.contentSize = CGSizeMake(320, 625);
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,6 +50,7 @@
 }
 
 -(IBAction)lookUp:(id)sender {
+    
     self.lookupOperation = [ApplicationDelegate.networkEngine itemForUPC:@"0785156658"
                                                        completionHandler:^(NSString *response) {
                                                            
