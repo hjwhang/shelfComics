@@ -12,4 +12,7 @@
 
 @property (strong, nonatomic) MKNetworkOperation *lookupOperation;
 
+-(void)showLoadingView;
+-(void)removeLoadingView;
+
 @end

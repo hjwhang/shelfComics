@@ -20,4 +20,6 @@
 #define kVersion @"2009-03-31"
 #define kResponseGroup @"Large"
 
+#define kLoadingViewTag @"2013"
+
 #endif

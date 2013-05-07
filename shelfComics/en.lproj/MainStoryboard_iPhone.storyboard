@@ -186,6 +186,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="lookUp:" destination="xza-hF-TtM" eventType="touchUpInside" id="Hnf-gu-PiK"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNg-oW-8px">
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -502,7 +505,6 @@
         <class className="AddViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AddViewController.h"/>
             <relationships>
-                <relationship kind="action" name="lookUp:"/>
                 <relationship kind="outlet" name="mainScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="revealButtonItem" candidateClass="UIBarButtonItem"/>
             </relationships>
