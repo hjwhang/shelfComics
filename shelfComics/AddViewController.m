@@ -44,6 +44,10 @@
     self.mainScrollView.contentSize = CGSizeMake(320, 625);
 }
 
+-(void)viewDidDisappear:(BOOL)animated {
+        [self.lookupOperation cancel];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -92,7 +96,7 @@
     [loadingActivity setCenter:CGPointMake(160, 225)];
     [loadingView addSubview:loadingActivity];
     
-    [loadingView setTag:2013];
+    [loadingView setTag:[kLoadingViewTag intValue]];
     
     [self.view addSubview:loadingView];
 }
