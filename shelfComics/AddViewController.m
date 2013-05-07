@@ -17,6 +17,8 @@
 
 @end
 
+static int nbFailures = 5;
+
 @implementation AddViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -58,24 +60,38 @@
     
     [self showLoadingView];
     
-    self.lookupOperation = [ApplicationDelegate.networkEngine itemForUPC:@"0785156658"
-                                                       completionHandler:^(NSString *response) {
-                                                           
-                                                           [self removeLoadingView];
-                                                           
-                                                           [[[UIAlertView alloc] initWithTitle:@"It Works!"
-                                                                                       message:[NSString stringWithFormat:@"%@", response]
-                                                                                      delegate:nil
-                                                                             cancelButtonTitle:NSLocalizedString(@"Close", @"")
-                                                                             otherButtonTitles:nil] show];
-                                                       }
-                                                            errorHandler:^(NSError* error) {
-                                                                [self removeLoadingView];
-                                                                
-                                                                DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],
-                                                                     [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
-                                                            }
-                            ];
+    if (nbFailures != 0) {
+        self.lookupOperation = [ApplicationDelegate.networkEngine itemForUPC:@"0785156658"
+                                                           completionHandler:^(NSString *response) {
+                                                               
+                                                               [self removeLoadingView];
+                                                               
+                                                               [[[UIAlertView alloc] initWithTitle:@"It Works!"
+                                                                                           message:[NSString stringWithFormat:@"%@", response]
+                                                                                          delegate:nil
+                                                                                 cancelButtonTitle:NSLocalizedString(@"Close", @"")
+                                                                                 otherButtonTitles:nil] show];
+                                                               nbFailures = 5;
+                                                           }
+                                                                errorHandler:^(NSError* error) {
+                                                                    [self removeLoadingView];
+                                                                    nbFailures--;
+                                                                    
+                                                                    DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],
+                                                                         [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
+                                                                    [self lookUp:nil];
+                                                                }
+                                ];
+    } else {
+        [self removeLoadingView];
+        nbFailures = 5;
+        [[[UIAlertView alloc] initWithTitle:@"ERROR!!"
+                                    message:@"Too many requests failed."
+                                   delegate:nil
+                          cancelButtonTitle:@"Close"
+                          otherButtonTitles:nil] show];
+    }
+    
 }
 
 -(void)showLoadingView {

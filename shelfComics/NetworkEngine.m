@@ -42,11 +42,12 @@
          
      } errorHandler:^(MKNetworkOperation *errorOp, NSError* error) {
          errorBlock(error);
-         [[[UIAlertView alloc] initWithTitle:@"ERROR!!"
+         /*[[[UIAlertView alloc] initWithTitle:@"ERROR!!"
                                      message:@"Timestamp error"
                                     delegate:nil
                            cancelButtonTitle:@"Close"
                            otherButtonTitles:nil] show];
+          */
      }];
     
     [self enqueueOperation:op];
