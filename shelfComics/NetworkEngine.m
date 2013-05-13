@@ -9,6 +9,7 @@
 #import "NetworkEngine.h"
 #import "Constants.h"
 #import <AWSRuntime/AWSRuntime.h>
+#import "XMLReader.h"
 
 
 @implementation NetworkEngine
@@ -29,25 +30,24 @@
     [op addCompletionHandler:^(MKNetworkOperation *completedOperation)
      {
          NSString *value = [completedOperation responseString];
-         DLog(@"%@", value);
+         DLog(@"Response in NSString --> %@", value);
+         
+         NSError *error = nil;
+         
+         NSDictionary *responseDico = [XMLReader dictionaryForXMLString:value error:&error];
+         DLog(@"REMY %@", responseDico);
          
          if([completedOperation isCachedResponse]) {
-             DLog(@"Data from cache %@", [completedOperation responseJSON]);
+             DLog(@"Data from cache %@", [completedOperation responseString]);
          }
          else {
-             DLog(@"Data from server %@", [completedOperation responseJSON]);
+             DLog(@"Data from server %@", [completedOperation responseString]);
          }
          
          completionBlock(value);
          
      } errorHandler:^(MKNetworkOperation *errorOp, NSError* error) {
          errorBlock(error);
-         /*[[[UIAlertView alloc] initWithTitle:@"ERROR!!"
-                                     message:@"Timestamp error"
-                                    delegate:nil
-                           cancelButtonTitle:@"Close"
-                           otherButtonTitles:nil] show];
-          */
      }];
     
     [self enqueueOperation:op];

@@ -17,9 +17,11 @@
 
 @end
 
-static int nbFailures = 5;
+static int nbFailures = 7;
 
 @implementation AddViewController
+
+@synthesize ISBN, comicsTitle, author;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,12 +35,20 @@ static int nbFailures = 5;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+    
     [self.revealButtonItem setTarget: self.revealViewController];
     [self.revealButtonItem setAction: @selector(revealToggle:)];
     [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
     
     [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.05];
+    
+    self.ISBN.delegate = self;
+    self.author.delegate = self;
+    self.comicsTitle.delegate = self;
+    
+    UITapGestureRecognizer* tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_handleTap:)];
+    tgr.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tgr];
 }
 
 // Tweak de merde à cause du resizeWithOldSuperviewSize qui m'empèche de resizer dans le viewDidLoad. Sais pas pourquoi ;(
@@ -61,7 +71,7 @@ static int nbFailures = 5;
     [self showLoadingView];
     
     if (nbFailures != 0) {
-        self.lookupOperation = [ApplicationDelegate.networkEngine itemForUPC:@"0785156658"
+        self.lookupOperation = [ApplicationDelegate.networkEngine itemForUPC:self.ISBN.text
                                                            completionHandler:^(NSString *response) {
                                                                
                                                                [self removeLoadingView];
@@ -71,7 +81,7 @@ static int nbFailures = 5;
                                                                                           delegate:nil
                                                                                  cancelButtonTitle:NSLocalizedString(@"Close", @"")
                                                                                  otherButtonTitles:nil] show];
-                                                               nbFailures = 5;
+                                                               nbFailures = 7;
                                                            }
                                                                 errorHandler:^(NSError* error) {
                                                                     [self removeLoadingView];
@@ -84,8 +94,8 @@ static int nbFailures = 5;
                                 ];
     } else {
         [self removeLoadingView];
-        nbFailures = 5;
-        [[[UIAlertView alloc] initWithTitle:@"ERROR!!"
+        nbFailures = 7;
+        [[[UIAlertView alloc] initWithTitle:@"HOLY SHIT !!"
                                     message:@"Too many requests failed."
                                    delegate:nil
                           cancelButtonTitle:@"Close"
@@ -122,6 +132,38 @@ static int nbFailures = 5;
         if (subview.tag == [kLoadingViewTag intValue]) {
             [subview removeFromSuperview];
         }
+    }
+}
+
+#pragma mark - 
+#pragma mark TextField methods
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if ((self.view.center.y - textField.center.y) < 23) {
+        if (CGAffineTransformIsIdentity(self.view.transform)) {
+            [UIView animateWithDuration:.2 animations:^{
+                self.view.transform = CGAffineTransformMakeTranslation(0.f, -150.f);
+            }];
+        }
+    }
+}
+
+-(void) _handleTap:(UITapGestureRecognizer*)tgr
+{
+    [self.ISBN resignFirstResponder];
+    [self.author resignFirstResponder];
+    [self.comicsTitle resignFirstResponder];
+    
+    if (!CGAffineTransformIsIdentity(self.view.transform)) {
+        [UIView animateWithDuration:.2 animations:^{
+            self.view.transform = CGAffineTransformIdentity;
+        }];
     }
 }
 

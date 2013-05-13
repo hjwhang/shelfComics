@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		90147F9617253DCA002C593A /* NetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 90147F9517253DCA002C593A /* NetworkEngine.m */; };
-		90147F981726C1E7002C593A /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90147F971726C1E7002C593A /* AWSRuntime.framework */; };
+		9021C2A41740F6480052841B /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9021C2A31740F6480052841B /* XMLReader.m */; };
+		9021C2A61740F8030052841B /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9021C2A51740F8030052841B /* AWSRuntime.framework */; };
 		904E946317201C630050A676 /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904E946217201C630050A676 /* AddViewController.m */; };
 		904E946717202FA70050A676 /* deadpool.png in Resources */ = {isa = PBXBuildFile; fileRef = 904E946617202FA70050A676 /* deadpool.png */; };
 		904E9482172141A90050A676 /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 904E946D172141A90050A676 /* NSAlert+MKNetworkKitAdditions.m */; };
@@ -46,7 +47,9 @@
 		90147F9017217FD8002C593A /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		90147F9417253DCA002C593A /* NetworkEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkEngine.h; sourceTree = "<group>"; };
 		90147F9517253DCA002C593A /* NetworkEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkEngine.m; sourceTree = "<group>"; };
-		90147F971726C1E7002C593A /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSRuntime.framework; path = "../../Desktop/aws-ios-sdk-1.5.0/AWSRuntime.framework"; sourceTree = "<group>"; };
+		9021C2A21740F6480052841B /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
+		9021C2A31740F6480052841B /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
+		9021C2A51740F8030052841B /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSRuntime.framework; path = shelfComics/AWSRuntime.framework; sourceTree = "<group>"; };
 		904E946117201C630050A676 /* AddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddViewController.h; sourceTree = "<group>"; };
 		904E946217201C630050A676 /* AddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
 		904E946617202FA70050A676 /* deadpool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deadpool.png; sourceTree = "<group>"; };
@@ -103,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90147F981726C1E7002C593A /* AWSRuntime.framework in Frameworks */,
+				9021C2A61740F8030052841B /* AWSRuntime.framework in Frameworks */,
 				904E9491172141DC0050A676 /* Security.framework in Frameworks */,
 				904E948F172141D40050A676 /* SystemConfiguration.framework in Frameworks */,
 				904E948D172141CB0050A676 /* CFNetwork.framework in Frameworks */,
@@ -116,6 +119,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9021C2A11740F5410052841B /* XMLReader */ = {
+			isa = PBXGroup;
+			children = (
+				9021C2A21740F6480052841B /* XMLReader.h */,
+				9021C2A31740F6480052841B /* XMLReader.m */,
+			);
+			name = XMLReader;
+			sourceTree = "<group>";
+		};
 		904E946A172141A90050A676 /* MKNetworkKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,7 +191,7 @@
 		90B8E866171FE09D00452F68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				90147F971726C1E7002C593A /* AWSRuntime.framework */,
+				9021C2A51740F8030052841B /* AWSRuntime.framework */,
 				904E9490172141DC0050A676 /* Security.framework */,
 				904E948E172141D40050A676 /* SystemConfiguration.framework */,
 				904E948C172141CB0050A676 /* CFNetwork.framework */,
@@ -230,6 +242,7 @@
 		90B8E88D171FE0B400452F68 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				9021C2A11740F5410052841B /* XMLReader */,
 				904E946A172141A90050A676 /* MKNetworkKit */,
 				90B8E88E171FE1D100452F68 /* SWRevealViewController.h */,
 				90B8E88F171FE1D100452F68 /* SWRevealViewController.m */,
@@ -334,6 +347,7 @@
 				904E948A172141A90050A676 /* MKNetworkOperation.m in Sources */,
 				904E948B172141A90050A676 /* Reachability.m in Sources */,
 				90147F9617253DCA002C593A /* NetworkEngine.m in Sources */,
+				9021C2A41740F6480052841B /* XMLReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,6 +446,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/../../Desktop/aws-ios-sdk-1.5.0\"",
+					"\"$(SRCROOT)/shelfComics\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shelfComics/shelfComics-Prefix.pch";
@@ -448,6 +463,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/../../Desktop/aws-ios-sdk-1.5.0\"",
+					"\"$(SRCROOT)/shelfComics\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shelfComics/shelfComics-Prefix.pch";
