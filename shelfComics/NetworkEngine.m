@@ -35,7 +35,7 @@
          NSError *error = nil;
          
          NSDictionary *responseDico = [XMLReader dictionaryForXMLString:value error:&error];
-         DLog(@"REMY %@", responseDico);
+         DLog(@"Response in NSDictionary -->  %@", responseDico);
          
          if([completedOperation isCachedResponse]) {
              DLog(@"Data from cache %@", [completedOperation responseString]);
@@ -44,7 +44,7 @@
              DLog(@"Data from server %@", [completedOperation responseString]);
          }
          
-         completionBlock(value);
+         completionBlock(responseDico);
          
      } errorHandler:^(MKNetworkOperation *errorOp, NSError* error) {
          errorBlock(error);

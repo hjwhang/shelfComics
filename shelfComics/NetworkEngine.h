@@ -8,7 +8,7 @@
 
 @interface NetworkEngine : MKNetworkEngine
 
-typedef void (^ItemResponseBlock)(NSString *response);
+typedef void (^ItemResponseBlock)(NSDictionary *response);
 
 /*
  * Launch the http request to Amazon Product API

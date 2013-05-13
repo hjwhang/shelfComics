@@ -21,7 +21,7 @@ static int nbFailures = 7;
 
 @implementation AddViewController
 
-@synthesize ISBN, comicsTitle, author;
+@synthesize ISBN, comicsTitle, author, ASIN, publisher, height, width, language, nbPages, price, publicationDate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,6 +45,14 @@ static int nbFailures = 7;
     self.ISBN.delegate = self;
     self.author.delegate = self;
     self.comicsTitle.delegate = self;
+    self.ASIN.delegate = self;
+    self.publisher.delegate = self;
+    self.height.delegate = self;
+    self.width.delegate = self;
+    self.language.delegate = self;
+    self.nbPages.delegate = self;
+    self.price.delegate = self;
+    self.publicationDate.delegate = self;
     
     UITapGestureRecognizer* tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_handleTap:)];
     tgr.cancelsTouchesInView = NO;
@@ -53,7 +61,7 @@ static int nbFailures = 7;
 
 // Tweak de merde à cause du resizeWithOldSuperviewSize qui m'empèche de resizer dans le viewDidLoad. Sais pas pourquoi ;(
 -(void)adjustScrollViewContentSize {
-    self.mainScrollView.contentSize = CGSizeMake(320, 625);
+    self.mainScrollView.contentSize = CGSizeMake(320, 550);
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -68,19 +76,46 @@ static int nbFailures = 7;
 
 -(IBAction)lookUp:(id)sender {
     
-    [self showLoadingView];
+    if ([self.ISBN.text isEqualToString:@""]) {
+        [[[UIAlertView alloc] initWithTitle:@"PFFFFF"
+                                    message:@"Give me an ISBN number dude !!"
+                                   delegate:nil
+                          cancelButtonTitle:NSLocalizedString(@"Close", @"")
+                          otherButtonTitles:nil] show];
+    } else {
     
-    if (nbFailures != 0) {
-        self.lookupOperation = [ApplicationDelegate.networkEngine itemForUPC:self.ISBN.text
-                                                           completionHandler:^(NSString *response) {
+        [self showLoadingView];
+    
+        if (nbFailures != 0) {
+            self.lookupOperation = [ApplicationDelegate.networkEngine itemForUPC:self.ISBN.text
+                                                           completionHandler:^(NSDictionary *response) {
                                                                
                                                                [self removeLoadingView];
                                                                
+                                                               [self.ISBN setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ISBN"] objectForKey:@"text"]];
+                                                               [self.author setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectForKey:@"text"]];
+                                                               [self.comicsTitle setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Title"] objectForKey:@"text"]];
+                                                               [self.ASIN setText:[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ASIN"] objectForKey:@"text"]];
+                                                               [self.publisher setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Publisher"] objectForKey:@"text"]];
+                                                               
+                                                               
+                                                               
+                                                               [self.height setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Height"] objectForKey:@"text"]];
+                                                               [self.width setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Length"] objectForKey:@"text"]];
+                                                               
+                                                               
+                                                               [self.nbPages setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"NumberOfPages"] objectForKey:@"text"]];
+                                                               [self.language setText:[[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Languages"] objectForKey:@"Language"] objectAtIndex:0] objectForKey:@"Name"] objectForKey:@"text"]];
+                                                               [self.price setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"TradeInValue"] objectForKey:@"FormattedPrice"] objectForKey:@"text"]];
+                                                               [self.publicationDate setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"PublicationDate"] objectForKey:@"text"]];
+                                                               
+                                                               /*
                                                                [[[UIAlertView alloc] initWithTitle:@"It Works!"
                                                                                            message:[NSString stringWithFormat:@"%@", response]
                                                                                           delegate:nil
                                                                                  cancelButtonTitle:NSLocalizedString(@"Close", @"")
                                                                                  otherButtonTitles:nil] show];
+                                                                */
                                                                nbFailures = 7;
                                                            }
                                                                 errorHandler:^(NSError* error) {
@@ -92,16 +127,16 @@ static int nbFailures = 7;
                                                                     [self lookUp:nil];
                                                                 }
                                 ];
-    } else {
-        [self removeLoadingView];
-        nbFailures = 7;
-        [[[UIAlertView alloc] initWithTitle:@"HOLY SHIT !!"
-                                    message:@"Too many requests failed."
-                                   delegate:nil
-                          cancelButtonTitle:@"Close"
-                          otherButtonTitles:nil] show];
+        } else {
+            [self removeLoadingView];
+            nbFailures = 7;
+            [[[UIAlertView alloc] initWithTitle:@"HOLY SHIT !!"
+                                        message:@"Too many requests failed."
+                                       delegate:nil
+                              cancelButtonTitle:@"Close"
+                              otherButtonTitles:nil] show];
+        }
     }
-    
 }
 
 -(void)showLoadingView {
@@ -133,6 +168,8 @@ static int nbFailures = 7;
             [subview removeFromSuperview];
         }
     }
+    
+    [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.05];
 }
 
 #pragma mark - 
@@ -148,7 +185,7 @@ static int nbFailures = 7;
     if ((self.view.center.y - textField.center.y) < 23) {
         if (CGAffineTransformIsIdentity(self.view.transform)) {
             [UIView animateWithDuration:.2 animations:^{
-                self.view.transform = CGAffineTransformMakeTranslation(0.f, -150.f);
+                self.view.transform = CGAffineTransformMakeTranslation(0.f, -216.f);
             }];
         }
     }
@@ -159,6 +196,14 @@ static int nbFailures = 7;
     [self.ISBN resignFirstResponder];
     [self.author resignFirstResponder];
     [self.comicsTitle resignFirstResponder];
+    [self.ASIN resignFirstResponder];
+    [self.publisher resignFirstResponder];
+    [self.height resignFirstResponder];
+    [self.width resignFirstResponder];
+    [self.language resignFirstResponder];
+    [self.nbPages resignFirstResponder];
+    [self.price resignFirstResponder];
+    [self.publicationDate resignFirstResponder];
     
     if (!CGAffineTransformIsIdentity(self.view.transform)) {
         [UIView animateWithDuration:.2 animations:^{

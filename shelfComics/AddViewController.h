@@ -16,6 +16,14 @@
 @property (nonatomic, retain) IBOutlet UITextField *ISBN;
 @property (nonatomic, retain) IBOutlet UITextField *author;
 @property (nonatomic, retain) IBOutlet UITextField *comicsTitle;
+@property (nonatomic, retain) IBOutlet UITextField *ASIN;
+@property (nonatomic, retain) IBOutlet UITextField *publisher;
+@property (nonatomic, retain) IBOutlet UITextField *height;
+@property (nonatomic, retain) IBOutlet UITextField *width;
+@property (nonatomic, retain) IBOutlet UITextField *language;
+@property (nonatomic, retain) IBOutlet UITextField *price;
+@property (nonatomic, retain) IBOutlet UITextField *nbPages;
+@property (nonatomic, retain) IBOutlet UITextField *publicationDate;
 
 -(void)showLoadingView;
 -(void)removeLoadingView;
