@@ -9,6 +9,7 @@
 #import "AddViewController.h"
 #import "AppDelegate.h"
 #import "Constants.h"
+#import "Comics.h"
 
 @interface AddViewController ()
 
@@ -22,6 +23,7 @@ static int nbFailures = 7;
 @implementation AddViewController
 
 @synthesize ISBN, comicsTitle, author, ASIN, publisher, height, width, language, nbPages, price, publicationDate;
+@synthesize managedObjectContext;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,6 +37,9 @@ static int nbFailures = 7;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    AppDelegate* appDelegate = [AppDelegate sharedAppDelegate];
+    managedObjectContext = appDelegate.managedObjectContext;
     
     [self.revealButtonItem setTarget: self.revealViewController];
     [self.revealButtonItem setAction: @selector(revealToggle:)];
@@ -97,25 +102,13 @@ static int nbFailures = 7;
                                                                [self.comicsTitle setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Title"] objectForKey:@"text"]];
                                                                [self.ASIN setText:[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ASIN"] objectForKey:@"text"]];
                                                                [self.publisher setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Publisher"] objectForKey:@"text"]];
-                                                               
-                                                               
-                                                               
-                                                               [self.height setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Height"] objectForKey:@"text"]];
-                                                               [self.width setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Length"] objectForKey:@"text"]];
-                                                               
-                                                               
+                                                               [self.height setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Height"] objectForKey:@"text"]]];
+                                                               [self.width setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Length"] objectForKey:@"text"]]];
                                                                [self.nbPages setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"NumberOfPages"] objectForKey:@"text"]];
                                                                [self.language setText:[[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Languages"] objectForKey:@"Language"] objectAtIndex:0] objectForKey:@"Name"] objectForKey:@"text"]];
                                                                [self.price setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"TradeInValue"] objectForKey:@"FormattedPrice"] objectForKey:@"text"]];
                                                                [self.publicationDate setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"PublicationDate"] objectForKey:@"text"]];
                                                                
-                                                               /*
-                                                               [[[UIAlertView alloc] initWithTitle:@"It Works!"
-                                                                                           message:[NSString stringWithFormat:@"%@", response]
-                                                                                          delegate:nil
-                                                                                 cancelButtonTitle:NSLocalizedString(@"Close", @"")
-                                                                                 otherButtonTitles:nil] show];
-                                                                */
                                                                nbFailures = 7;
                                                            }
                                                                 errorHandler:^(NSError* error) {
@@ -138,6 +131,55 @@ static int nbFailures = 7;
         }
     }
 }
+
+-(NSString*)getCm:(NSString*)value {
+    float initialValue = [value floatValue];
+    initialValue *= 2.54f;
+    initialValue /= 100.0f;
+    return [NSString stringWithFormat:@"%.02f", initialValue];
+}
+
+-(IBAction)addComics:(id)sender {
+    
+    Comics *comics = [NSEntityDescription insertNewObjectForEntityForName:@"Comics" inManagedObjectContext:managedObjectContext];
+    
+    [comics setValue:self.comicsTitle.text forKey:@"title"];
+    [comics setValue:self.ASIN.text forKey:@"asin"];
+    [comics setValue:self.ISBN.text forKey:@"isbn"];
+    [comics setValue:self.author.text forKey:@"author"];
+    [comics setValue:self.publisher.text forKey:@"publisher"];
+    [comics setValue:self.publicationDate.text forKey:@"publicationDate"];
+    [comics setValue:self.height.text forKey:@"height"];
+    [comics setValue:self.width.text forKey:@"width"];
+    [comics setValue:self.price.text forKey:@"price"];
+    [comics setValue:self.language.text forKey:@"language"];
+    [comics setValue:self.nbPages.text forKey:@"nbPages"];
+    
+    
+#if PREPROD
+    NSError *error;
+    if (![managedObjectContext save:&error])
+        DLog(@"Core Data Error %@", error);
+    
+    NSEntityDescription *comicsEntity = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:managedObjectContext];
+    
+    NSFetchRequest *fetchAllrecords = [[NSFetchRequest alloc] init];
+    [fetchAllrecords setEntity:comicsEntity];
+    NSSortDescriptor *keyDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:keyDescriptor];
+    [fetchAllrecords setSortDescriptors:sortDescriptors];
+    [fetchAllrecords setReturnsObjectsAsFaults:NO];
+    
+    NSError *err;
+    NSMutableArray *records = [[managedObjectContext executeFetchRequest:fetchAllrecords error:&err] mutableCopy];
+    if (!records)
+        NSLog(@"A BIG ERROR OCCURS WHILE GETTING ALL RECORDS: %@", err);
+    DLog(@"RESULTS %@", records);
+#endif
+}
+
+#pragma mark -
+#pragma mark Loading View
 
 -(void)showLoadingView {
     

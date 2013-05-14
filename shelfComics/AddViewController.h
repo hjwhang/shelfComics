@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddViewController : UIViewController <UITextFieldDelegate>
+@interface AddViewController : UIViewController <UITextFieldDelegate> {
+    NSManagedObjectContext *managedObjectContext;
+}
 
 @property (strong, nonatomic) MKNetworkOperation *lookupOperation;
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 // Form fields
 @property (nonatomic, retain) IBOutlet UITextField *ISBN;
@@ -27,5 +30,8 @@
 
 -(void)showLoadingView;
 -(void)removeLoadingView;
+-(NSString*)getCm:(NSString*)value;
+-(IBAction)lookUp:(id)sender;
+-(IBAction)addComics:(id)sender;
 
 @end

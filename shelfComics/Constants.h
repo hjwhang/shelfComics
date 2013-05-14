@@ -9,6 +9,8 @@
 #ifndef shelfComics_Constantes_h
 #define shelfComics_Constantes_h
 
+#define PREPROD 1 // 1 for PREPROD and 0 for PROD
+
 #pragma mark -
 #pragma mark AWS Constants
 
@@ -19,7 +21,6 @@
 #define kAssociateTag @"mytag-20"
 #define kVersion @"2009-03-31"
 #define kResponseGroup @"Medium"
-
 #define kLoadingViewTag @"2013"
 
 #endif

@@ -392,7 +392,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Add" id="hOM-xD-cH9">
                         <barButtonItem key="leftBarButtonItem" image="reveal-icon.png" id="ZOC-fF-obG"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="gQF-b7-YsF"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="gQF-b7-YsF">
+                            <connections>
+                                <action selector="addComics:" destination="xza-hF-TtM" id="rnD-te-d9g"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
@@ -499,6 +503,7 @@
         <class className="AddViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AddViewController.h"/>
             <relationships>
+                <relationship kind="action" name="addComics:"/>
                 <relationship kind="action" name="lookUp:"/>
                 <relationship kind="outlet" name="ASIN" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="ISBN" candidateClass="UITextField"/>
