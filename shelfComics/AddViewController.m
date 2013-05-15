@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "Comics.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface AddViewController ()
 
@@ -47,9 +48,64 @@ static int nbFailures = 7;
     
     [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.05];
     
+    self.comicsTitle.layer.cornerRadius = 5;
+    [self.comicsTitle.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.comicsTitle.layer setBorderWidth:2.0];
+    self.comicsTitle.clipsToBounds = YES;
+    
+    self.ASIN.layer.cornerRadius = 5;
+    [self.ASIN.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.ASIN.layer setBorderWidth:2.0];
+    self.ASIN.clipsToBounds = YES;
+    
+    self.ISBN.layer.cornerRadius = 5;
+    [self.ISBN.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.ISBN.layer setBorderWidth:2.0];
+    self.ISBN.clipsToBounds = YES;
+    
+    self.publisher.layer.cornerRadius = 5;
+    [self.publisher.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.publisher.layer setBorderWidth:2.0];
+    self.publisher.clipsToBounds = YES;
+    
+    self.height.layer.cornerRadius = 5;
+    [self.height.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.height.layer setBorderWidth:2.0];
+    self.height.clipsToBounds = YES;
+    
+    self.width.layer.cornerRadius = 5;
+    [self.width.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.width.layer setBorderWidth:2.0];
+    self.width.clipsToBounds = YES;
+    
+    self.language.layer.cornerRadius = 5;
+    [self.language.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.language.layer setBorderWidth:2.0];
+    self.language.clipsToBounds = YES;
+    
+    self.nbPages.layer.cornerRadius = 5;
+    [self.nbPages.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.nbPages.layer setBorderWidth:2.0];
+    self.nbPages.clipsToBounds = YES;
+    
+    self.price.layer.cornerRadius = 5;
+    [self.price.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.price.layer setBorderWidth:2.0];
+    self.price.clipsToBounds = YES;
+    
+    self.publicationDate.layer.cornerRadius = 5;
+    [self.publicationDate.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.publicationDate.layer setBorderWidth:2.0];
+    self.publicationDate.clipsToBounds = YES;
+    
+    self.author.layer.cornerRadius = 5;
+    [self.author.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.author.layer setBorderWidth:2.0];
+    self.author.clipsToBounds = YES;
+    
     self.ISBN.delegate = self;
     self.author.delegate = self;
-    self.comicsTitle.delegate = self;
+    //self.comicsTitle.delegate = self;
     self.ASIN.delegate = self;
     self.publisher.delegate = self;
     self.height.delegate = self;
@@ -82,8 +138,8 @@ static int nbFailures = 7;
 -(IBAction)lookUp:(id)sender {
     
     if ([self.ISBN.text isEqualToString:@""]) {
-        [[[UIAlertView alloc] initWithTitle:@"PFFFFF"
-                                    message:@"Give me an ISBN number dude !!"
+        [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ISBN missing Title", nil)
+                                    message:NSLocalizedString(@"ISBN missing Msg", nil)
                                    delegate:nil
                           cancelButtonTitle:NSLocalizedString(@"Close", @"")
                           otherButtonTitles:nil] show];
@@ -98,7 +154,13 @@ static int nbFailures = 7;
                                                                [self removeLoadingView];
                                                                
                                                                [self.ISBN setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ISBN"] objectForKey:@"text"]];
-                                                               [self.author setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectForKey:@"text"]];
+                                                               
+                                                               if ([[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] isKindOfClass:[NSArray class]]) {
+                                                                   [self.author setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectAtIndex:0] objectForKey:@"text"]];
+                                                               } else {
+                                                                   [self.author setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectForKey:@"text"]];
+                                                               }
+                                                               
                                                                [self.comicsTitle setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Title"] objectForKey:@"text"]];
                                                                [self.ASIN setText:[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ASIN"] objectForKey:@"text"]];
                                                                [self.publisher setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Publisher"] objectForKey:@"text"]];
@@ -106,7 +168,7 @@ static int nbFailures = 7;
                                                                [self.width setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Length"] objectForKey:@"text"]]];
                                                                [self.nbPages setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"NumberOfPages"] objectForKey:@"text"]];
                                                                [self.language setText:[[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Languages"] objectForKey:@"Language"] objectAtIndex:0] objectForKey:@"Name"] objectForKey:@"text"]];
-                                                               [self.price setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"TradeInValue"] objectForKey:@"FormattedPrice"] objectForKey:@"text"]];
+                                                               [self.price setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ListPrice"] objectForKey:@"FormattedPrice"] objectForKey:@"text"]];
                                                                [self.publicationDate setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"PublicationDate"] objectForKey:@"text"]];
                                                                
                                                                nbFailures = 7;
@@ -123,8 +185,8 @@ static int nbFailures = 7;
         } else {
             [self removeLoadingView];
             nbFailures = 7;
-            [[[UIAlertView alloc] initWithTitle:@"HOLY SHIT !!"
-                                        message:@"Too many requests failed."
+            [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed Title", nil)
+                                        message:NSLocalizedString(@"Failed Msg", nil)
                                        delegate:nil
                               cancelButtonTitle:@"Close"
                               otherButtonTitles:nil] show];
@@ -141,41 +203,101 @@ static int nbFailures = 7;
 
 -(IBAction)addComics:(id)sender {
     
-    Comics *comics = [NSEntityDescription insertNewObjectForEntityForName:@"Comics" inManagedObjectContext:managedObjectContext];
+    [self dismissKeyboard];
     
-    [comics setValue:self.comicsTitle.text forKey:@"title"];
-    [comics setValue:self.ASIN.text forKey:@"asin"];
-    [comics setValue:self.ISBN.text forKey:@"isbn"];
-    [comics setValue:self.author.text forKey:@"author"];
-    [comics setValue:self.publisher.text forKey:@"publisher"];
-    [comics setValue:self.publicationDate.text forKey:@"publicationDate"];
-    [comics setValue:self.height.text forKey:@"height"];
-    [comics setValue:self.width.text forKey:@"width"];
-    [comics setValue:self.price.text forKey:@"price"];
-    [comics setValue:self.language.text forKey:@"language"];
-    [comics setValue:self.nbPages.text forKey:@"nbPages"];
+    int roror = 0;
     
+    if ([self.comicsTitle.text isEqualToString:@""] || (self.comicsTitle.text == nil)) {
+        roror = 1;
+    } else if ([self.ISBN.text isEqualToString:@""] || (self.ISBN.text == nil)) {
+        roror = 2;
+    }
     
-#if PREPROD
-    NSError *error;
-    if (![managedObjectContext save:&error])
-        DLog(@"Core Data Error %@", error);
-    
-    NSEntityDescription *comicsEntity = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:managedObjectContext];
-    
-    NSFetchRequest *fetchAllrecords = [[NSFetchRequest alloc] init];
-    [fetchAllrecords setEntity:comicsEntity];
-    NSSortDescriptor *keyDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:keyDescriptor];
-    [fetchAllrecords setSortDescriptors:sortDescriptors];
-    [fetchAllrecords setReturnsObjectsAsFaults:NO];
-    
-    NSError *err;
-    NSMutableArray *records = [[managedObjectContext executeFetchRequest:fetchAllrecords error:&err] mutableCopy];
-    if (!records)
-        NSLog(@"A BIG ERROR OCCURS WHILE GETTING ALL RECORDS: %@", err);
-    DLog(@"RESULTS %@", records);
-#endif
+    if (roror != 0) {
+        switch (roror) {
+            case 1:
+                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Title Missing Tile", nil)
+                                            message:NSLocalizedString(@"Title Missing Msg", nil)
+                                           delegate:nil
+                                  cancelButtonTitle:NSLocalizedString(@"Close", @"")
+                                  otherButtonTitles:nil] show];
+                break;
+                case 2:
+                [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ISBN Missing Title", nil)
+                                            message:NSLocalizedString(@"ISBN Missing Msg", nil)
+                                           delegate:nil
+                                  cancelButtonTitle:NSLocalizedString(@"Close", @"")
+                                  otherButtonTitles:nil] show];
+                break;
+            default:
+                break;
+        }
+    } else {
+        // Test if already exist
+        NSError *fetchError;
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:managedObjectContext];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:entity];
+        [fetchRequest setFetchLimit:1];
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"isbn == %@", self.ISBN.text]];
+        if ([managedObjectContext countForFetchRequest:fetchRequest error:&fetchError]) {
+            [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Comics exists Title", nil)
+                                        message:NSLocalizedString(@"Comics exists Msg", nil)
+                                       delegate:nil
+                              cancelButtonTitle:NSLocalizedString(@"Close", @"")
+                              otherButtonTitles:nil] show];
+        } else {
+        
+            Comics *comics = [NSEntityDescription insertNewObjectForEntityForName:@"Comics" inManagedObjectContext:managedObjectContext];
+            
+            [comics setValue:self.comicsTitle.text forKey:@"title"];
+            [comics setValue:self.ASIN.text forKey:@"asin"];
+            [comics setValue:self.ISBN.text forKey:@"isbn"];
+            [comics setValue:self.author.text forKey:@"author"];
+            [comics setValue:self.publisher.text forKey:@"publisher"];
+            [comics setValue:self.publicationDate.text forKey:@"publicationDate"];
+            [comics setValue:self.height.text forKey:@"height"];
+            [comics setValue:self.width.text forKey:@"width"];
+            [comics setValue:self.price.text forKey:@"price"];
+            [comics setValue:self.language.text forKey:@"language"];
+            [comics setValue:self.nbPages.text forKey:@"nbPages"];
+                
+            NSError *error;
+            if (![managedObjectContext save:&error])
+                DLog(@"Core Data Error %@", error);
+            
+        #if PREPROD
+            NSEntityDescription *comicsEntity = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:managedObjectContext];
+            
+            NSFetchRequest *fetchAllrecords = [[NSFetchRequest alloc] init];
+            [fetchAllrecords setEntity:comicsEntity];
+            NSSortDescriptor *keyDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:keyDescriptor];
+            [fetchAllrecords setSortDescriptors:sortDescriptors];
+            [fetchAllrecords setReturnsObjectsAsFaults:NO];
+            
+            NSError *err;
+            NSMutableArray *records = [[managedObjectContext executeFetchRequest:fetchAllrecords error:&err] mutableCopy];
+            if (!records)
+                DLog(@"A BIG ERROR OCCURS WHILE GETTING ALL RECORDS: %@", err);
+            DLog(@"RESULTS %@", records);
+        #endif
+        }
+    }
+}
+
+-(void)dismissKeyboard {
+    [self.ISBN resignFirstResponder];
+    [self.author resignFirstResponder];
+    [self.comicsTitle resignFirstResponder];
+    [self.ASIN resignFirstResponder];
+    [self.publisher resignFirstResponder];
+    [self.height resignFirstResponder];
+    [self.width resignFirstResponder];
+    [self.language resignFirstResponder];
+    [self.nbPages resignFirstResponder];
+    [self.price resignFirstResponder];
+    [self.publicationDate resignFirstResponder];
 }
 
 #pragma mark -
@@ -217,8 +339,22 @@ static int nbFailures = 7;
 #pragma mark - 
 #pragma mark TextField methods
 
+-(BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    if (!CGAffineTransformIsIdentity(self.view.transform)) {
+        [UIView animateWithDuration:.2 animations:^{
+            self.view.transform = CGAffineTransformIdentity;
+        }];
+    }
+    return YES;
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
+    if (!CGAffineTransformIsIdentity(self.view.transform)) {
+        [UIView animateWithDuration:.2 animations:^{
+            self.view.transform = CGAffineTransformIdentity;
+        }];
+    }
     return YES;
 }
 
@@ -235,17 +371,7 @@ static int nbFailures = 7;
 
 -(void) _handleTap:(UITapGestureRecognizer*)tgr
 {
-    [self.ISBN resignFirstResponder];
-    [self.author resignFirstResponder];
-    [self.comicsTitle resignFirstResponder];
-    [self.ASIN resignFirstResponder];
-    [self.publisher resignFirstResponder];
-    [self.height resignFirstResponder];
-    [self.width resignFirstResponder];
-    [self.language resignFirstResponder];
-    [self.nbPages resignFirstResponder];
-    [self.price resignFirstResponder];
-    [self.publicationDate resignFirstResponder];
+    [self dismissKeyboard];
     
     if (!CGAffineTransformIsIdentity(self.view.transform)) {
         [UIView animateWithDuration:.2 animations:^{

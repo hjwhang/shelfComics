@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  shelfComics
+
+  Created by Rémy ALEXANDRE on 15/05/13.
+  Copyright (c) 2013 Rémy ALEXANDRE. All rights reserved.
+*/
+
+// Failed request
+"Failed Title" = "HOLY SHIT !!";
+"Failed Msg" ="Too many requests failed.";
+
+// Failed form
+"ISBN Missing Title" = "Missing ISBN";
+"ISBN Missing Msg" = "The ISBN number is mandatory.";
+"Title Missing Tile" = "Missing title";
+"Title Missing Msg" = "The title is mandatory.";
+"Comics exists Title" = "Comics already exists";
+"Comics exists Msg" = "This ISBN number already exist in DB.";

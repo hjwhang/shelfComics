@@ -18,7 +18,7 @@
 // Form fields
 @property (nonatomic, retain) IBOutlet UITextField *ISBN;
 @property (nonatomic, retain) IBOutlet UITextField *author;
-@property (nonatomic, retain) IBOutlet UITextField *comicsTitle;
+@property (nonatomic, retain) IBOutlet UITextView *comicsTitle;
 @property (nonatomic, retain) IBOutlet UITextField *ASIN;
 @property (nonatomic, retain) IBOutlet UITextField *publisher;
 @property (nonatomic, retain) IBOutlet UITextField *height;
@@ -33,5 +33,6 @@
 -(NSString*)getCm:(NSString*)value;
 -(IBAction)lookUp:(id)sender;
 -(IBAction)addComics:(id)sender;
+-(void)dismissKeyboard;
 
 @end

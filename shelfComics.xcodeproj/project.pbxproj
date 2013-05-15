@@ -14,6 +14,8 @@
 		9021C2AE17426C7C0052841B /* shlefComics.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9021C2AC17426C7C0052841B /* shlefComics.xcdatamodeld */; };
 		9021C2B7174274250052841B /* Comics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9021C2B6174274250052841B /* Comics.m */; };
 		9021C2BB174276700052841B /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9021C2BA174276700052841B /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9021C2BD1743C3990052841B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9021C2BC1743C3990052841B /* Localizable.strings */; };
+		9021C2BF1743D2710052841B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9021C2BE1743D2710052841B /* QuartzCore.framework */; };
 		904E946317201C630050A676 /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904E946217201C630050A676 /* AddViewController.m */; };
 		904E946717202FA70050A676 /* deadpool.png in Resources */ = {isa = PBXBuildFile; fileRef = 904E946617202FA70050A676 /* deadpool.png */; };
 		904E9482172141A90050A676 /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 904E946D172141A90050A676 /* NSAlert+MKNetworkKitAdditions.m */; };
@@ -60,6 +62,8 @@
 		9021C2B6174274250052841B /* Comics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Comics.m; path = ../Comics.m; sourceTree = "<group>"; };
 		9021C2B9174276700052841B /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		9021C2BA174276700052841B /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		9021C2BC1743C3990052841B /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		9021C2BE1743D2710052841B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		904E946117201C630050A676 /* AddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddViewController.h; sourceTree = "<group>"; };
 		904E946217201C630050A676 /* AddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
 		904E946617202FA70050A676 /* deadpool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deadpool.png; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9021C2BF1743D2710052841B /* QuartzCore.framework in Frameworks */,
 				9021C2AB17426AF20052841B /* CoreData.framework in Frameworks */,
 				9021C2A61740F8030052841B /* AWSRuntime.framework in Frameworks */,
 				904E9491172141DC0050A676 /* Security.framework in Frameworks */,
@@ -211,6 +216,7 @@
 		90B8E866171FE09D00452F68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9021C2BE1743D2710052841B /* QuartzCore.framework */,
 				9021C2AA17426AF20052841B /* CoreData.framework */,
 				9021C2A51740F8030052841B /* AWSRuntime.framework */,
 				904E9490172141DC0050A676 /* Security.framework */,
@@ -259,6 +265,7 @@
 				90B8E879171FE09E00452F68 /* Default.png */,
 				90B8E87B171FE09E00452F68 /* Default@2x.png */,
 				90B8E87D171FE09E00452F68 /* Default-568h@2x.png */,
+				9021C2BC1743C3990052841B /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -345,6 +352,7 @@
 				90B8E897171FEFAD00452F68 /* reveal-icon.png in Resources */,
 				90B8E898171FEFAD00452F68 /* reveal-icon@2x.png in Resources */,
 				904E946717202FA70050A676 /* deadpool.png in Resources */,
+				9021C2BD1743C3990052841B /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
