@@ -195,7 +195,7 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="ASIN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Xx-U3-aWM">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Vol" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Xx-U3-aWM">
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -210,7 +210,7 @@
                                             <constraint firstAttribute="height" constant="30" id="ozn-eJ-jxc"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="next"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tAO-F9-mEs">
                                         <constraints>
@@ -315,14 +315,14 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aa9-fZ-pfw">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aa9-fZ-pfw">
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="224" id="5ry-wl-8pe"/>
                                             <constraint firstAttribute="height" constant="53" id="wYb-uz-PHI"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                     </textView>
                                 </subviews>
                                 <constraints>
@@ -339,11 +339,9 @@
                                     <constraint firstItem="MJX-81-013" firstAttribute="leading" secondItem="B1c-rk-eer" secondAttribute="leading" type="default" id="CI7-fa-PUZ"/>
                                     <constraint firstItem="ljo-fW-UMv" firstAttribute="leading" secondItem="BeC-1C-1HC" secondAttribute="leading" type="default" id="CTv-FG-sp9"/>
                                     <constraint firstItem="tAO-F9-mEs" firstAttribute="top" secondItem="dF3-yS-Bbn" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="CWd-Oe-odc"/>
-                                    <constraint firstItem="BeC-1C-1HC" firstAttribute="leading" secondItem="o86-Vg-UJM" secondAttribute="leading" constant="147" id="CaU-5b-Ajp"/>
                                     <constraint firstItem="naZ-9r-pMV" firstAttribute="top" secondItem="o86-Vg-UJM" secondAttribute="top" constant="309" id="CuJ-2x-chK"/>
                                     <constraint firstItem="pLs-Qs-7sb" firstAttribute="leading" secondItem="o86-Vg-UJM" secondAttribute="leading" constant="168" id="DOd-6w-oZi"/>
                                     <constraint firstItem="dnw-R7-nTl" firstAttribute="top" secondItem="cxi-xU-bh1" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="EZx-Gv-U9m"/>
-                                    <constraint firstItem="vqc-8e-Gvv" firstAttribute="leading" secondItem="o86-Vg-UJM" secondAttribute="leading" constant="9" id="FCg-hb-aPg"/>
                                     <constraint firstItem="62g-zz-bEW" firstAttribute="leading" secondItem="dp6-my-t5d" secondAttribute="leading" type="default" id="GEe-KR-urg"/>
                                     <constraint firstItem="MJX-81-013" firstAttribute="top" secondItem="tAO-F9-mEs" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="H1R-kQ-ilZ"/>
                                     <constraint firstItem="mxl-P9-Gv7" firstAttribute="leading" secondItem="o86-Vg-UJM" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="ON6-fp-6Zc"/>
@@ -353,6 +351,7 @@
                                     <constraint firstItem="4eR-MW-lga" firstAttribute="leading" secondItem="dp6-my-t5d" secondAttribute="leading" type="default" id="Pp2-cm-nZ4"/>
                                     <constraint firstAttribute="bottom" secondItem="pLs-Qs-7sb" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="Qco-PI-xCw"/>
                                     <constraint firstItem="0OI-sP-KjK" firstAttribute="trailing" secondItem="pLs-Qs-7sb" secondAttribute="trailing" type="default" id="RPJ-S7-um4"/>
+                                    <constraint firstItem="vqc-8e-Gvv" firstAttribute="leading" secondItem="o86-Vg-UJM" secondAttribute="leading" constant="9" id="SPp-PA-rv6"/>
                                     <constraint firstItem="dF3-yS-Bbn" firstAttribute="trailing" secondItem="aa9-fZ-pfw" secondAttribute="trailing" type="default" id="TJk-dR-9HZ"/>
                                     <constraint firstItem="aa9-fZ-pfw" firstAttribute="leading" secondItem="o86-Vg-UJM" secondAttribute="leading" constant="86" id="UVO-zD-OQY"/>
                                     <constraint firstItem="naZ-9r-pMV" firstAttribute="leading" secondItem="o86-Vg-UJM" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="WCG-qT-TZa"/>
@@ -361,6 +360,7 @@
                                     <constraint firstItem="dp6-my-t5d" firstAttribute="top" secondItem="o86-Vg-UJM" secondAttribute="top" constant="425" id="aKa-56-giK"/>
                                     <constraint firstItem="dF3-yS-Bbn" firstAttribute="trailing" secondItem="tAO-F9-mEs" secondAttribute="trailing" type="default" id="aoU-jN-0Hm"/>
                                     <constraint firstItem="62g-zz-bEW" firstAttribute="top" secondItem="o86-Vg-UJM" secondAttribute="top" constant="463" id="bK4-QH-4f3"/>
+                                    <constraint firstItem="BeC-1C-1HC" firstAttribute="leading" secondItem="o86-Vg-UJM" secondAttribute="leading" constant="147" id="bsU-m3-JfC"/>
                                     <constraint firstItem="vqc-8e-Gvv" firstAttribute="top" secondItem="o86-Vg-UJM" secondAttribute="top" constant="347" id="byt-iR-eHw"/>
                                     <constraint firstItem="ceK-Yt-0fD" firstAttribute="leading" secondItem="o86-Vg-UJM" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="dGW-Qt-hP7"/>
                                     <constraint firstItem="BeC-1C-1HC" firstAttribute="top" secondItem="o86-Vg-UJM" secondAttribute="top" constant="32" id="dKC-vk-si5"/>
@@ -409,7 +409,6 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="ASIN" destination="dF3-yS-Bbn" id="O9o-bf-d5U"/>
                         <outlet property="ISBN" destination="tAO-F9-mEs" id="gE2-Zl-pA4"/>
                         <outlet property="author" destination="MJX-81-013" id="aKn-kx-fEn"/>
                         <outlet property="comicsTitle" destination="aa9-fZ-pfw" id="PNM-wS-bhs"/>
@@ -421,6 +420,7 @@
                         <outlet property="publicationDate" destination="8R2-ts-7Ze" id="teA-RL-bOI"/>
                         <outlet property="publisher" destination="B1c-rk-eer" id="Euo-aA-Yxu"/>
                         <outlet property="revealButtonItem" destination="ZOC-fF-obG" id="YUm-NV-l4Q"/>
+                        <outlet property="volume" destination="dF3-yS-Bbn" id="dqu-RL-xTH"/>
                         <outlet property="width" destination="7Ih-E2-p7E" id="kJy-Iv-dbR"/>
                     </connections>
                 </viewController>
@@ -514,7 +514,6 @@
             <relationships>
                 <relationship kind="action" name="addComics:"/>
                 <relationship kind="action" name="lookUp:"/>
-                <relationship kind="outlet" name="ASIN" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="ISBN" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="author" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="comicsTitle" candidateClass="UITextView"/>
@@ -526,6 +525,7 @@
                 <relationship kind="outlet" name="publicationDate" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="publisher" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="revealButtonItem" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="volume" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="width" candidateClass="UITextField"/>
             </relationships>
         </class>

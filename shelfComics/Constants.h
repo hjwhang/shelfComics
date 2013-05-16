@@ -15,6 +15,7 @@
 #pragma mark AWS Constants
 
 #define kService @"AWSECommerceService"
+
 #define kOperation @"ItemLookup"
 #define kDomainName @"webservices.amazon.com"
 #define kAssociateTag @"mytag-20"

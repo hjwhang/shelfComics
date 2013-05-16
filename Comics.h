@@ -12,7 +12,7 @@
 
 @interface Comics : NSManagedObject
 
-@property (nonatomic, retain) NSString * asin;
+@property (nonatomic, retain) NSString * volume;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * isbn;
 @property (nonatomic, retain) NSString * publisher;

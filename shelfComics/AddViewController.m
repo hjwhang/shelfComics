@@ -23,7 +23,7 @@ static int nbFailures = 7;
 
 @implementation AddViewController
 
-@synthesize ISBN, comicsTitle, author, ASIN, publisher, height, width, language, nbPages, price, publicationDate;
+@synthesize ISBN, comicsTitle, author, volume, publisher, height, width, language, nbPages, price, publicationDate;
 @synthesize managedObjectContext;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -48,65 +48,91 @@ static int nbFailures = 7;
     
     [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.05];
     
-    self.comicsTitle.layer.cornerRadius = 5;
-    [self.comicsTitle.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.comicsTitle.layer setBorderWidth:2.0];
+    int paddingX = 5;
+    int paddingY = 20;
+    int corner = 5;
+    float alpha = 0.5f;
+    float border = 2.0f;
+    
+    self.comicsTitle.layer.cornerRadius = corner;
+    [self.comicsTitle.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:alpha] CGColor]];
+    [self.comicsTitle.layer setBorderWidth:border];
     self.comicsTitle.clipsToBounds = YES;
     
-    self.ASIN.layer.cornerRadius = 5;
-    [self.ASIN.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.ASIN.layer setBorderWidth:2.0];
-    self.ASIN.clipsToBounds = YES;
+    self.volume.layer.cornerRadius = corner;
+    [self.volume.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:alpha] CGColor]];
+    [self.volume.layer setBorderWidth:border];
+    self.volume.clipsToBounds = YES;
+    self.volume.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, paddingX, paddingY)];;
+    self.volume.leftViewMode = UITextFieldViewModeAlways;
     
-    self.ISBN.layer.cornerRadius = 5;
-    [self.ISBN.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.ISBN.layer setBorderWidth:2.0];
+    self.ISBN.layer.cornerRadius = corner;
+    [self.ISBN.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:alpha] CGColor]];
+    [self.ISBN.layer setBorderWidth:border];
     self.ISBN.clipsToBounds = YES;
+    self.ISBN.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, paddingX, paddingY)];
+    self.ISBN.leftViewMode = UITextFieldViewModeAlways;
     
-    self.publisher.layer.cornerRadius = 5;
-    [self.publisher.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.publisher.layer setBorderWidth:2.0];
+    self.publisher.layer.cornerRadius = corner;
+    [self.publisher.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:alpha] CGColor]];
+    [self.publisher.layer setBorderWidth:border];
     self.publisher.clipsToBounds = YES;
+    self.publisher.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, paddingX, paddingY)];;
+    self.publisher.leftViewMode = UITextFieldViewModeAlways;
     
-    self.height.layer.cornerRadius = 5;
-    [self.height.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.height.layer setBorderWidth:2.0];
+    self.height.layer.cornerRadius = corner;
+    [self.height.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:alpha] CGColor]];
+    [self.height.layer setBorderWidth:border];
     self.height.clipsToBounds = YES;
+    self.height.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, paddingX, paddingY)];;
+    self.height.leftViewMode = UITextFieldViewModeAlways;
     
-    self.width.layer.cornerRadius = 5;
-    [self.width.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.width.layer setBorderWidth:2.0];
+    self.width.layer.cornerRadius = corner;
+    [self.width.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:alpha] CGColor]];
+    [self.width.layer setBorderWidth:border];
     self.width.clipsToBounds = YES;
+    self.width.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, paddingX, paddingY)];;
+    self.width.leftViewMode = UITextFieldViewModeAlways;
     
-    self.language.layer.cornerRadius = 5;
-    [self.language.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.language.layer setBorderWidth:2.0];
+    self.language.layer.cornerRadius = corner;
+    [self.language.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:alpha] CGColor]];
+    [self.language.layer setBorderWidth:border];
     self.language.clipsToBounds = YES;
+    self.language.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, paddingX, paddingY)];;
+    self.language.leftViewMode = UITextFieldViewModeAlways;
     
-    self.nbPages.layer.cornerRadius = 5;
-    [self.nbPages.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.nbPages.layer setBorderWidth:2.0];
+    self.nbPages.layer.cornerRadius = corner;
+    [self.nbPages.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:alpha] CGColor]];
+    [self.nbPages.layer setBorderWidth:border];
     self.nbPages.clipsToBounds = YES;
+    self.nbPages.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, paddingX, paddingY)];;
+    self.nbPages.leftViewMode = UITextFieldViewModeAlways;
     
-    self.price.layer.cornerRadius = 5;
-    [self.price.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.price.layer setBorderWidth:2.0];
+    self.price.layer.cornerRadius = corner;
+    [self.price.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:alpha] CGColor]];
+    [self.price.layer setBorderWidth:border];
     self.price.clipsToBounds = YES;
+    self.price.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, paddingX, paddingY)];;
+    self.price.leftViewMode = UITextFieldViewModeAlways;
     
-    self.publicationDate.layer.cornerRadius = 5;
-    [self.publicationDate.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.publicationDate.layer setBorderWidth:2.0];
+    self.publicationDate.layer.cornerRadius = corner;
+    [self.publicationDate.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:alpha] CGColor]];
+    [self.publicationDate.layer setBorderWidth:border];
     self.publicationDate.clipsToBounds = YES;
+    self.publicationDate.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, paddingX, paddingY)];;
+    self.publicationDate.leftViewMode = UITextFieldViewModeAlways;
     
-    self.author.layer.cornerRadius = 5;
-    [self.author.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.author.layer setBorderWidth:2.0];
+    self.author.layer.cornerRadius = corner;
+    [self.author.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:alpha] CGColor]];
+    [self.author.layer setBorderWidth:border];
     self.author.clipsToBounds = YES;
+    self.author.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, paddingX, paddingY)];;
+    self.author.leftViewMode = UITextFieldViewModeAlways;
     
     self.ISBN.delegate = self;
     self.author.delegate = self;
-    //self.comicsTitle.delegate = self;
-    self.ASIN.delegate = self;
+    self.comicsTitle.delegate = self;
+    self.volume.delegate = self;
     self.publisher.delegate = self;
     self.height.delegate = self;
     self.width.delegate = self;
@@ -162,7 +188,6 @@ static int nbFailures = 7;
                                                                }
                                                                
                                                                [self.comicsTitle setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Title"] objectForKey:@"text"]];
-                                                               [self.ASIN setText:[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ASIN"] objectForKey:@"text"]];
                                                                [self.publisher setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Publisher"] objectForKey:@"text"]];
                                                                [self.height setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Height"] objectForKey:@"text"]]];
                                                                [self.width setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Length"] objectForKey:@"text"]]];
@@ -251,7 +276,7 @@ static int nbFailures = 7;
             Comics *comics = [NSEntityDescription insertNewObjectForEntityForName:@"Comics" inManagedObjectContext:managedObjectContext];
             
             [comics setValue:self.comicsTitle.text forKey:@"title"];
-            [comics setValue:self.ASIN.text forKey:@"asin"];
+            [comics setValue:self.volume.text forKey:@"volume"];
             [comics setValue:self.ISBN.text forKey:@"isbn"];
             [comics setValue:self.author.text forKey:@"author"];
             [comics setValue:self.publisher.text forKey:@"publisher"];
@@ -263,8 +288,33 @@ static int nbFailures = 7;
             [comics setValue:self.nbPages.text forKey:@"nbPages"];
                 
             NSError *error;
-            if (![managedObjectContext save:&error])
+            if (![managedObjectContext save:&error]) {
                 DLog(@"Core Data Error %@", error);
+            } else {
+                
+                UIImageView *check = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button-round-tick-ok-icon.png"]];
+                [check setFrame:CGRectMake(20, 20, 50, 50)];
+                [self.view addSubview:check];
+                
+                [UIView animateWithDuration:1.0f
+                                      delay:0.5f
+                                    options:UIViewAnimationOptionCurveLinear
+                                 animations:^{
+                                     [check setAlpha:0.0f];}
+                                 completion:nil];
+                
+                self.comicsTitle.text = @"";
+                self.volume.text = @"";
+                self.ISBN.text = @"";
+                self.author.text = @"";
+                self.publicationDate.text = @"";
+                self.publisher.text = @"";
+                self.height.text = @"";
+                self.width.text = @"";
+                self.price.text = @"";
+                self.language.text = @"";
+                self.nbPages.text = @"";
+            }
             
         #if PREPROD
             NSEntityDescription *comicsEntity = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:managedObjectContext];
@@ -290,7 +340,7 @@ static int nbFailures = 7;
     [self.ISBN resignFirstResponder];
     [self.author resignFirstResponder];
     [self.comicsTitle resignFirstResponder];
-    [self.ASIN resignFirstResponder];
+    [self.volume resignFirstResponder];
     [self.publisher resignFirstResponder];
     [self.height resignFirstResponder];
     [self.width resignFirstResponder];
@@ -350,7 +400,7 @@ static int nbFailures = 7;
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     
-    if (textField == self.ASIN)
+    if (textField == self.volume)
         [self.ISBN becomeFirstResponder];
     else if (textField == self.ISBN)
         [self.author becomeFirstResponder];
@@ -395,6 +445,17 @@ static int nbFailures = 7;
             }];
         }*/
     }
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    BOOL shouldChangeText = YES;
+    
+    if ([text isEqualToString:@"\n"]) {
+        [self.volume becomeFirstResponder];
+        shouldChangeText = NO;  
+    }
+    
+    return shouldChangeText;  
 }
 
 -(void) _handleTap:(UITapGestureRecognizer*)tgr

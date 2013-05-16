@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddViewController : UIViewController <UITextFieldDelegate> {
+@interface AddViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate> {
     NSManagedObjectContext *managedObjectContext;
 }
 
@@ -19,7 +19,7 @@
 @property (nonatomic, retain) IBOutlet UITextField *ISBN;
 @property (nonatomic, retain) IBOutlet UITextField *author;
 @property (nonatomic, retain) IBOutlet UITextView *comicsTitle;
-@property (nonatomic, retain) IBOutlet UITextField *ASIN;
+@property (nonatomic, retain) IBOutlet UITextField *volume;
 @property (nonatomic, retain) IBOutlet UITextField *publisher;
 @property (nonatomic, retain) IBOutlet UITextField *height;
 @property (nonatomic, retain) IBOutlet UITextField *width;

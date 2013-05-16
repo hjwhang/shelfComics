@@ -11,7 +11,7 @@
 
 @implementation Comics
 
-@dynamic asin;
+@dynamic volume;
 @dynamic title;
 @dynamic isbn;
 @dynamic publisher;
