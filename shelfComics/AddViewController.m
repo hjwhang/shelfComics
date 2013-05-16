@@ -349,23 +349,51 @@ static int nbFailures = 7;
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    if (!CGAffineTransformIsIdentity(self.view.transform)) {
+    
+    if (textField == self.ASIN)
+        [self.ISBN becomeFirstResponder];
+    else if (textField == self.ISBN)
+        [self.author becomeFirstResponder];
+    else if (textField == self.author)
+        [self.publisher becomeFirstResponder];
+    else if (textField == publisher)
+        [self.height becomeFirstResponder];
+    else if (textField == self.height)
+        [self.width becomeFirstResponder];
+    else if (textField == self.width)
+        [self.language becomeFirstResponder];
+    else if (textField == self.language)
+        [self.price becomeFirstResponder];
+    else if (textField == self.price)
+        [self.nbPages becomeFirstResponder];
+    else if (textField == self.nbPages)
+        [self.publicationDate becomeFirstResponder];
+    else {
+        [textField resignFirstResponder];
         [UIView animateWithDuration:.2 animations:^{
-            self.view.transform = CGAffineTransformIdentity;
+            [self.mainScrollView setFrame:CGRectMake(0, 0, 320, 500)];
         }];
     }
+    
     return YES;
-}
+}   
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    if ((self.view.center.y - textField.center.y) < 23) {
+    if ((self.view.center.y - textField.center.y) < 0) {
+        
+        [self.mainScrollView setFrame:CGRectMake(0, 0, 320, 300)];
+        
+        [self.mainScrollView scrollRectToVisible:CGRectMake(0, textField.center.y, self.mainScrollView.frame.size.width, self.mainScrollView.frame.size.height)
+                                        animated:YES];
+        
+        /*
         if (CGAffineTransformIsIdentity(self.view.transform)) {
             [UIView animateWithDuration:.2 animations:^{
-                self.view.transform = CGAffineTransformMakeTranslation(0.f, -216.f);
+                //self.view.transform = CGAffineTransformMakeTranslation(0.f, -216.f);
+                self.mainScrollView.transform = CGAffineTransformMakeTranslation(0.f, -216.f);
             }];
-        }
+        }*/
     }
 }
 
@@ -373,11 +401,9 @@ static int nbFailures = 7;
 {
     [self dismissKeyboard];
     
-    if (!CGAffineTransformIsIdentity(self.view.transform)) {
-        [UIView animateWithDuration:.2 animations:^{
-            self.view.transform = CGAffineTransformIdentity;
-        }];
-    }
+    [UIView animateWithDuration:.2 animations:^{
+        [self.mainScrollView setFrame:CGRectMake(0, 0, 320, 500)];
+    }];
 }
 
 @end
