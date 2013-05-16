@@ -20,6 +20,7 @@
 @end
 
 static int nbFailures = 7;
+static bool loadingViewStatus = NO;
 
 @implementation AddViewController
 
@@ -184,27 +185,66 @@ static int nbFailures = 7;
                                                                
                                                                [self removeLoadingView];
                                                                
-                                                               [self.ISBN setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ISBN"] objectForKey:@"text"]];
-                                                               
-                                                               if ([[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] isKindOfClass:[NSArray class]]) {
-                                                                   [self.author setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectAtIndex:0] objectForKey:@"text"]];
+                                                               if ([[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] isKindOfClass:[NSArray class]]) {
+                                                                   int goodIndex=0;
+                                                                   
+                                                                   for (int i=0; i<[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] count]; i++) {
+                                                                       if ([[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:i] objectForKey:@"Binding"] objectForKey:@"text"] isEqualToString:@"Paperback"]) {
+                                                                           goodIndex = i;
+                                                                           break;
+                                                                       }
+                                                                   }
+                                                                   
+                                                                   [self.ISBN setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"ISBN"] objectForKey:@"text"]];
+                                                                   
+                                                                   if ([[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] isKindOfClass:[NSArray class]]) {
+                                                                       [self.author setText:[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectAtIndex:0] objectForKey:@"text"]];
+                                                                   } else {
+                                                                       [self.author setText:[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectForKey:@"text"]];
+                                                                   }
+                                                                   
+                                                                   [self.comicsTitle setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"Title"] objectForKey:@"text"]];
+                                                                   
+                                                                   [self.publisher setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"Publisher"] objectForKey:@"text"]];
+                                                                   
+                                                                   [self.height setText:[self getCm:[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Height"] objectForKey:@"text"]]];
+                                                                   
+                                                                   [self.width setText:[self getCm:[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Length"] objectForKey:@"text"]]];
+                                                                   
+                                                                   [self.nbPages setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"NumberOfPages"] objectForKey:@"text"]];
+                                                                   
+                                                                   [self.language setText:[[[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"Languages"] objectForKey:@"Language"] objectAtIndex:0] objectForKey:@"Name"] objectForKey:@"text"]];
+                                                                   
+                                                                   [self.price setText:[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"ListPrice"] objectForKey:@"FormattedPrice"] objectForKey:@"text"]];
+                                                                   
+                                                                   [self.publicationDate setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectAtIndex:goodIndex] objectForKey:@"ItemAttributes"] objectForKey:@"PublicationDate"] objectForKey:@"text"]];
+                                                                   
+                                                                   nbFailures = 7;
+                                                                   
                                                                } else {
-                                                                   [self.author setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectForKey:@"text"]];
+                                                                   
+                                                                   [self.ISBN setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ISBN"] objectForKey:@"text"]];
+                                                                   
+                                                                   if ([[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] isKindOfClass:[NSArray class]]) {
+                                                                       [self.author setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectAtIndex:0] objectForKey:@"text"]];
+                                                                   } else {
+                                                                       [self.author setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectForKey:@"text"]];
+                                                                   }
+                                                                   
+                                                                   [self.comicsTitle setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Title"] objectForKey:@"text"]];
+                                                                   [self.publisher setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Publisher"] objectForKey:@"text"]];
+                                                                   [self.height setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Height"] objectForKey:@"text"]]];
+                                                                   [self.width setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Length"] objectForKey:@"text"]]];
+                                                                   [self.nbPages setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"NumberOfPages"] objectForKey:@"text"]];
+                                                                   [self.language setText:[[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Languages"] objectForKey:@"Language"] objectAtIndex:0] objectForKey:@"Name"] objectForKey:@"text"]];
+                                                                   [self.price setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ListPrice"] objectForKey:@"FormattedPrice"] objectForKey:@"text"]];
+                                                                   [self.publicationDate setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"PublicationDate"] objectForKey:@"text"]];
+                                                                   
+                                                                   nbFailures = 7;
                                                                }
-                                                               
-                                                               [self.comicsTitle setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Title"] objectForKey:@"text"]];
-                                                               [self.publisher setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Publisher"] objectForKey:@"text"]];
-                                                               [self.height setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Height"] objectForKey:@"text"]]];
-                                                               [self.width setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Length"] objectForKey:@"text"]]];
-                                                               [self.nbPages setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"NumberOfPages"] objectForKey:@"text"]];
-                                                               [self.language setText:[[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Languages"] objectForKey:@"Language"] objectAtIndex:0] objectForKey:@"Name"] objectForKey:@"text"]];
-                                                               [self.price setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ListPrice"] objectForKey:@"FormattedPrice"] objectForKey:@"text"]];
-                                                               [self.publicationDate setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"PublicationDate"] objectForKey:@"text"]];
-                                                               
-                                                               nbFailures = 7;
                                                            }
                                                                 errorHandler:^(NSError* error) {
-                                                                    [self removeLoadingView];
+                                                                    //[self removeLoadingView];
                                                                     nbFailures--;
                                                                     
                                                                     DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],
@@ -247,7 +287,9 @@ static int nbFailures = 7;
                                                                [self.height setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Height"] objectForKey:@"text"]]];
                                                                [self.width setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Length"] objectForKey:@"text"]]];
                                                                [self.nbPages setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"NumberOfPages"] objectForKey:@"text"]];
+                                                               
                                                                [self.language setText:[[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Languages"] objectForKey:@"Language"] objectAtIndex:0] objectForKey:@"Name"] objectForKey:@"text"]];
+                                                               
                                                                [self.price setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ListPrice"] objectForKey:@"FormattedPrice"] objectForKey:@"text"]];
                                                                [self.publicationDate setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"PublicationDate"] objectForKey:@"text"]];
                                                                
@@ -437,25 +479,28 @@ static int nbFailures = 7;
 
 -(void)showLoadingView {
     
-    UIView *loadingView = [[UIView alloc] initWithFrame:self.view.bounds];
-    [loadingView setBackgroundColor:[UIColor lightGrayColor]];
-    [loadingView setAlpha:0.8];
-    
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 220, 100, 100)];
-    [loadingLabel setText:@"Loading"];
-    [loadingLabel setTextAlignment:NSTextAlignmentCenter];
-    [loadingLabel setTextColor:[UIColor colorWithRed:255.0f green:255.0f blue:255.0f alpha:1.0f]];
-    [loadingLabel setBackgroundColor:[UIColor colorWithRed:255.0f green:255.0f blue:255.0f alpha:0.0]];
-    [loadingView addSubview:loadingLabel];
-    
-    UIActivityIndicatorView *loadingActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    [loadingActivity startAnimating];
-    [loadingActivity setCenter:CGPointMake(160, 225)];
-    [loadingView addSubview:loadingActivity];
-    
-    [loadingView setTag:[kLoadingViewTag intValue]];
-    
-    [self.view addSubview:loadingView];
+    if (!loadingViewStatus) {
+        UIView *loadingView = [[UIView alloc] initWithFrame:self.view.bounds];
+        [loadingView setBackgroundColor:[UIColor lightGrayColor]];
+        [loadingView setAlpha:0.8];
+        
+        UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 220, 100, 100)];
+        [loadingLabel setText:@"Loading"];
+        [loadingLabel setTextAlignment:NSTextAlignmentCenter];
+        [loadingLabel setTextColor:[UIColor colorWithRed:255.0f green:255.0f blue:255.0f alpha:1.0f]];
+        [loadingLabel setBackgroundColor:[UIColor colorWithRed:255.0f green:255.0f blue:255.0f alpha:0.0]];
+        [loadingView addSubview:loadingLabel];
+        
+        UIActivityIndicatorView *loadingActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [loadingActivity startAnimating];
+        [loadingActivity setCenter:CGPointMake(160, 225)];
+        [loadingView addSubview:loadingActivity];
+        
+        [loadingView setTag:[kLoadingViewTag intValue]];
+        
+        [self.view addSubview:loadingView];
+        loadingViewStatus = YES;
+    }
 }
 
 -(void)removeLoadingView {
@@ -464,7 +509,7 @@ static int nbFailures = 7;
             [subview removeFromSuperview];
         }
     }
-    
+    loadingViewStatus = NO;
     [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.05];
 }
 
