@@ -176,6 +176,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="scan:" destination="xza-hF-TtM" eventType="touchUpInside" id="NPo-hp-4eJ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ljo-fW-UMv">
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -514,6 +517,7 @@
             <relationships>
                 <relationship kind="action" name="addComics:"/>
                 <relationship kind="action" name="lookUp:"/>
+                <relationship kind="action" name="scan:"/>
                 <relationship kind="outlet" name="ISBN" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="author" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="comicsTitle" candidateClass="UITextView"/>

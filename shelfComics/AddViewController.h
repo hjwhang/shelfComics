@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate> {
+@interface AddViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, ZBarReaderDelegate> {
     NSManagedObjectContext *managedObjectContext;
 }
 
@@ -34,5 +34,7 @@
 -(IBAction)lookUp:(id)sender;
 -(IBAction)addComics:(id)sender;
 -(void)dismissKeyboard;
+-(IBAction)scan:(id)sender;
+-(void)lookupWithCode:(NSString*)code;
 
 @end

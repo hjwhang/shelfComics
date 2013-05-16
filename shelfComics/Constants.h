@@ -22,5 +22,7 @@
 #define kVersion @"2009-03-31"
 #define kResponseGroup @"Medium"
 #define kLoadingViewTag @"2013"
+#define kType @"ISBN"
+#define kSearchIndex @"Books"
 
 #endif

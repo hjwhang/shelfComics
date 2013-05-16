@@ -161,7 +161,12 @@ static int nbFailures = 7;
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark -
+#pragma mark Actions
+
 -(IBAction)lookUp:(id)sender {
+    
+    [self dismissKeyboard];
     
     if ([self.ISBN.text isEqualToString:@""]) {
         [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ISBN missing Title", nil)
@@ -219,11 +224,78 @@ static int nbFailures = 7;
     }
 }
 
+-(void)lookupWithCode:(NSString *)code {
+    
+    [self showLoadingView];
+    
+    if (nbFailures != 0) {
+        self.lookupOperation = [ApplicationDelegate.networkEngine itemForUPC:code
+                                                           completionHandler:^(NSDictionary *response) {
+                                                               
+                                                               [self removeLoadingView];
+                                                               
+                                                               [self.ISBN setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ISBN"] objectForKey:@"text"]];
+                                                               
+                                                               if ([[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] isKindOfClass:[NSArray class]]) {
+                                                                   [self.author setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectAtIndex:0] objectForKey:@"text"]];
+                                                               } else {
+                                                                   [self.author setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Author"] objectForKey:@"text"]];
+                                                               }
+                                                               
+                                                               [self.comicsTitle setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Title"] objectForKey:@"text"]];
+                                                               [self.publisher setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Publisher"] objectForKey:@"text"]];
+                                                               [self.height setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Height"] objectForKey:@"text"]]];
+                                                               [self.width setText:[self getCm:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ItemDimensions"] objectForKey:@"Length"] objectForKey:@"text"]]];
+                                                               [self.nbPages setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"NumberOfPages"] objectForKey:@"text"]];
+                                                               [self.language setText:[[[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"Languages"] objectForKey:@"Language"] objectAtIndex:0] objectForKey:@"Name"] objectForKey:@"text"]];
+                                                               [self.price setText:[[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"ListPrice"] objectForKey:@"FormattedPrice"] objectForKey:@"text"]];
+                                                               [self.publicationDate setText:[[[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] objectForKey:@"ItemAttributes"] objectForKey:@"PublicationDate"] objectForKey:@"text"]];
+                                                               
+                                                               nbFailures = 7;
+                                                           }
+                                                                errorHandler:^(NSError* error) {
+                                                                    [self removeLoadingView];
+                                                                    nbFailures--;
+                                                                    
+                                                                    DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],
+                                                                         [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
+                                                                    [self lookupWithCode:code];
+                                                                }
+                                ];
+    } else {
+        [self removeLoadingView];
+        nbFailures = 7;
+        [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed Title", nil)
+                                    message:NSLocalizedString(@"Failed Msg", nil)
+                                   delegate:nil
+                          cancelButtonTitle:@"Close"
+                          otherButtonTitles:nil] show];
+    }
+}
+
 -(NSString*)getCm:(NSString*)value {
     float initialValue = [value floatValue];
     initialValue *= 2.54f;
     initialValue /= 100.0f;
     return [NSString stringWithFormat:@"%.02f", initialValue];
+}
+
+-(IBAction)scan:(id)sender {
+    // ADD: present a barcode reader that scans from the camera feed
+    ZBarReaderViewController *reader = [ZBarReaderViewController new];
+    reader.readerDelegate = self;
+    reader.supportedOrientationsMask = ZBarOrientationMaskAll;
+    
+    ZBarImageScanner *scanner = reader.scanner;
+    // TODO: (optional) additional reader configuration here
+    
+    // EXAMPLE: disable rarely used I2/5 to improve performance
+    [scanner setSymbology: ZBAR_I25
+                   config: ZBAR_CFG_ENABLE
+                       to: 0];
+    
+    // present and release the controller
+    [self presentViewController:reader animated:YES completion:nil];
 }
 
 -(IBAction)addComics:(id)sender {
@@ -247,7 +319,7 @@ static int nbFailures = 7;
                                   cancelButtonTitle:NSLocalizedString(@"Close", @"")
                                   otherButtonTitles:nil] show];
                 break;
-                case 2:
+            case 2:
                 [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ISBN Missing Title", nil)
                                             message:NSLocalizedString(@"ISBN Missing Msg", nil)
                                            delegate:nil
@@ -272,7 +344,7 @@ static int nbFailures = 7;
                               cancelButtonTitle:NSLocalizedString(@"Close", @"")
                               otherButtonTitles:nil] show];
         } else {
-        
+            
             Comics *comics = [NSEntityDescription insertNewObjectForEntityForName:@"Comics" inManagedObjectContext:managedObjectContext];
             
             [comics setValue:self.comicsTitle.text forKey:@"title"];
@@ -286,7 +358,7 @@ static int nbFailures = 7;
             [comics setValue:self.price.text forKey:@"price"];
             [comics setValue:self.language.text forKey:@"language"];
             [comics setValue:self.nbPages.text forKey:@"nbPages"];
-                
+            
             NSError *error;
             if (![managedObjectContext save:&error]) {
                 DLog(@"Core Data Error %@", error);
@@ -316,7 +388,7 @@ static int nbFailures = 7;
                 self.nbPages.text = @"";
             }
             
-        #if PREPROD
+#if PREPROD
             NSEntityDescription *comicsEntity = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:managedObjectContext];
             
             NSFetchRequest *fetchAllrecords = [[NSFetchRequest alloc] init];
@@ -331,24 +403,34 @@ static int nbFailures = 7;
             if (!records)
                 DLog(@"A BIG ERROR OCCURS WHILE GETTING ALL RECORDS: %@", err);
             DLog(@"RESULTS %@", records);
-        #endif
+#endif
         }
     }
 }
 
--(void)dismissKeyboard {
-    [self.ISBN resignFirstResponder];
-    [self.author resignFirstResponder];
-    [self.comicsTitle resignFirstResponder];
-    [self.volume resignFirstResponder];
-    [self.publisher resignFirstResponder];
-    [self.height resignFirstResponder];
-    [self.width resignFirstResponder];
-    [self.language resignFirstResponder];
-    [self.nbPages resignFirstResponder];
-    [self.price resignFirstResponder];
-    [self.publicationDate resignFirstResponder];
+#pragma mark -
+#pragma mark Scanning delegate methods
+
+- (void) imagePickerController: (UIImagePickerController*) reader didFinishPickingMediaWithInfo: (NSDictionary*) info {
+    // ADD: get the decode results
+    id<NSFastEnumeration> results = [info objectForKey: ZBarReaderControllerResults];
+    ZBarSymbol *symbol = nil;
+    
+    for(symbol in results)
+        // EXAMPLE: just grab the first barcode
+        break;
+    
+    // EXAMPLE: do something useful with the barcode data
+    
+    [self lookupWithCode:symbol.data];
+    
+    // EXAMPLE: do something useful with the barcode image
+    // resultImage.image = [info objectForKey: UIImagePickerControllerOriginalImage];
+    
+    // ADD: dismiss the controller (NB dismiss from the *reader*!)
+    [reader dismissViewControllerAnimated:YES completion:nil];
 }
+
 
 #pragma mark -
 #pragma mark Loading View
@@ -465,6 +547,20 @@ static int nbFailures = 7;
     [UIView animateWithDuration:.2 animations:^{
         [self.mainScrollView setFrame:CGRectMake(0, 0, 320, 500)];
     }];
+}
+
+-(void)dismissKeyboard {
+    [self.ISBN resignFirstResponder];
+    [self.author resignFirstResponder];
+    [self.comicsTitle resignFirstResponder];
+    [self.volume resignFirstResponder];
+    [self.publisher resignFirstResponder];
+    [self.height resignFirstResponder];
+    [self.width resignFirstResponder];
+    [self.language resignFirstResponder];
+    [self.nbPages resignFirstResponder];
+    [self.price resignFirstResponder];
+    [self.publicationDate resignFirstResponder];
 }
 
 @end

@@ -64,6 +64,8 @@
     
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:
                             kService, @"Service",
+                            kType, @"IdType",
+                            kSearchIndex, @"SearchIndex",
                             kResponseGroup, @"ResponseGroup",
                             kAccessKey, @"AWSAccessKeyId",
                             kOperation, @"Operation",
