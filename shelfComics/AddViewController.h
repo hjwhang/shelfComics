@@ -36,5 +36,6 @@
 -(void)dismissKeyboard;
 -(IBAction)scan:(id)sender;
 -(void)lookupWithCode:(NSString*)code;
+-(void)parsing:(NSDictionary*)response;
 
 @end
