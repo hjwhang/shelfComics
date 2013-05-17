@@ -10,7 +10,6 @@
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "Comics.h"
-#import <QuartzCore/QuartzCore.h>
 
 @interface AddViewController ()
 
@@ -21,10 +20,11 @@
 
 static int nbFailures = 7;
 static bool loadingViewStatus = NO;
+static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
 
 @implementation AddViewController
 
-@synthesize ISBN, comicsTitle, author, volume, publisher, height, width, language, nbPages, price, publicationDate;
+@synthesize ISBN, comicsTitle, author, volume, publisher, height, width, language, nbPages, price, publicationDate, cover;
 @synthesize managedObjectContext;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -255,7 +255,7 @@ static bool loadingViewStatus = NO;
     reader.supportedOrientationsMask = ZBarOrientationMaskAll;
     
     ZBarImageScanner *scanner = reader.scanner;
-    // TODO: (optional) additional reader configuration here
+    // (optional) additional reader configuration here
     
     // EXAMPLE: disable rarely used I2/5 to improve performance
     [scanner setSymbology: ZBAR_I25
@@ -267,16 +267,7 @@ static bool loadingViewStatus = NO;
 }
 
 -(void)parsing:(NSDictionary *)response {
-    /*
-    if ([[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Request"] objectForKey:@"Errors"] isKindOfClass:[NSDictionary class]]) {
-        UIAlertView *noResult = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"noResult Title", nil)
-                                                           message:NSLocalizedString(@"noResult Msg", nil)
-                                                          delegate:nil
-                                                 cancelButtonTitle:@"Close"
-                                                 otherButtonTitles:nil];
-        [noResult show];
-    }
-    */
+
     if (![[[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Request"] objectForKey:@"Errors"] isKindOfClass:[NSDictionary class]]) {
     
         if ([[[[response objectForKey:@"ItemLookupResponse"] objectForKey:@"Items"] objectForKey:@"Item"] isKindOfClass:[NSArray class]]) {
@@ -459,27 +450,57 @@ static bool loadingViewStatus = NO;
     }
 }
 
+
 #pragma mark -
-#pragma mark Scanning delegate methods
+#pragma mark Photo methods
+
+-(IBAction)takePhoto:(id)sender {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        _photoPickedFromCamera = true;
+        UIImagePickerController *pick = [[UIImagePickerController alloc] init];
+        pick.sourceType = UIImagePickerControllerSourceTypeCamera;
+        pick.allowsEditing = NO;
+        pick.mediaTypes = [NSArray arrayWithObject:(NSString*) kUTTypeImage];
+        pick.delegate = self;
+        [self presentModalViewController:pick animated:YES];
+    } else {
+        UIAlertView *noPhoto = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"noPhoto Title", nil)
+                                                          message:NSLocalizedString(@"noPhoto Msg", nil)
+                                                         delegate:nil
+                                                cancelButtonTitle:@"Close"
+                                                otherButtonTitles:nil];
+        [noPhoto show];
+    }
+    imageComingFrom = 1;
+}
 
 - (void) imagePickerController: (UIImagePickerController*) reader didFinishPickingMediaWithInfo: (NSDictionary*) info {
-    // ADD: get the decode results
-    id<NSFastEnumeration> results = [info objectForKey: ZBarReaderControllerResults];
-    ZBarSymbol *symbol = nil;
-    
-    for(symbol in results)
-        // EXAMPLE: just grab the first barcode
-        break;
-    
-    // EXAMPLE: do something useful with the barcode data
-    
-    [self lookupWithCode:symbol.data];
-    
-    // EXAMPLE: do something useful with the barcode image
-    // resultImage.image = [info objectForKey: UIImagePickerControllerOriginalImage];
-    
-    // ADD: dismiss the controller (NB dismiss from the *reader*!)
-    [reader dismissViewControllerAnimated:YES completion:nil];
+    if (imageComingFrom == 0) {
+        // ADD: get the decode results
+        id<NSFastEnumeration> results = [info objectForKey: ZBarReaderControllerResults];
+        ZBarSymbol *symbol = nil;
+        
+        for(symbol in results)
+            // EXAMPLE: just grab the first barcode
+            break;
+        
+        // EXAMPLE: do something useful with the barcode data
+        
+        [self lookupWithCode:symbol.data];
+        
+        // EXAMPLE: do something useful with the barcode image
+        // resultImage.image = [info objectForKey: UIImagePickerControllerOriginalImage];
+        
+        // ADD: dismiss the controller (NB dismiss from the *reader*!)
+        [reader dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        [reader dismissModalViewControllerAnimated:NO];
+        if (image) {
+            [self.cover setBackgroundImage:image forState:UIControlStateNormal];
+        }
+        imageComingFrom = 0;
+    }
 }
 
 

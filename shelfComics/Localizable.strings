@@ -19,3 +19,5 @@
 "Comics exists Msg" = "This ISBN number already exist in DB.";
 "noResult Title" = "No result";
 "noResult Msg" = "Nothing found in Amazon books.";
+"noPhoto Title" = "You poor thing :(";
+"noPhoto Msg" = "Go by an iPhone, it has a camera asshole !!";

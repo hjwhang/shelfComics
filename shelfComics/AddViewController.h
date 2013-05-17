@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
-@interface AddViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, ZBarReaderDelegate> {
+@interface AddViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, ZBarReaderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     NSManagedObjectContext *managedObjectContext;
+    bool _photoPickedFromCamera;
 }
 
 @property (strong, nonatomic) MKNetworkOperation *lookupOperation;
@@ -27,6 +30,7 @@
 @property (nonatomic, retain) IBOutlet UITextField *price;
 @property (nonatomic, retain) IBOutlet UITextField *nbPages;
 @property (nonatomic, retain) IBOutlet UITextField *publicationDate;
+@property (nonatomic, retain) IBOutlet UIButton *cover;
 
 -(void)showLoadingView;
 -(void)removeLoadingView;
@@ -37,5 +41,6 @@
 -(IBAction)scan:(id)sender;
 -(void)lookupWithCode:(NSString*)code;
 -(void)parsing:(NSDictionary*)response;
+-(IBAction)takePhoto:(id)sender;
 
 @end

@@ -47,6 +47,7 @@
 		90B8E897171FEFAD00452F68 /* reveal-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 90B8E895171FEFAD00452F68 /* reveal-icon.png */; };
 		90B8E898171FEFAD00452F68 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 90B8E896171FEFAD00452F68 /* reveal-icon@2x.png */; };
 		90B8E89B171FF45A00452F68 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B8E89A171FF45A00452F68 /* HomeViewController.m */; };
+		90D080B01746819C00BF07F0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D080AF1746819C00BF07F0 /* MobileCoreServices.framework */; };
 		90F44DE61745044900B191F2 /* button-round-tick-ok-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F44DE51745044900B191F2 /* button-round-tick-ok-icon.png */; };
 		90F44E0517450B6600B191F2 /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F44DFF17450B6600B191F2 /* libzbar.a */; };
 		90F44E0617450B6600B191F2 /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F44E0117450B6600B191F2 /* zbar-back.png */; };
@@ -123,6 +124,7 @@
 		90B8E896171FEFAD00452F68 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
 		90B8E899171FF45A00452F68 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		90B8E89A171FF45A00452F68 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		90D080AF1746819C00BF07F0 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		90F44DE51745044900B191F2 /* button-round-tick-ok-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-round-tick-ok-icon.png"; sourceTree = "<group>"; };
 		90F44DEB17450B6600B191F2 /* Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Decoder.h; sourceTree = "<group>"; };
 		90F44DEC17450B6600B191F2 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90D080B01746819C00BF07F0 /* MobileCoreServices.framework in Frameworks */,
 				90F44E1117450BDE00B191F2 /* libiconv.dylib in Frameworks */,
 				90F44E0F17450BC200B191F2 /* AVFoundation.framework in Frameworks */,
 				90F44E0D17450BB700B191F2 /* CoreMedia.framework in Frameworks */,
@@ -261,6 +264,7 @@
 		90B8E866171FE09D00452F68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				90D080AF1746819C00BF07F0 /* MobileCoreServices.framework */,
 				90F44E1017450BDD00B191F2 /* libiconv.dylib */,
 				90F44E0E17450BC200B191F2 /* AVFoundation.framework */,
 				90F44E0C17450BB700B191F2 /* CoreMedia.framework */,
