@@ -433,7 +433,7 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
                 self.price.text = @"";
                 self.language.text = @"";
                 self.nbPages.text = @"";
-                [self.cover setBackgroundImage:nil forState:UIControlStateNormal];
+                [self.cover setBackgroundImage:[UIImage imageNamed:@"no_file.jpg"] forState:UIControlStateNormal];
             }
             
 #if PREPROD

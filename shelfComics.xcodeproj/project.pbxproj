@@ -50,6 +50,7 @@
 		90D080B01746819C00BF07F0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D080AF1746819C00BF07F0 /* MobileCoreServices.framework */; };
 		90D080B3174A18EB00BF07F0 /* FileHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D080B2174A18EB00BF07F0 /* FileHelpers.m */; };
 		90D080B6174A567E00BF07F0 /* ComicsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D080B5174A567E00BF07F0 /* ComicsViewController.m */; };
+		90D080B8174A670C00BF07F0 /* no_file.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 90D080B7174A670C00BF07F0 /* no_file.jpg */; };
 		90F44DE61745044900B191F2 /* button-round-tick-ok-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F44DE51745044900B191F2 /* button-round-tick-ok-icon.png */; };
 		90F44E0517450B6600B191F2 /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F44DFF17450B6600B191F2 /* libzbar.a */; };
 		90F44E0617450B6600B191F2 /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F44E0117450B6600B191F2 /* zbar-back.png */; };
@@ -131,6 +132,7 @@
 		90D080B2174A18EB00BF07F0 /* FileHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHelpers.m; sourceTree = "<group>"; };
 		90D080B4174A567E00BF07F0 /* ComicsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicsViewController.h; sourceTree = "<group>"; };
 		90D080B5174A567E00BF07F0 /* ComicsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicsViewController.m; sourceTree = "<group>"; };
+		90D080B7174A670C00BF07F0 /* no_file.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = no_file.jpg; sourceTree = "<group>"; };
 		90F44DE51745044900B191F2 /* button-round-tick-ok-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-round-tick-ok-icon.png"; sourceTree = "<group>"; };
 		90F44DEB17450B6600B191F2 /* Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Decoder.h; sourceTree = "<group>"; };
 		90F44DEC17450B6600B191F2 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 		90B8E894171FEF8300452F68 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				90D080B7174A670C00BF07F0 /* no_file.jpg */,
 				90B8E895171FEFAD00452F68 /* reveal-icon.png */,
 				90F44DE51745044900B191F2 /* button-round-tick-ok-icon.png */,
 				90B8E896171FEFAD00452F68 /* reveal-icon@2x.png */,
@@ -487,6 +490,7 @@
 				90F44E0717450B6600B191F2 /* zbar-help.html in Resources */,
 				90F44E0817450B6600B191F2 /* zbar-helpicons.png in Resources */,
 				90F44E0917450B6600B191F2 /* zbar-samples.png in Resources */,
+				90D080B8174A670C00BF07F0 /* no_file.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
