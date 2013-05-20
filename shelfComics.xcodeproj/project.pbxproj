@@ -49,6 +49,7 @@
 		90B8E89B171FF45A00452F68 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B8E89A171FF45A00452F68 /* HomeViewController.m */; };
 		90D080B01746819C00BF07F0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D080AF1746819C00BF07F0 /* MobileCoreServices.framework */; };
 		90D080B3174A18EB00BF07F0 /* FileHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D080B2174A18EB00BF07F0 /* FileHelpers.m */; };
+		90D080B6174A567E00BF07F0 /* ComicsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D080B5174A567E00BF07F0 /* ComicsViewController.m */; };
 		90F44DE61745044900B191F2 /* button-round-tick-ok-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F44DE51745044900B191F2 /* button-round-tick-ok-icon.png */; };
 		90F44E0517450B6600B191F2 /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F44DFF17450B6600B191F2 /* libzbar.a */; };
 		90F44E0617450B6600B191F2 /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F44E0117450B6600B191F2 /* zbar-back.png */; };
@@ -128,6 +129,8 @@
 		90D080AF1746819C00BF07F0 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		90D080B1174A18EB00BF07F0 /* FileHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHelpers.h; sourceTree = "<group>"; };
 		90D080B2174A18EB00BF07F0 /* FileHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHelpers.m; sourceTree = "<group>"; };
+		90D080B4174A567E00BF07F0 /* ComicsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicsViewController.h; sourceTree = "<group>"; };
+		90D080B5174A567E00BF07F0 /* ComicsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicsViewController.m; sourceTree = "<group>"; };
 		90F44DE51745044900B191F2 /* button-round-tick-ok-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-round-tick-ok-icon.png"; sourceTree = "<group>"; };
 		90F44DEB17450B6600B191F2 /* Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Decoder.h; sourceTree = "<group>"; };
 		90F44DEC17450B6600B191F2 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
@@ -301,6 +304,8 @@
 				90B8E89A171FF45A00452F68 /* HomeViewController.m */,
 				904E946117201C630050A676 /* AddViewController.h */,
 				904E946217201C630050A676 /* AddViewController.m */,
+				90D080B4174A567E00BF07F0 /* ComicsViewController.h */,
+				90D080B5174A567E00BF07F0 /* ComicsViewController.m */,
 				90D080B1174A18EB00BF07F0 /* FileHelpers.h */,
 				90D080B2174A18EB00BF07F0 /* FileHelpers.m */,
 				9021C2B5174274250052841B /* Comics.h */,
@@ -514,6 +519,7 @@
 				9021C2B7174274250052841B /* Comics.m in Sources */,
 				9021C2BB174276700052841B /* JSONKit.m in Sources */,
 				90D080B3174A18EB00BF07F0 /* FileHelpers.m in Sources */,
+				90D080B6174A567E00BF07F0 /* ComicsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

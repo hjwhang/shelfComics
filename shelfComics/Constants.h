@@ -9,7 +9,7 @@
 #ifndef shelfComics_Constantes_h
 #define shelfComics_Constantes_h
 
-#define PREPROD 1 // 1 for PREPROD and 0 for PROD
+#define PREPROD 0 // 1 for PREPROD and 0 for PROD
 
 #pragma mark -
 #pragma mark AWS Constants
