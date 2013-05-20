@@ -15,4 +15,5 @@
     #import "SWRevealViewController.h"
     #import "MKNetworkKit.h"
     #import "ZBarSDK.h"
+    #import "FileHelpers.h"
 #endif

@@ -57,6 +57,23 @@
     /*          END - Cleaning the DB from all datas            */
     /************************************************************/
     
+    /************************************************************/
+    /*          START - Cleaning Sandbox from files             */
+    /************************************************************/
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    
+    NSArray *filePathsArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentDirectory error:nil];
+    
+    for (int i=0; i< [filePathsArray count]; i++) {
+        [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory([filePathsArray objectAtIndex:i]) error:nil];
+    }
+    
+    /************************************************************/
+    /*          END - Cleaning Sandbox from files             */
+    /************************************************************/
+    
 #endif
 
     

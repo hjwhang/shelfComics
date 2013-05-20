@@ -26,12 +26,13 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
 
 @synthesize ISBN, comicsTitle, author, volume, publisher, height, width, language, nbPages, price, publicationDate, cover;
 @synthesize managedObjectContext;
+@synthesize imageToSave;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        // Custom implementation
     }
     return self;
 }
@@ -401,6 +402,10 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
             [comics setValue:self.language.text forKey:@"language"];
             [comics setValue:self.nbPages.text forKey:@"nbPages"];
             
+            NSString *imagePath = pathInDocumentDirectory(self.ISBN.text);
+            NSData *imageData = UIImageJPEGRepresentation(imageToSave, 0.75);
+            [imageData writeToFile:imagePath atomically:YES];
+            
             NSError *error;
             if (![managedObjectContext save:&error]) {
                 DLog(@"Core Data Error %@", error);
@@ -428,6 +433,7 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
                 self.price.text = @"";
                 self.language.text = @"";
                 self.nbPages.text = @"";
+                [self.cover setBackgroundImage:nil forState:UIControlStateNormal];
             }
             
 #if PREPROD
@@ -495,12 +501,14 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
         [reader dismissViewControllerAnimated:YES completion:nil];
     } else {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        self.imageToSave = [image copy];
         [reader dismissModalViewControllerAnimated:NO];
         if (image) {
             [self.cover setBackgroundImage:image forState:UIControlStateNormal];
         }
         imageComingFrom = 0;
     }
+    [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.05];
 }
 
 
@@ -543,7 +551,15 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
     [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.05];
 }
 
-#pragma mark - 
+#pragma mark -
+#pragma mark File Methods
+
+-(NSString*)shelfComicsArchiveDirectory {
+    return pathInDocumentDirectory(@"shelfComics.data");
+}
+
+
+#pragma mark -
 #pragma mark TextField methods
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField {

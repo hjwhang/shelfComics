@@ -18,6 +18,9 @@
 @property (strong, nonatomic) MKNetworkOperation *lookupOperation;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
+// File properties
+@property (nonatomic, retain) UIImage *imageToSave;
+
 // Form fields
 @property (nonatomic, retain) IBOutlet UITextField *ISBN;
 @property (nonatomic, retain) IBOutlet UITextField *author;
@@ -32,15 +35,22 @@
 @property (nonatomic, retain) IBOutlet UITextField *publicationDate;
 @property (nonatomic, retain) IBOutlet UIButton *cover;
 
+
+// Files Methods
+-(NSString*)shelfComicsArchiveDirectory;
+
+// Tools
 -(void)showLoadingView;
 -(void)removeLoadingView;
 -(NSString*)getCm:(NSString*)value;
--(IBAction)lookUp:(id)sender;
--(IBAction)addComics:(id)sender;
 -(void)dismissKeyboard;
--(IBAction)scan:(id)sender;
 -(void)lookupWithCode:(NSString*)code;
 -(void)parsing:(NSDictionary*)response;
+
+// Actions
+-(IBAction)lookUp:(id)sender;
+-(IBAction)addComics:(id)sender;
+-(IBAction)scan:(id)sender;
 -(IBAction)takePhoto:(id)sender;
 
 @end
