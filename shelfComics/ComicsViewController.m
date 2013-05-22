@@ -105,18 +105,17 @@
         NSError *err = nil;
         
         NSArray *comicsArray = [self.managedObjectContext executeFetchRequest:request error:&err];
-        for (NSManagedObject *name in comicsArray)
-            [self.managedObjectContext deleteObject:name];
-        for (NSManagedObject *type in comicsArray)
-            [self.managedObjectContext deleteObject:type];
-        for (NSManagedObject *fav in comicsArray)
-            [self.managedObjectContext deleteObject:fav];
-        for (NSManagedObject *key in comicsArray)
-            [self.managedObjectContext deleteObject:key];
-        
+
+        for (NSManagedObject *comicsObject in comicsArray)
+            [self.managedObjectContext deleteObject:comicsObject];
+
         [self.comics removeObjectAtIndex:[indexPath row]];
         
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        
+        if (![self.managedObjectContext save:&err]) {
+            DLog(@"Delete fail");
+        }
     }
 }
 
