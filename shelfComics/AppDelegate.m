@@ -40,7 +40,7 @@
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *toDelete = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:self.managedObjectContext];
     [request setEntity:toDelete];
-    [request setIncludesPropertyValues:NO];
+    //[request setIncludesPropertyValues:NO];
     NSError *err = nil;
     
     NSArray *comicsArray = [self.managedObjectContext executeFetchRequest:request error:&err];

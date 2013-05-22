@@ -26,7 +26,7 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
 
 @synthesize ISBN, comicsTitle, author, volume, publisher, height, width, language, nbPages, price, publicationDate, cover;
 @synthesize managedObjectContext;
-@synthesize imageToSave;
+@synthesize imageToSave, thumbnail;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -403,8 +403,14 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
             [comics setValue:self.nbPages.text forKey:@"nbPages"];
             
             NSString *imagePath = pathInDocumentDirectory(self.ISBN.text);
-            NSData *imageData = UIImageJPEGRepresentation(imageToSave, 0.75);
+            NSData *imageData = UIImageJPEGRepresentation(imageToSave, 0.5);
             [imageData writeToFile:imagePath atomically:YES];
+            
+            NSString *thumbnailName = [self.ISBN.text stringByAppendingString:@"Thumbnail"];
+            
+            NSString *thumbnailPath = pathInDocumentDirectory(thumbnailName);
+            NSData *thumbnailData = UIImagePNGRepresentation(thumbnail);
+            [thumbnailData writeToFile:thumbnailPath atomically:YES];
             
             NSError *error;
             if (![managedObjectContext save:&error]) {
@@ -506,11 +512,44 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
         if (image) {
             [self.cover setBackgroundImage:image forState:UIControlStateNormal];
         }
+        
+        [self setThumbnailDataForImage:image];
+        
         imageComingFrom = 0;
     }
     [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.05];
 }
 
+-(void)setThumbnailDataForImage:(UIImage *)image {
+    CGSize originalImageSize = [image size];
+    CGRect newRect;
+    
+    newRect.origin = CGPointZero;
+    newRect.size = [[self class] thumbnailSize];
+    
+    float ratio = MAX(newRect.size.width/originalImageSize.width,
+                      newRect.size.height/originalImageSize.height);
+    UIGraphicsBeginImageContext(newRect.size);
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:newRect cornerRadius:5.0f];
+    [path addClip];
+    
+    CGRect projectRect;
+    projectRect.size.width = ratio * originalImageSize.width;
+    projectRect.size.height = ratio * originalImageSize.height;
+    projectRect.origin.x = (newRect.size.width - projectRect.size.width) / 2.0f;
+    projectRect.origin.y = (newRect.size.height - projectRect.size.height) / 2.0f;
+    
+    [image drawInRect:projectRect];
+    
+    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
+    self.thumbnail = [smallImage copy];
+    
+    UIGraphicsEndImageContext();
+}
+
++(CGSize)thumbnailSize {
+    return CGSizeMake(63, 85);
+}
 
 #pragma mark -
 #pragma mark Loading View

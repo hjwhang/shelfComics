@@ -190,6 +190,9 @@
                                     <constraint firstItem="KP6-cM-heN" firstAttribute="leading" secondItem="f1Z-Zq-hpv" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="fTx-ud-OKY"/>
                                     <constraint firstItem="f1Z-Zq-hpv" firstAttribute="leading" secondItem="yrC-Rs-mok" secondAttribute="leading" constant="5" id="iat-xI-q72"/>
                                 </constraints>
+                                <connections>
+                                    <segue destination="wFl-hj-kVI" kind="custom" identifier="comicsSegue" customClass="SWRevealViewControllerSegue" id="85F-Jj-CMU"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -208,6 +211,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Yh-4J-bVL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-498" y="-1083"/>
+        </scene>
+        <!--View Controller - Comics-->
+        <scene sceneID="cKv-37-e5L">
+            <objects>
+                <viewController id="wFl-hj-kVI" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Axu-af-O9z">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Comics" id="NI9-ps-oaV">
+                        <barButtonItem key="backBarButtonItem" title="Check" id="mgg-r8-68y"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="eXc-Mo-SBL"/>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N0G-cz-qlW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-36" y="-1083"/>
         </scene>
         <!--Add View Controller - Add-->
         <scene sceneID="Kaa-Cs-0OD">

@@ -84,7 +84,7 @@
     Comics *comicsToPrint = [self.comics objectAtIndex:[indexPath row]];
     
     UIImageView *coverImageView = (UIImageView*)[cell viewWithTag:2099];
-    [coverImageView setImage:[UIImage imageWithContentsOfFile:pathInDocumentDirectory(comicsToPrint.isbn)]];
+    [coverImageView setImage:[UIImage imageWithContentsOfFile:pathInDocumentDirectory([comicsToPrint.isbn stringByAppendingString:@"Thumbnail"])]];
     
     UILabel *title = (UILabel*)[cell viewWithTag:3000];
     title.text = comicsToPrint.title;
@@ -94,6 +94,31 @@
 
 
 #pragma mark - Table view delegate
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        NSEntityDescription *toDelete = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:self.managedObjectContext];
+        [request setEntity:toDelete];
+        Comics *comicsToDelete = [self.comics objectAtIndex:[indexPath row]];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"isbn == %@", comicsToDelete.isbn]];
+        NSError *err = nil;
+        
+        NSArray *comicsArray = [self.managedObjectContext executeFetchRequest:request error:&err];
+        for (NSManagedObject *name in comicsArray)
+            [self.managedObjectContext deleteObject:name];
+        for (NSManagedObject *type in comicsArray)
+            [self.managedObjectContext deleteObject:type];
+        for (NSManagedObject *fav in comicsArray)
+            [self.managedObjectContext deleteObject:fav];
+        for (NSManagedObject *key in comicsArray)
+            [self.managedObjectContext deleteObject:key];
+        
+        [self.comics removeObjectAtIndex:[indexPath row]];
+        
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

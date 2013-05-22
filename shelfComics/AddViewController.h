@@ -20,6 +20,9 @@
 
 // File properties
 @property (nonatomic, retain) UIImage *imageToSave;
+// TEST
+@property (nonatomic, retain) UIImage *thumbnail;
+@property (nonatomic, retain) NSData *thumbnailData;
 
 // Form fields
 @property (nonatomic, retain) IBOutlet UITextField *ISBN;
@@ -46,6 +49,9 @@
 -(void)dismissKeyboard;
 -(void)lookupWithCode:(NSString*)code;
 -(void)parsing:(NSDictionary*)response;
+//TEST
++(CGSize)thumbnailSize;
+-(void)setThumbnailDataForImage:(UIImage*)image;
 
 // Actions
 -(IBAction)lookUp:(id)sender;
