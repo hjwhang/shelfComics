@@ -163,8 +163,7 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark -
-#pragma mark Actions
+#pragma mark - Actions
 
 -(IBAction)lookUp:(id)sender {
     
@@ -462,8 +461,7 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
 }
 
 
-#pragma mark -
-#pragma mark Photo methods
+#pragma mark - Photo methods
 
 -(IBAction)takePhoto:(id)sender {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -550,8 +548,7 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
     return CGSizeMake(63, 85);
 }
 
-#pragma mark -
-#pragma mark Loading View
+#pragma mark - Loading View
 
 -(void)showLoadingView {
     
@@ -589,16 +586,14 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
     [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.05];
 }
 
-#pragma mark -
-#pragma mark File Methods
+#pragma mark - File Methods
 
 -(NSString*)shelfComicsArchiveDirectory {
     return pathInDocumentDirectory(@"shelfComics.data");
 }
 
 
-#pragma mark -
-#pragma mark TextField methods
+#pragma mark - TextField methods
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField {
     if (!CGAffineTransformIsIdentity(self.view.transform)) {

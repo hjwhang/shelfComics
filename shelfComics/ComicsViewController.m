@@ -19,6 +19,7 @@
 @implementation ComicsViewController
 
 @synthesize managedObjectContext, comics, letters, sortedKeys, sortedComics;
+@synthesize comicsSearchBar, searchResults;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -29,6 +30,7 @@
     return self;
 }
 
+#warning To clean and comment
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -89,6 +91,8 @@
         [self.sortedComics setObject:[arrayTmp mutableCopy] forKey:key];
         [arrayTmp removeAllObjects];
     }
+    
+    self.searchResults = [NSMutableArray arrayWithCapacity:[self.comics count]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -100,36 +104,60 @@
 #pragma mark - Table view data source
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 94.f;
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+        return 44.f;
+    else
+        return 94.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [letters count];
+    if (tableView != self.searchDisplayController.searchResultsTableView)
+        return [letters count];
+    else
+        return 1;
 }
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [sortedKeys objectAtIndex:section];
+    if (tableView != self.searchDisplayController.searchResultsTableView)
+        return [sortedKeys objectAtIndex:section];
+    else
+        return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [[letters objectForKey:[self.sortedKeys objectAtIndex:section]] intValue];
+{   
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [searchResults count];
+    } else {
+        return [[letters objectForKey:[self.sortedKeys objectAtIndex:section]] intValue];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger section = [indexPath section];
     NSUInteger row = [indexPath row];
-
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ComicsCell"];
-    Comics *comicsToPrint = [[self.sortedComics objectForKey:[self.sortedKeys objectAtIndex:section]] objectAtIndex:row];//[self.comics objectAtIndex:[indexPath row]];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ComicsCell"];
+    }
     
-    UIImageView *coverImageView = (UIImageView*)[cell viewWithTag:2099];
-    [coverImageView setImage:[UIImage imageWithContentsOfFile:pathInDocumentDirectory([comicsToPrint.isbn stringByAppendingString:@"Thumbnail"])]];
+    Comics *comicsToPrint;
     
-    UILabel *title = (UILabel*)[cell viewWithTag:3000];
-    title.text = comicsToPrint.title;
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        comicsToPrint = [searchResults objectAtIndex:row];
+        cell.textLabel.text = comicsToPrint.title;
+    }
+    else {
+        comicsToPrint = [[self.sortedComics objectForKey:[self.sortedKeys objectAtIndex:section]] objectAtIndex:row];
+        UIImageView *coverImageView = (UIImageView*)[cell viewWithTag:2099];
+        [coverImageView setImage:[UIImage imageWithContentsOfFile:pathInDocumentDirectory([comicsToPrint.isbn stringByAppendingString:@"Thumbnail"])]];
+        
+        UILabel *title = (UILabel*)[cell viewWithTag:3000];
+        title.text = comicsToPrint.title;
+    }
     
     return cell;
 }
@@ -142,7 +170,10 @@
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         NSEntityDescription *toDelete = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:self.managedObjectContext];
         [request setEntity:toDelete];
+        
+
         Comics *comicsToDelete = [self.comics objectAtIndex:[indexPath row]];
+        
         [request setPredicate:[NSPredicate predicateWithFormat:@"isbn == %@", comicsToDelete.isbn]];
         NSError *err = nil;
         
@@ -161,15 +192,28 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+
+#pragma mark - Content Filtering
+
+-(void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
+    [self.searchResults removeAllObjects];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.title contains[c] %@",searchText];
+    self.searchResults = [NSMutableArray arrayWithArray:[self.comics filteredArrayUsingPredicate:predicate]];
+}
+
+
+#pragma mark - UISearchDisplayController Delegate Methods
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+    [self filterContentForSearchText:searchString scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    return YES;
+}
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+    [self filterContentForSearchText:self.searchDisplayController.searchBar.text scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+    return YES;
 }
 
 @end

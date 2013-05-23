@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ComicsViewController : UITableViewController {
+@interface ComicsViewController : UITableViewController <UISearchBarDelegate, UISearchDisplayDelegate> {
     NSManagedObjectContext *managedObjectContext;
     NSMutableArray *comics;
 }
@@ -18,5 +18,8 @@
 @property (nonatomic, retain) NSMutableDictionary *sortedComics;
 @property (nonatomic, retain) NSMutableDictionary *letters;
 @property (nonatomic, retain) NSArray *sortedKeys;
+
+@property (nonatomic, strong) NSMutableArray *searchResults;
+@property IBOutlet UISearchBar *comicsSearchBar;
 
 @end

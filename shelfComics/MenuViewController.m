@@ -58,8 +58,7 @@
     }
 }
 
-#pragma mark -
-#pragma mark Back methods
+#pragma mark - Back methods
 
 - (void)backHome:(UIButton *)sender {
     if ([[[self.revealViewController.frontViewController.childViewControllers lastObject] class] isSubclassOfClass:[HomeViewController class]]) {
@@ -72,8 +71,7 @@
 }
 
 
-#pragma mark -
-#pragma mark Table view data source
+#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -112,8 +110,7 @@
     return cell;
 }
 
-#pragma mark -
-#pragma mark Table view delegate
+#pragma mark - Table view delegate
 /*
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cellTaped = [self.tableView cellForRowAtIndexPath:indexPath];
