@@ -18,7 +18,7 @@
 
 @implementation ComicsViewController
 
-@synthesize managedObjectContext, comics;
+@synthesize managedObjectContext, comics, letters, sortedKeys, sortedComics;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -52,6 +52,43 @@
     self.comics = [[self.managedObjectContext executeFetchRequest:request error:&err] mutableCopy];
     if (!self.comics)
         DLog(@"Error while requesting Core Data.");
+    
+    int numberOfLetters = 1;
+    NSString *currentLetter;
+    self.letters = [[NSMutableDictionary alloc] init];
+    
+    for (int i=0; i<[self.comics count]-1; i++) {
+        currentLetter = [[[self.comics objectAtIndex:i] title] substringToIndex:1];
+        if ([self.comics count] == 1) {
+            [letters setObject:[NSNumber numberWithInt:1] forKey:currentLetter];
+        } else {
+            if ([currentLetter isEqualToString:[[[self.comics objectAtIndex:i+1] title] substringToIndex:1]]) {
+                numberOfLetters++;
+            } else {
+                [letters setObject:[NSNumber numberWithInt:numberOfLetters] forKey:currentLetter];
+                numberOfLetters = 1;
+            }
+        }
+        if (i == [self.comics count]-2) {
+            [letters setObject:[NSNumber numberWithInt:numberOfLetters] forKey:currentLetter];
+        }
+    }
+    
+    NSArray *keys = [letters allKeys];
+    self.sortedKeys = [keys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    self.sortedComics = [[NSMutableDictionary alloc] init];
+    NSMutableArray *arrayTmp = [[NSMutableArray alloc] init];
+    
+    for (NSString *key in self.sortedKeys) {
+        for (Comics *toSort in self.comics) {
+            if ([[letters objectForKey:key] intValue] == [arrayTmp count])
+                break;
+            if ([key isEqualToString:[toSort.title substringToIndex:1]])
+                [arrayTmp addObject:toSort];
+        }
+        [self.sortedComics setObject:[arrayTmp mutableCopy] forKey:key];
+        [arrayTmp removeAllObjects];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,20 +105,25 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    return 1;
+    return [letters count];
+}
+
+-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [sortedKeys objectAtIndex:section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [self.comics count];
+    return [[letters objectForKey:[self.sortedKeys objectAtIndex:section]] intValue];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSUInteger section = [indexPath section];
+    NSUInteger row = [indexPath row];
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ComicsCell"];
-    Comics *comicsToPrint = [self.comics objectAtIndex:[indexPath row]];
+    Comics *comicsToPrint = [[self.sortedComics objectForKey:[self.sortedKeys objectAtIndex:section]] objectAtIndex:row];//[self.comics objectAtIndex:[indexPath row]];
     
     UIImageView *coverImageView = (UIImageView*)[cell viewWithTag:2099];
     [coverImageView setImage:[UIImage imageWithContentsOfFile:pathInDocumentDirectory([comicsToPrint.isbn stringByAppendingString:@"Thumbnail"])]];

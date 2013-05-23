@@ -31,6 +31,7 @@
                                                  name:NSManagedObjectContextDidSaveNotification
                                                object:nil];
     */
+    
 #if PREPROD
     
     /************************************************************/
@@ -47,6 +48,9 @@
     for (NSManagedObject *comics in comicsArray)
         [self.managedObjectContext deleteObject:comics];
 
+    if (![self.managedObjectContext save:&err])
+        DLog(@"Core Data Error %@", err);
+    
     /************************************************************/
     /*          END - Cleaning the DB from all datas            */
     /************************************************************/
@@ -60,9 +64,8 @@
     
     NSArray *filePathsArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentDirectory error:nil];
     
-    for (int i=0; i< [filePathsArray count]; i++) {
+    for (int i=0; i< [filePathsArray count]; i++)
         [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory([filePathsArray objectAtIndex:i]) error:nil];
-    }
     
     /************************************************************/
     /*          END - Cleaning Sandbox from files             */

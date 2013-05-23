@@ -15,5 +15,8 @@
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSMutableArray *comics;
+@property (nonatomic, retain) NSMutableDictionary *sortedComics;
+@property (nonatomic, retain) NSMutableDictionary *letters;
+@property (nonatomic, retain) NSArray *sortedKeys;
 
 @end

@@ -416,7 +416,6 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
             if (![managedObjectContext save:&error]) {
                 DLog(@"Core Data Error %@", error);
             } else {
-                
                 UIImageView *check = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button-round-tick-ok-icon.png"]];
                 [check setFrame:CGRectMake(20, 20, 50, 50)];
                 [self.view addSubview:check];

@@ -20,7 +20,6 @@
 
 // File properties
 @property (nonatomic, retain) UIImage *imageToSave;
-// TEST
 @property (nonatomic, retain) UIImage *thumbnail;
 @property (nonatomic, retain) NSData *thumbnailData;
 
@@ -49,7 +48,6 @@
 -(void)dismissKeyboard;
 -(void)lookupWithCode:(NSString*)code;
 -(void)parsing:(NSDictionary*)response;
-//TEST
 +(CGSize)thumbnailSize;
 -(void)setThumbnailDataForImage:(UIImage*)image;
 
