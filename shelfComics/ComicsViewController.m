@@ -9,6 +9,7 @@
 #import "ComicsViewController.h"
 #import "AppDelegate.h"
 #import "Comics.h"
+#import "ContentViewController.h"
 
 @interface ComicsViewController ()
 
@@ -95,6 +96,35 @@
     self.searchResults = [NSMutableArray arrayWithCapacity:[self.comics count]];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ( [segue.destinationViewController isKindOfClass: [ContentViewController class]] &&
+        [sender isKindOfClass:[UITableViewCell class]] )
+    {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        Comics *comicsToPass = [[self.sortedComics objectForKey:[self.sortedKeys objectAtIndex:[indexPath section]]] objectAtIndex:[indexPath row]];
+
+        ContentViewController* cvc = segue.destinationViewController;
+        cvc.comicsToPrint = comicsToPass;
+        [cvc view];
+    }
+    
+    if ([segue isKindOfClass:[SWRevealViewControllerSegue class]]) {
+        SWRevealViewControllerSegue *rvcs = (SWRevealViewControllerSegue *) segue;
+        SWRevealViewController *rvc = self.revealViewController;
+        
+        NSAssert(rvc != nil, @"oops, must have a revealViewController");
+        
+        NSAssert([rvc.frontViewController isKindOfClass:[UINavigationController class]], @"oops, for this segue we want a permanent navigation controller in the front.");
+        
+        rvcs.performBlock = ^(SWRevealViewControllerSegue *rvc_segue, UIViewController *scv, UIViewController *dvc) {
+            UINavigationController *nc = (UINavigationController *)rvc.frontViewController;
+            [nc setViewControllers:@[dvc] animated:YES];
+            [rvc setFrontViewPosition:FrontViewPositionLeft animated:YES];
+        };
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -139,9 +169,11 @@
     NSUInteger section = [indexPath section];
     NSUInteger row = [indexPath row];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ComicsCell"];
+    static NSString *comicsCell = @"ComicsCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:comicsCell];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ComicsCell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:comicsCell];
     }
     
     Comics *comicsToPrint;
@@ -190,6 +222,10 @@
             DLog(@"Delete fail");
         }
     }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 

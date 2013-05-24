@@ -31,6 +31,7 @@
 		904E948D172141CB0050A676 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904E948C172141CB0050A676 /* CFNetwork.framework */; };
 		904E948F172141D40050A676 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904E948E172141D40050A676 /* SystemConfiguration.framework */; };
 		904E9491172141DC0050A676 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904E9490172141DC0050A676 /* Security.framework */; };
+		906F5729174E6599002DEFBC /* ContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 906F5728174E6599002DEFBC /* ContentViewController.m */; };
 		90B8E868171FE09D00452F68 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B8E867171FE09D00452F68 /* UIKit.framework */; };
 		90B8E86A171FE09D00452F68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B8E869171FE09D00452F68 /* Foundation.framework */; };
 		90B8E86C171FE09D00452F68 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B8E86B171FE09D00452F68 /* CoreGraphics.framework */; };
@@ -104,6 +105,8 @@
 		904E948C172141CB0050A676 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		904E948E172141D40050A676 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		904E9490172141DC0050A676 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		906F5727174E6598002DEFBC /* ContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentViewController.h; sourceTree = "<group>"; };
+		906F5728174E6599002DEFBC /* ContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentViewController.m; sourceTree = "<group>"; };
 		90B8E864171FE09D00452F68 /* shelfComics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shelfComics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90B8E867171FE09D00452F68 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		90B8E869171FE09D00452F68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -308,6 +311,8 @@
 				904E946217201C630050A676 /* AddViewController.m */,
 				90D080B4174A567E00BF07F0 /* ComicsViewController.h */,
 				90D080B5174A567E00BF07F0 /* ComicsViewController.m */,
+				906F5727174E6598002DEFBC /* ContentViewController.h */,
+				906F5728174E6599002DEFBC /* ContentViewController.m */,
 				90D080B1174A18EB00BF07F0 /* FileHelpers.h */,
 				90D080B2174A18EB00BF07F0 /* FileHelpers.m */,
 				9021C2B5174274250052841B /* Comics.h */,
@@ -524,6 +529,7 @@
 				9021C2BB174276700052841B /* JSONKit.m in Sources */,
 				90D080B3174A18EB00BF07F0 /* FileHelpers.m in Sources */,
 				90D080B6174A567E00BF07F0 /* ComicsViewController.m in Sources */,
+				906F5729174E6599002DEFBC /* ContentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

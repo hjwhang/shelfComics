@@ -42,10 +42,10 @@
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Configure the segue
     if ([segue isKindOfClass:[SWRevealViewControllerSegue class]]) {
         SWRevealViewControllerSegue *rvcs = (SWRevealViewControllerSegue *) segue;
         SWRevealViewController *rvc = self.revealViewController;
+        
         NSAssert(rvc != nil, @"oops, must have a revealViewController");
         
         NSAssert([rvc.frontViewController isKindOfClass:[UINavigationController class]], @"oops, for this segue we want a permanent navigation controller in the front.");
