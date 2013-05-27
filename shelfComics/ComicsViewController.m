@@ -8,7 +8,6 @@
 
 #import "ComicsViewController.h"
 #import "AppDelegate.h"
-#import "Comics.h"
 #import "ContentViewController.h"
 
 @interface ComicsViewController ()
@@ -21,6 +20,7 @@
 
 @synthesize managedObjectContext, comics, letters, sortedKeys, sortedComics;
 @synthesize comicsSearchBar, searchResults;
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -60,50 +60,74 @@
     NSString *currentLetter;
     self.letters = [[NSMutableDictionary alloc] init];
     
-    for (int i=0; i<[self.comics count]-1; i++) {
-        currentLetter = [[[self.comics objectAtIndex:i] title] substringToIndex:1];
-        if ([self.comics count] == 1) {
-            [letters setObject:[NSNumber numberWithInt:1] forKey:currentLetter];
-        } else {
-            if ([currentLetter isEqualToString:[[[self.comics objectAtIndex:i+1] title] substringToIndex:1]]) {
-                numberOfLetters++;
+    if ([self.comics count] == 0) {
+        // nada
+    } else {
+        for (int i=0; i<[self.comics count]; i++) {
+            currentLetter = [[[self.comics objectAtIndex:i] title] substringToIndex:1];
+            if ([self.comics count] == 1) {
+                [letters setObject:[NSNumber numberWithInt:1] forKey:currentLetter];
             } else {
-                [letters setObject:[NSNumber numberWithInt:numberOfLetters] forKey:currentLetter];
-                numberOfLetters = 1;
+                if ([self.comics count]-1 == i) {
+                    if ([currentLetter isEqualToString:[[[self.comics objectAtIndex:i-1] title] substringToIndex:1]]) {
+                        //numberOfLetters++;
+                        [letters setObject:[NSNumber numberWithInt:numberOfLetters] forKey:currentLetter];
+                    } else {
+                        [letters setObject:[NSNumber numberWithInt:numberOfLetters] forKey:currentLetter];
+                        numberOfLetters = 1;
+                    }
+                } else {
+                    if ([currentLetter isEqualToString:[[[self.comics objectAtIndex:i+1] title] substringToIndex:1]]) {
+                        numberOfLetters++;
+                    } else {
+                        [letters setObject:[NSNumber numberWithInt:numberOfLetters] forKey:currentLetter];
+                        numberOfLetters = 1;
+                    }
+                }
             }
+            /*if (i == [self.comics count]-2) {
+                [letters setObject:[NSNumber numberWithInt:numberOfLetters] forKey:currentLetter];
+                DLog(@"IN %d", i);
+            }*/
         }
-        if (i == [self.comics count]-2) {
-            [letters setObject:[NSNumber numberWithInt:numberOfLetters] forKey:currentLetter];
+        
+        NSArray *keys = [letters allKeys];
+        self.sortedKeys = [keys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        self.sortedComics = [[NSMutableDictionary alloc] init];
+        NSMutableArray *arrayTmp = [[NSMutableArray alloc] init];
+        
+        for (NSString *key in self.sortedKeys) {
+            for (Comics *toSort in self.comics) {
+                if ([[letters objectForKey:key] intValue] == [arrayTmp count])
+                    break;
+                if ([key isEqualToString:[toSort.title substringToIndex:1]])
+                    [arrayTmp addObject:toSort];
+            }
+            [self.sortedComics setObject:[arrayTmp mutableCopy] forKey:key];
+            [arrayTmp removeAllObjects];
         }
-    }
-    
-    NSArray *keys = [letters allKeys];
-    self.sortedKeys = [keys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-    self.sortedComics = [[NSMutableDictionary alloc] init];
-    NSMutableArray *arrayTmp = [[NSMutableArray alloc] init];
-    
-    for (NSString *key in self.sortedKeys) {
-        for (Comics *toSort in self.comics) {
-            if ([[letters objectForKey:key] intValue] == [arrayTmp count])
-                break;
-            if ([key isEqualToString:[toSort.title substringToIndex:1]])
-                [arrayTmp addObject:toSort];
-        }
-        [self.sortedComics setObject:[arrayTmp mutableCopy] forKey:key];
-        [arrayTmp removeAllObjects];
     }
     
     self.searchResults = [NSMutableArray arrayWithCapacity:[self.comics count]];
+    
+    CGRect newBounds = self.tableView.bounds;
+    newBounds.origin.y = newBounds.origin.y + comicsSearchBar.bounds.size.height;
+    self.tableView.bounds = newBounds;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    if ( [segue.destinationViewController isKindOfClass: [ContentViewController class]] &&
-        [sender isKindOfClass:[UITableViewCell class]] )
-    {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        Comics *comicsToPass = [[self.sortedComics objectForKey:[self.sortedKeys objectAtIndex:[indexPath section]]] objectAtIndex:[indexPath row]];
-
+    if ([segue.destinationViewController isKindOfClass:[ContentViewController class]] && [sender isKindOfClass:[UITableViewCell class]]) {
+        
+        Comics *comicsToPass;
+        
+        if (self.searchDisplayController.isActive) {
+            comicsToPass = [self.searchResults objectAtIndex:[self.searchDisplayController.searchResultsTableView indexPathForSelectedRow].row];
+        } else {
+            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+            comicsToPass = [[self.sortedComics objectForKey:[self.sortedKeys objectAtIndex:[indexPath section]]] objectAtIndex:[indexPath row]];
+        }
+        
         ContentViewController* cvc = segue.destinationViewController;
         cvc.comicsToPrint = comicsToPass;
         [cvc view];
@@ -171,7 +195,7 @@
     
     static NSString *comicsCell = @"ComicsCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:comicsCell];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:comicsCell];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:comicsCell];
     }
@@ -203,29 +227,35 @@
         NSEntityDescription *toDelete = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:self.managedObjectContext];
         [request setEntity:toDelete];
         
-
-        Comics *comicsToDelete = [self.comics objectAtIndex:[indexPath row]];
+        Comics *comicsToDelete = [[self.sortedComics objectForKey:[self.sortedKeys objectAtIndex:[indexPath section]]] objectAtIndex:[indexPath row]];
         
         [request setPredicate:[NSPredicate predicateWithFormat:@"isbn == %@", comicsToDelete.isbn]];
         NSError *err = nil;
-        
         NSArray *comicsArray = [self.managedObjectContext executeFetchRequest:request error:&err];
-
+        
         for (NSManagedObject *comicsObject in comicsArray)
             [self.managedObjectContext deleteObject:comicsObject];
-
-        [self.comics removeObjectAtIndex:[indexPath row]];
         
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-        
-        if (![self.managedObjectContext save:&err]) {
+        if (![self.managedObjectContext save:&err])
             DLog(@"Delete fail");
-        }
+        
+        int nbRows = [[self.letters objectForKey:[self.sortedKeys objectAtIndex:[indexPath section]]] intValue];
+        nbRows--;
+        
+        [self.letters setValue:[NSNumber numberWithInt:nbRows] forKey:[self.sortedKeys objectAtIndex:[indexPath section]]];
+        
+        [self.sortedComics removeObjectForKey:[self.sortedKeys objectAtIndex:[indexPath section]]];
+
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        [self.searchDisplayController.searchResultsTableView deselectRowAtIndexPath:indexPath animated:YES];
+    } else {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
 
 

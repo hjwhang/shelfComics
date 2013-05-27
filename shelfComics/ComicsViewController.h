@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Comics.h"
 
 @interface ComicsViewController : UITableViewController <UISearchBarDelegate, UISearchDisplayDelegate> {
     NSManagedObjectContext *managedObjectContext;
