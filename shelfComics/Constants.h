@@ -24,4 +24,6 @@
 #define kType @"ISBN"
 #define kSearchIndex @"Books"
 
+#define kSaveTag 1
+
 #endif

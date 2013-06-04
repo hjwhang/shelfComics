@@ -28,3 +28,12 @@
 "pages" = " pages";
 "isbn" = "ISBN code: ";
 "volume" = "Vol. ";
+
+// Sync iCloud
+"save Title" = "Save on iCloud";
+"save Msg" = "Do you want to save the datas on iCloud ?";
+
+// ActionSheet
+"Cancel" = "Cancel";
+"Camera" = "From camera";
+"Gallery" = "From gallery";

@@ -10,9 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
-@interface AddViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, ZBarReaderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface AddViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, ZBarReaderDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate> {
     NSManagedObjectContext *managedObjectContext;
-    bool _photoPickedFromCamera;
 }
 
 @property (strong, nonatomic) MKNetworkOperation *lookupOperation;
@@ -50,6 +49,8 @@
 -(void)parsing:(NSDictionary*)response;
 +(CGSize)thumbnailSize;
 -(void)setThumbnailDataForImage:(UIImage*)image;
+-(void)addPhoto;
+-(void)pickPhoto;
 
 // Actions
 -(IBAction)lookUp:(id)sender;

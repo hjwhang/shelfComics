@@ -464,8 +464,17 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
 #pragma mark - Photo methods
 
 -(IBAction)takePhoto:(id)sender {
+    
+    UIActionSheet* as = [[UIActionSheet alloc] initWithTitle:nil
+                                                    delegate:self
+                                           cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                      destructiveButtonTitle:nil
+                                           otherButtonTitles:NSLocalizedString(@"Camera", nil), NSLocalizedString(@"Gallery", nil), nil];
+    [as showInView:self.view.superview];
+}
+
+-(void)addPhoto {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        _photoPickedFromCamera = true;
         UIImagePickerController *pick = [[UIImagePickerController alloc] init];
         pick.sourceType = UIImagePickerControllerSourceTypeCamera;
         pick.allowsEditing = NO;
@@ -479,6 +488,18 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
                                                 cancelButtonTitle:@"Close"
                                                 otherButtonTitles:nil];
         [noPhoto show];
+    }
+    imageComingFrom = 1;
+}
+
+-(void)pickPhoto {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        UIImagePickerController *pick = [[UIImagePickerController alloc] init];
+        pick.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        pick.allowsEditing = NO;
+        pick.mediaTypes = [NSArray arrayWithObject:(NSString*) kUTTypeImage];
+        pick.delegate = self;
+        [self presentModalViewController:pick animated:YES];
     }
     imageComingFrom = 1;
 }
@@ -685,6 +706,23 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
     [self.nbPages resignFirstResponder];
     [self.price resignFirstResponder];
     [self.publicationDate resignFirstResponder];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == actionSheet.cancelButtonIndex) {
+        return;
+    } else {
+        switch (buttonIndex-actionSheet.firstOtherButtonIndex) {
+            case 0:
+                [self addPhoto];
+                break;
+            case 1:
+                [self pickPhoto];
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 @end

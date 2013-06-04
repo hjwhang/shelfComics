@@ -22,6 +22,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Crashlytics startWithAPIKey:@"b3bcdce93e4c5843db8eb73320637a4294753e88"];
+    
     if (self.managedObjectContext == nil)
         self.managedObjectContext = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
     
@@ -213,7 +215,7 @@
 
 #pragma mark - Application's Documents directory
 
-/**
+/*
  Returns the URL to the application's Documents directory.
  */
 - (NSURL *)applicationDocumentsDirectory

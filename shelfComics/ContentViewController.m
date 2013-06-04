@@ -51,8 +51,16 @@
     [self.isbn setText:[NSString stringWithFormat:@"%@%@", NSLocalizedString(@"isbn", nil), comicsToPrint.isbn]];
     [self.volume setText:[NSString stringWithFormat:@"%@%@", NSLocalizedString(@"volume", nil), comicsToPrint.volume]];
     [self.dimensions setText:[NSString stringWithFormat:@"%@cm x %@cm", comicsToPrint.width, comicsToPrint.height]];
-    [self.thumbnail setImage:[UIImage imageWithContentsOfFile:pathInDocumentDirectory(comicsToPrint.isbn)]];
-    self.cover = [UIImage imageWithContentsOfFile:pathInDocumentDirectory(comicsToPrint.isbn)];
+    
+    UIImage *thumbnailImage = [UIImage imageWithContentsOfFile:pathInDocumentDirectory(comicsToPrint.isbn)];
+    
+    if (thumbnailImage == nil) {
+        [self.thumbnail setImage:[UIImage imageNamed:@"no_file.jpg"]];
+        self.cover = [UIImage imageNamed:@"no_file.jpg"];
+    } else {
+        [self.thumbnail setImage:[UIImage imageWithContentsOfFile:pathInDocumentDirectory(comicsToPrint.isbn)]];
+        self.cover = [UIImage imageWithContentsOfFile:pathInDocumentDirectory(comicsToPrint.isbn)];
+    }
     
     UITapGestureRecognizer *tgrSingleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(zoom:)];
     tgrSingleTap.numberOfTapsRequired = 1;

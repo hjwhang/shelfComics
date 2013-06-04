@@ -9,6 +9,7 @@
 #import "ComicsViewController.h"
 #import "AppDelegate.h"
 #import "ContentViewController.h"
+#import "Comics.h"
 
 @interface ComicsViewController ()
 
@@ -41,7 +42,7 @@
     [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
     
     AppDelegate* appDelegate = [AppDelegate sharedAppDelegate];
-    managedObjectContext = appDelegate.managedObjectContext;
+    self.managedObjectContext = appDelegate.managedObjectContext;
     
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *toStore = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:self.managedObjectContext];
@@ -85,10 +86,6 @@
                     }
                 }
             }
-            /*if (i == [self.comics count]-2) {
-                [letters setObject:[NSNumber numberWithInt:numberOfLetters] forKey:currentLetter];
-                DLog(@"IN %d", i);
-            }*/
         }
         
         NSArray *keys = [letters allKeys];
@@ -209,7 +206,13 @@
     else {
         comicsToPrint = [[self.sortedComics objectForKey:[self.sortedKeys objectAtIndex:section]] objectAtIndex:row];
         UIImageView *coverImageView = (UIImageView*)[cell viewWithTag:2099];
-        [coverImageView setImage:[UIImage imageWithContentsOfFile:pathInDocumentDirectory([comicsToPrint.isbn stringByAppendingString:@"Thumbnail"])]];
+        
+        UIImage *thumbnail = [UIImage imageWithContentsOfFile:pathInDocumentDirectory([comicsToPrint.isbn stringByAppendingString:@"Thumbnail"])];
+        
+        if (thumbnail == nil)
+            thumbnail = [UIImage imageNamed:@"no_file.jpg"];
+        
+        [coverImageView setImage:thumbnail];
         
         UILabel *title = (UILabel*)[cell viewWithTag:3000];
         title.text = comicsToPrint.title;

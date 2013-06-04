@@ -743,6 +743,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="huJ-Dx-5tA" kind="push" id="1xd-Pq-B8I"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -844,6 +847,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="k5a-zG-1b9"/>
-        <segue reference="qNi-GT-ajB"/>
+        <segue reference="1xd-Pq-B8I"/>
+        <segue reference="Hlp-Mp-sTS"/>
     </inferredMetricsTieBreakers>
 </document>

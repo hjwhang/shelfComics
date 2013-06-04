@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NetworkEngine.h"
 #import <CoreData/CoreData.h>
+#import <Crashlytics/Crashlytics.h>
 
 #define ApplicationDelegate ((AppDelegate *)[UIApplication sharedApplication].delegate)
 

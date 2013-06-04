@@ -32,6 +32,7 @@
 		904E948F172141D40050A676 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904E948E172141D40050A676 /* SystemConfiguration.framework */; };
 		904E9491172141DC0050A676 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904E9490172141DC0050A676 /* Security.framework */; };
 		906F5729174E6599002DEFBC /* ContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 906F5728174E6599002DEFBC /* ContentViewController.m */; };
+		906FA6B917539E9600E7B120 /* SaveiCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 906FA6B817539E9600E7B120 /* SaveiCloud.m */; };
 		90B8E868171FE09D00452F68 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B8E867171FE09D00452F68 /* UIKit.framework */; };
 		90B8E86A171FE09D00452F68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B8E869171FE09D00452F68 /* Foundation.framework */; };
 		90B8E86C171FE09D00452F68 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B8E86B171FE09D00452F68 /* CoreGraphics.framework */; };
@@ -52,6 +53,7 @@
 		90D080B3174A18EB00BF07F0 /* FileHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D080B2174A18EB00BF07F0 /* FileHelpers.m */; };
 		90D080B6174A567E00BF07F0 /* ComicsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D080B5174A567E00BF07F0 /* ComicsViewController.m */; };
 		90D080B8174A670C00BF07F0 /* no_file.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 90D080B7174A670C00BF07F0 /* no_file.jpg */; };
+		90F2EAB9175DEA5F000A08F5 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F2EAB8175DEA5F000A08F5 /* Crashlytics.framework */; };
 		90F44DE61745044900B191F2 /* button-round-tick-ok-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F44DE51745044900B191F2 /* button-round-tick-ok-icon.png */; };
 		90F44E0517450B6600B191F2 /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F44DFF17450B6600B191F2 /* libzbar.a */; };
 		90F44E0617450B6600B191F2 /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 90F44E0117450B6600B191F2 /* zbar-back.png */; };
@@ -107,6 +109,9 @@
 		904E9490172141DC0050A676 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		906F5727174E6598002DEFBC /* ContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentViewController.h; sourceTree = "<group>"; };
 		906F5728174E6599002DEFBC /* ContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentViewController.m; sourceTree = "<group>"; };
+		906FA6B717539E9600E7B120 /* SaveiCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveiCloud.h; sourceTree = "<group>"; };
+		906FA6B817539E9600E7B120 /* SaveiCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveiCloud.m; sourceTree = "<group>"; };
+		906FB3B11755011900411D6C /* shelfComics.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = shelfComics.entitlements; sourceTree = "<group>"; };
 		90B8E864171FE09D00452F68 /* shelfComics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shelfComics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90B8E867171FE09D00452F68 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		90B8E869171FE09D00452F68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -136,6 +141,7 @@
 		90D080B4174A567E00BF07F0 /* ComicsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicsViewController.h; sourceTree = "<group>"; };
 		90D080B5174A567E00BF07F0 /* ComicsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicsViewController.m; sourceTree = "<group>"; };
 		90D080B7174A670C00BF07F0 /* no_file.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = no_file.jpg; sourceTree = "<group>"; };
+		90F2EAB8175DEA5F000A08F5 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		90F44DE51745044900B191F2 /* button-round-tick-ok-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-round-tick-ok-icon.png"; sourceTree = "<group>"; };
 		90F44DEB17450B6600B191F2 /* Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Decoder.h; sourceTree = "<group>"; };
 		90F44DEC17450B6600B191F2 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
@@ -188,6 +194,7 @@
 				90B8E86A171FE09D00452F68 /* Foundation.framework in Frameworks */,
 				90B8E86C171FE09D00452F68 /* CoreGraphics.framework in Frameworks */,
 				90F44E0517450B6600B191F2 /* libzbar.a in Frameworks */,
+				90F2EAB9175DEA5F000A08F5 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +282,7 @@
 		90B8E866171FE09D00452F68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				90F2EAB8175DEA5F000A08F5 /* Crashlytics.framework */,
 				90D080AF1746819C00BF07F0 /* MobileCoreServices.framework */,
 				90F44E1017450BDD00B191F2 /* libiconv.dylib */,
 				90F44E0E17450BC200B191F2 /* AVFoundation.framework */,
@@ -313,6 +321,8 @@
 				90D080B5174A567E00BF07F0 /* ComicsViewController.m */,
 				906F5727174E6598002DEFBC /* ContentViewController.h */,
 				906F5728174E6599002DEFBC /* ContentViewController.m */,
+				906FA6B717539E9600E7B120 /* SaveiCloud.h */,
+				906FA6B817539E9600E7B120 /* SaveiCloud.m */,
 				90D080B1174A18EB00BF07F0 /* FileHelpers.h */,
 				90D080B2174A18EB00BF07F0 /* FileHelpers.m */,
 				9021C2B5174274250052841B /* Comics.h */,
@@ -328,6 +338,7 @@
 		90B8E86E171FE09D00452F68 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				906FB3B11755011900411D6C /* shelfComics.entitlements */,
 				90B8E86F171FE09D00452F68 /* shelfComics-Info.plist */,
 				90B8E870171FE09D00452F68 /* InfoPlist.strings */,
 				90B8E873171FE09E00452F68 /* main.m */,
@@ -439,6 +450,7 @@
 				90B8E860171FE09D00452F68 /* Sources */,
 				90B8E861171FE09D00452F68 /* Frameworks */,
 				90B8E862171FE09D00452F68 /* Resources */,
+				90F2EAB7175DEA46000A08F5 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -501,6 +513,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		90F2EAB7175DEA46000A08F5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run b3bcdce93e4c5843db8eb73320637a4294753e88";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		90B8E860171FE09D00452F68 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -530,6 +558,7 @@
 				90D080B3174A18EB00BF07F0 /* FileHelpers.m in Sources */,
 				90D080B6174A567E00BF07F0 /* ComicsViewController.m in Sources */,
 				906F5729174E6599002DEFBC /* ContentViewController.m in Sources */,
+				906FA6B917539E9600E7B120 /* SaveiCloud.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,7 +604,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Remy ALEXANDRE (37ZG2249EW)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Remy ALEXANDRE (37ZG2249EW)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -590,6 +620,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "FC87883A-13EE-4968-AE43-A2DBFBBE9952";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FC87883A-13EE-4968-AE43-A2DBFBBE9952";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -607,7 +639,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Remy ALEXANDRE (7252L78MQ3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Remy ALEXANDRE (7252L78MQ3)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -615,6 +648,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "8D23D854-2602-4A2D-80FA-1E4823D52B10";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8D23D854-2602-4A2D-80FA-1E4823D52B10";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -625,6 +660,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = armv7;
+				CODE_SIGN_ENTITLEMENTS = shelfComics/shelfComics.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Remy ALEXANDRE (37ZG2249EW)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Remy ALEXANDRE (37ZG2249EW)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -639,6 +677,8 @@
 					"\"$(SRCROOT)/shelfComics/ZBarSDK\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "FC87883A-13EE-4968-AE43-A2DBFBBE9952";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FC87883A-13EE-4968-AE43-A2DBFBBE9952";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -647,6 +687,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = armv7;
+				CODE_SIGN_ENTITLEMENTS = shelfComics/shelfComics.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Remy ALEXANDRE (7252L78MQ3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Remy ALEXANDRE (7252L78MQ3)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -661,6 +704,8 @@
 					"\"$(SRCROOT)/shelfComics/ZBarSDK\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8D23D854-2602-4A2D-80FA-1E4823D52B10";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8D23D854-2602-4A2D-80FA-1E4823D52B10";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

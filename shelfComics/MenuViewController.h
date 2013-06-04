@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MenuViewController : UITableViewController
+@interface MenuViewController : UITableViewController <UIAlertViewDelegate>
 
 /*
  * Is used to go back home without instantiating a new instance of HomeViewController

@@ -8,6 +8,8 @@
 
 #import "MenuViewController.h"
 #import "HomeViewController.h"
+#import "Constants.h"
+#import "SaveiCloud.h"
 
 @interface MenuViewController ()
 
@@ -111,17 +113,39 @@
 }
 
 #pragma mark - Table view delegate
-/*
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cellTaped = [self.tableView cellForRowAtIndexPath:indexPath];
-    
-    if ((cellTaped.tag == 0) && [[[self.revealViewController.frontViewController.childViewControllers lastObject] class] isSubclassOfClass:[HomeViewController class]]) {
-        [self.revealViewController revealToggleAnimated:YES];
-    }
-    
-    if ((cellTaped.tag == 0) && ![[[self.revealViewController.frontViewController.childViewControllers lastObject] class] isSubclassOfClass:[HomeViewController class]]) {
-        [self performSegueWithIdentifier:@"homeSegue" sender:nil];
+
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([cellTaped.reuseIdentifier isEqualToString:@"syncSave"]) {
+        UIAlertView *toSync = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"save Title", nil)
+                                                         message:NSLocalizedString(@"save Msg", nil)
+                                                        delegate:self
+                                               cancelButtonTitle:@"Cancel"
+                                               otherButtonTitles:@"Save", nil];
+        [toSync setTag:kSaveTag];
+        [toSync show];
     }
 }
-*/
+
+#pragma mark - Alert View delegate
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (alertView.tag) {
+        case kSaveTag:
+            if (buttonIndex == 0) {
+                DLog(@"Cancel");
+            }
+            if (buttonIndex == 1) {
+                DLog(@"Save");
+                //SaveiCloud *toSave = [[SaveiCloud alloc] init];
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 @end
