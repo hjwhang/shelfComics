@@ -607,12 +607,6 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
     [self performSelector:@selector(adjustScrollViewContentSize) withObject:nil afterDelay:0.05];
 }
 
-#pragma mark - File Methods
-
--(NSString*)shelfComicsArchiveDirectory {
-    return pathInDocumentDirectory(@"shelfComics.data");
-}
-
 
 #pragma mark - TextField methods
 

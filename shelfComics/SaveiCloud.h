@@ -8,12 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SaveiCloud : NSObject {
-    NSManagedObjectContext *managedObjectContext;
-    NSMutableArray *comics;
-}
+@interface SaveiCloud : UIDocument <UIAlertViewDelegate>
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) NSMutableArray *comics;
+@property (strong) NSData *zipDataContent;
+
+-(void)testiCloudAvailability;
 
 @end

@@ -15,4 +15,6 @@
  */
 - (void)backHome:(UIButton *)sender;
 
+-(void)backupDatas;
+
 @end

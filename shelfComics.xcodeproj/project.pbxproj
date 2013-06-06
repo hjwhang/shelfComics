@@ -16,6 +16,12 @@
 		9021C2BB174276700052841B /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9021C2BA174276700052841B /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9021C2BD1743C3990052841B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9021C2BC1743C3990052841B /* Localizable.strings */; };
 		9021C2BF1743D2710052841B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9021C2BE1743D2710052841B /* QuartzCore.framework */; };
+		9041129817608B5C008D19A0 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 9041128E17608B5C008D19A0 /* ioapi.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9041129917608B5C008D19A0 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 9041129017608B5C008D19A0 /* mztools.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9041129A17608B5C008D19A0 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 9041129217608B5C008D19A0 /* unzip.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9041129B17608B5C008D19A0 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 9041129417608B5C008D19A0 /* zip.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9041129C17608B5C008D19A0 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9041129717608B5C008D19A0 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9041129E17608BEB008D19A0 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9041129D17608BEB008D19A0 /* libz.1.2.5.dylib */; };
 		904E946317201C630050A676 /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904E946217201C630050A676 /* AddViewController.m */; };
 		904E946717202FA70050A676 /* deadpool.png in Resources */ = {isa = PBXBuildFile; fileRef = 904E946617202FA70050A676 /* deadpool.png */; };
 		904E9482172141A90050A676 /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 904E946D172141A90050A676 /* NSAlert+MKNetworkKitAdditions.m */; };
@@ -81,6 +87,18 @@
 		9021C2BA174276700052841B /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		9021C2BC1743C3990052841B /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		9021C2BE1743D2710052841B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		9041128D17608B5C008D19A0 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		9041128E17608B5C008D19A0 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		9041128F17608B5C008D19A0 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		9041129017608B5C008D19A0 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		9041129117608B5C008D19A0 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		9041129217608B5C008D19A0 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		9041129317608B5C008D19A0 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		9041129417608B5C008D19A0 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		9041129517608B5C008D19A0 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		9041129617608B5C008D19A0 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		9041129717608B5C008D19A0 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
+		9041129D17608BEB008D19A0 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		904E946117201C630050A676 /* AddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddViewController.h; sourceTree = "<group>"; };
 		904E946217201C630050A676 /* AddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
 		904E946617202FA70050A676 /* deadpool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deadpool.png; sourceTree = "<group>"; };
@@ -179,6 +197,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9041129E17608BEB008D19A0 /* libz.1.2.5.dylib in Frameworks */,
 				90D080B01746819C00BF07F0 /* MobileCoreServices.framework in Frameworks */,
 				90F44E1117450BDE00B191F2 /* libiconv.dylib in Frameworks */,
 				90F44E0F17450BC200B191F2 /* AVFoundation.framework in Frameworks */,
@@ -217,6 +236,32 @@
 				9021C2BA174276700052841B /* JSONKit.m */,
 			);
 			name = JSONKit;
+			sourceTree = "<group>";
+		};
+		9041128B17608B5C008D19A0 /* ZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				9041128C17608B5C008D19A0 /* minizip */,
+				9041129617608B5C008D19A0 /* ZipArchive.h */,
+				9041129717608B5C008D19A0 /* ZipArchive.mm */,
+			);
+			path = ZipArchive;
+			sourceTree = "<group>";
+		};
+		9041128C17608B5C008D19A0 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				9041128D17608B5C008D19A0 /* crypt.h */,
+				9041128E17608B5C008D19A0 /* ioapi.c */,
+				9041128F17608B5C008D19A0 /* ioapi.h */,
+				9041129017608B5C008D19A0 /* mztools.c */,
+				9041129117608B5C008D19A0 /* mztools.h */,
+				9041129217608B5C008D19A0 /* unzip.c */,
+				9041129317608B5C008D19A0 /* unzip.h */,
+				9041129417608B5C008D19A0 /* zip.c */,
+				9041129517608B5C008D19A0 /* zip.h */,
+			);
+			path = minizip;
 			sourceTree = "<group>";
 		};
 		904E946A172141A90050A676 /* MKNetworkKit */ = {
@@ -282,6 +327,7 @@
 		90B8E866171FE09D00452F68 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9041129D17608BEB008D19A0 /* libz.1.2.5.dylib */,
 				90F2EAB8175DEA5F000A08F5 /* Crashlytics.framework */,
 				90D080AF1746819C00BF07F0 /* MobileCoreServices.framework */,
 				90F44E1017450BDD00B191F2 /* libiconv.dylib */,
@@ -354,6 +400,7 @@
 		90B8E88D171FE0B400452F68 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				9041128B17608B5C008D19A0 /* ZipArchive */,
 				90F44DE717450B6600B191F2 /* ZBarSDK */,
 				9021C2B81742765C0052841B /* JSONKit */,
 				9021C2A11740F5410052841B /* XMLReader */,
@@ -559,6 +606,11 @@
 				90D080B6174A567E00BF07F0 /* ComicsViewController.m in Sources */,
 				906F5729174E6599002DEFBC /* ContentViewController.m in Sources */,
 				906FA6B917539E9600E7B120 /* SaveiCloud.m in Sources */,
+				9041129817608B5C008D19A0 /* ioapi.c in Sources */,
+				9041129917608B5C008D19A0 /* mztools.c in Sources */,
+				9041129A17608B5C008D19A0 /* unzip.c in Sources */,
+				9041129B17608B5C008D19A0 /* zip.c in Sources */,
+				9041129C17608B5C008D19A0 /* ZipArchive.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

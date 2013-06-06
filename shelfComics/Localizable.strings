@@ -32,8 +32,21 @@
 // Sync iCloud
 "save Title" = "Save on iCloud";
 "save Msg" = "Do you want to save the datas on iCloud ?";
+"import Title" = "Importing datas";
+"import Msg" = "Do you want to import data from your iCloud account ?\nIf you had datas stored in iCloud, they will erase the local ones.";
 
 // ActionSheet
 "Cancel" = "Cancel";
 "Camera" = "From camera";
 "Gallery" = "From gallery";
+
+// iCloud AlertView
+"iCloud Auth Title" = "iCloud Authorization";
+"iCloud Auth Title2" = "iCloud not available";
+"iCloud Auth Message" = "Do you want to save your comics database with iCloud ?";
+"iCloud Auth Message2" = "You have refused to use iCloud. Do you want to sync your comics on iCloud now ?";
+"iCloud Auth Message3" = "iCloud is not available on your device. Please check your settings if you want to use iCloud with this app.";
+"iCloud Cancel" = "No";
+"iCloud OK" = "Yes";
+"iCloud Close" = "Close";
+

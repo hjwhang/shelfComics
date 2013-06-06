@@ -36,10 +36,6 @@
 @property (nonatomic, retain) IBOutlet UITextField *publicationDate;
 @property (nonatomic, retain) IBOutlet UIButton *cover;
 
-
-// Files Methods
--(NSString*)shelfComicsArchiveDirectory;
-
 // Tools
 -(void)showLoadingView;
 -(void)removeLoadingView;

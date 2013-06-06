@@ -8,44 +8,58 @@
 
 #import "SaveiCloud.h"
 #import "AppDelegate.h"
+#import "Constants.h"
 
 @implementation SaveiCloud
 
-@synthesize managedObjectContext;
-@synthesize comics;
+@synthesize zipDataContent;
 
--(id)init {
-    if (self = [super init]) {
-        AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
-        self.managedObjectContext = appDelegate.managedObjectContext;
-        
-        NSString *urlSrc = pathInDocumentDirectory(@"AppWithCoreData.sqlite");
-        NSString *urlDest = pathInDocumentDirectory(@"db_backup.sqlite");
-        
-        [[NSFileManager defaultManager] copyItemAtPath:urlSrc toPath:urlDest error:nil];
-        
-        
-        
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        NSEntityDescription *toStore = [NSEntityDescription entityForName:@"Comics" inManagedObjectContext:self.managedObjectContext];
-        [request setEntity:toStore];
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-        [request setSortDescriptors:sortDescriptors];
-        
-        NSError *err = nil;
-        
-        self.comics = [[self.managedObjectContext executeFetchRequest:request error:&err] mutableCopy];
-        if (!self.comics)
-            DLog(@"Error while requesting Core Data.");
-        
-        DLog(@"COMICS RETRIEVED --> %@", self.comics);
-    }
-    return self;
+
+#pragma mark - iCloud methods
+
+
+-(BOOL)loadFromContents:(id)contents ofType:(NSString *)typeName error:(NSError *__autoreleasing *)outError {
+    self.zipDataContent = [[NSData alloc] initWithBytes:[contents bytes] length:[contents length]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"noteModified" object:self];
+    
+    return YES;
 }
 
--(void)createJSON {
+-(id)contentsForType:(NSString *)typeName error:(NSError *__autoreleasing *)outError {
     
+    return self.zipDataContent;
+}
+
+
+#pragma mark - Tools
+
+-(void)testiCloudAvailability {
+    NSString *iCloudAuth = [[NSUserDefaults standardUserDefaults] objectForKey:@"iCloudAuth"];
+    
+    if (![iCloudAuth isEqualToString:@"OK"]) {
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"iCloud Auth Title", nil)
+                                                     message:NSLocalizedString(@"iCloud Auth Message2", nil)
+                                                    delegate:self
+                                           cancelButtonTitle:NSLocalizedString(@"iCloud Cancel", nil)
+                                           otherButtonTitles:NSLocalizedString(@"iCloud OK", nil), nil];
+        [av show];
+    }
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0:
+            // No sync
+            break;
+            
+        case 1:
+            [[NSUserDefaults standardUserDefaults] setObject:@"OK" forKey:@"iCloudAuth"];
+            // to sync
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

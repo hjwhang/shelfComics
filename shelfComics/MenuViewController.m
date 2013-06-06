@@ -11,6 +11,9 @@
 #import "Constants.h"
 #import "SaveiCloud.h"
 
+// TEST iCLOUD
+#import "ZipArchive.h"
+
 @interface MenuViewController ()
 
 @end
@@ -118,6 +121,7 @@
     UITableViewCell *cellTaped = [self.tableView cellForRowAtIndexPath:indexPath];
 
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if ([cellTaped.reuseIdentifier isEqualToString:@"syncSave"]) {
         UIAlertView *toSync = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"save Title", nil)
                                                          message:NSLocalizedString(@"save Msg", nil)
@@ -127,6 +131,16 @@
         [toSync setTag:kSaveTag];
         [toSync show];
     }
+    
+    if ([cellTaped.reuseIdentifier isEqualToString:@"syncImport"]) {
+        UIAlertView *toImport = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"import Title", nil)
+                                                           message:NSLocalizedString(@"import Msg", nil)
+                                                          delegate:self
+                                                 cancelButtonTitle:@"Cancel"
+                                                 otherButtonTitles:@"Import", nil];
+        [toImport setTag:kImportTag];
+        [toImport show];
+    }
 }
 
 #pragma mark - Alert View delegate
@@ -134,18 +148,79 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     switch (alertView.tag) {
         case kSaveTag:
-            if (buttonIndex == 0) {
-                DLog(@"Cancel");
-            }
             if (buttonIndex == 1) {
                 DLog(@"Save");
-                //SaveiCloud *toSave = [[SaveiCloud alloc] init];
+                [self backupDatas];
+            }
+            break;
+            
+        case kImportTag:
+            if (buttonIndex == 1) {
+                // import data
             }
             break;
             
         default:
             break;
     }
+}
+
+-(void)backupDatas {
+    NSURL *ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+    NSURL *ubiquitousPackage = [[ubiq URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:kBackup];
+    SaveiCloud *toSave = [[SaveiCloud alloc] initWithFileURL:ubiquitousPackage];
+    [toSave testiCloudAvailability];
+    
+    [[NSFileManager defaultManager] copyItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:@"shelfComics.sqlite"]
+                                            toPath:[[pathInDocumentDirectory(@"") stringByAppendingPathComponent:@"Images"] stringByAppendingPathComponent:kBackupDB] error:nil];
+    
+    /********************************************************************/
+    /*                      Zipping "Documents"                         */
+    /********************************************************************/
+    
+    NSString *documentsDirectory = pathInDocumentDirectory(@"");
+    NSArray *subPaths;
+    NSString *toCompress = @"Images";
+    NSString *pathToCompress = [documentsDirectory stringByAppendingPathComponent:toCompress];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //if ([fileManager fileExistsAtPath:pathToCompress isDirectory:YES])
+    subPaths = [fileManager subpathsAtPath:pathToCompress];
+    NSString *zipFilePath = [documentsDirectory stringByAppendingPathComponent:kBackup];
+    ZipArchive *za = [[ZipArchive alloc] init];
+    [za CreateZipFile2:zipFilePath];
+    
+    for (NSString *path in subPaths) {
+        NSString *fullPath = [pathToCompress stringByAppendingPathComponent:path];
+        [za addFileToZip:fullPath newname:path];
+    }
+    
+    BOOL successCompressing = [za CloseZipFile2];
+    
+    if (successCompressing) {
+        DLog(@"Compressing directory succeded");
+        [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory(kBackupDB) error:nil];
+        
+    } else {
+        DLog(@"Compressing directory failed.");
+    }
+    
+    /********************************************************************/
+    /*                      Sync backup.zip                             */
+    /********************************************************************/
+    
+    NSURL *url = [[NSURL alloc] initFileURLWithPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup]];
+    NSData *data = [[NSData alloc] initWithContentsOfURL:url];
+    toSave.zipDataContent = data;
+    [toSave saveToURL:[toSave fileURL]
+     forSaveOperation:UIDocumentSaveForCreating
+    completionHandler:^(BOOL success) {
+        if (success) {
+            DLog(@"backup saved on iCloud.");
+        } else {
+            DLog(@"backup saved on device.");
+        }
+    }];
+
 }
 
 @end

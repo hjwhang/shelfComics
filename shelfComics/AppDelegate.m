@@ -15,6 +15,10 @@
 @synthesize managedObjectModel=__managedObjectModel;
 @synthesize persistentStoreCoordinator=__persistentStoreCoordinator;
 
+@synthesize backup = _backup;
+@synthesize query = _query;
+
+
 + (AppDelegate *)sharedAppDelegate
 {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -23,6 +27,69 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [Crashlytics startWithAPIKey:@"b3bcdce93e4c5843db8eb73320637a4294753e88"];
+    
+    NSString *iCloudAuth = [[NSUserDefaults standardUserDefaults] objectForKey:@"iCloudAuth"];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *documentsFile = [fileManager contentsOfDirectoryAtPath:pathInDocumentDirectory(@"") error:nil];
+    
+    for (NSString *file in documentsFile) {
+        /*
+         if ([file isEqualToString:kOriginalDB]) {
+            NSString *urlSrc = pathInDocumentDirectory(kOriginalDB);
+            NSString *urlDest = pathInDocumentDirectory(kBackup);
+            [[NSFileManager defaultManager] copyItemAtPath:urlSrc toPath:urlDest error:nil];
+        }*/
+        if ([file isEqualToString:@"Images"]) {
+            NSArray *imagesContent = [fileManager contentsOfDirectoryAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:@"Images"]
+                                                                      error:nil];
+            for (NSString *name in imagesContent) {
+                DLog(@"FILE --> Images/%@", name);
+            }
+        }
+        if ([file isEqualToString:kBackup]) {
+            [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup] error:nil];
+        }
+        DLog(@"FILE --> %@", file);
+    }
+    
+    NSString *imagesPath = [pathInDocumentDirectory(@"") stringByAppendingPathComponent:@"Images"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:imagesPath]) {
+        NSError *error;
+        [[NSFileManager defaultManager] createDirectoryAtPath:imagesPath
+                                  withIntermediateDirectories:NO
+                                                   attributes:nil
+                                                        error:&error];
+    }
+    
+    
+    NSURL *ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+    
+    if (iCloudAuth == nil) {
+        UIAlertView *iCloudAV = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"iCloud Auth Title", nil)
+                                                           message:NSLocalizedString(@"iCloud Auth Message", nil)
+                                                          delegate:self
+                                                 cancelButtonTitle:NSLocalizedString(@"iCloud Cancel", nil)
+                                                 otherButtonTitles:NSLocalizedString(@"iCloud OK", nil), nil];
+        [iCloudAV show];
+    } else {
+        if ([iCloudAuth isEqualToString:@"OK"]) {
+            if (ubiq) {
+                DLog(@"iCloud access at %@", ubiq);
+                //[self loadDocument];
+            } else {
+                DLog(@"No iCloud access");
+                UIAlertView *iClouKO = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"iCloud Auth Title2", nil)
+                                                                  message:NSLocalizedString(@"iCloud Auth Message3", nil)
+                                                                 delegate:self
+                                                        cancelButtonTitle:NSLocalizedString(@"iCloud Close", nil)
+                                                        otherButtonTitles:nil];
+                [iClouKO show];
+            }
+        } else {
+            DLog(@"iCloud Authorization KO");
+        }
+    }
     
     if (self.managedObjectContext == nil)
         self.managedObjectContext = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
@@ -177,7 +244,7 @@
         return __persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AppWithCoreData.sqlite"];
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"shelfComics.sqlite"]; //@"AppWithCoreData.sqlite"];
     
     NSError *error = nil;
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
@@ -222,5 +289,90 @@
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
+
+#pragma mark - iCloud methods
+
+-(void)loadDocument {
+    NSMetadataQuery *query = [[NSMetadataQuery alloc] init];
+    _query = query;
+    
+    [query setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey, kBackup];
+    [query setPredicate:pred];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(queryDidFinishGathering:)
+                                                 name:NSMetadataQueryDidFinishGatheringNotification
+                                               object:query];
+    [query startQuery];
+}
+
+-(void)queryDidFinishGathering:(NSNotification*)notification {
+    NSMetadataQuery *query = [notification object];
+    [query disableUpdates];
+    [query stopQuery];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NSMetadataQueryDidFinishGatheringNotification
+                                                  object:query];
+    _query = nil;
+    [self loadData:query];
+}
+
+-(void)loadData:(NSMetadataQuery*)query {
+    if ([query resultCount] == 1) {
+        NSMetadataItem *item = [query resultAtIndex:0];
+        NSURL *url = [item valueForAttribute:NSMetadataItemURLKey];
+        SaveiCloud *DBBackup = [[SaveiCloud alloc] initWithFileURL:url];
+        self.backup = DBBackup;
+        [self.backup openWithCompletionHandler:^(BOOL success) {
+            if (success) {
+                DLog(@"iCloud Document open");
+            } else {
+                DLog(@"Failed opening iCloud document");
+            }
+        }];
+    } else {
+        NSURL *ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+        NSURL *ubiquitousPackage = [[ubiq URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:kBackup];
+        SaveiCloud *DBBackup = [[SaveiCloud alloc] initWithFileURL:ubiquitousPackage];
+        
+        self.backup = DBBackup;
+
+        [DBBackup saveToURL:[DBBackup fileURL]
+           forSaveOperation:UIDocumentSaveForCreating
+          completionHandler:^(BOOL success) {
+              if (success) {
+                  // Code to open backup sqlite
+                  /*
+                  [DBBackup openWithCompletionHandler:^(BOOL success) {
+                      DLog(@"New document opened from iCloud");
+                  }];
+                   */
+                  DLog(@"Saving DB backup succeded.");
+              } else {
+                  DLog(@"Saving backup failed");
+              }
+          }];
+    }
+}
+
+#pragma mark - AlertView Delegate Methods
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0:
+            [[NSUserDefaults standardUserDefaults] setObject:@"KO" forKey:@"iCloudAuth"];
+            break;
+        case 1:
+            [[NSUserDefaults standardUserDefaults] setObject:@"OK" forKey:@"iCloudAuth"];
+            break;
+            
+        default:
+            break;
+    }
+}
+
 
 @end
