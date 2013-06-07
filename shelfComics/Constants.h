@@ -25,7 +25,7 @@
 #define kSearchIndex @"Books"
 
 #define kBackup @"backup.zip"
-#define kBackupDB @"dbBackup.sqlite"
+#define kDBName @"shelfComics.sqlite"
 
 #define kSaveTag 1
 #define kImportTag 2

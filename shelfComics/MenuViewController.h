@@ -10,11 +10,15 @@
 
 @interface MenuViewController : UITableViewController <UIAlertViewDelegate>
 
+@property (strong) NSMetadataQuery *query;
+
 /*
  * Is used to go back home without instantiating a new instance of HomeViewController
  */
 - (void)backHome:(UIButton *)sender;
 
 -(void)backupDatas;
+-(void)loadDocument;
+-(void)loadData:(NSMetadataQuery*)query;
 
 @end

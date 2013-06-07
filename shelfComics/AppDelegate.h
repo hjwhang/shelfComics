@@ -26,8 +26,6 @@
 @property (strong) SaveiCloud *backup;
 @property (strong) NSMetadataQuery *query;
 
--(void)loadDocument;
-
 -(void)saveContext;
 -(NSURL *)applicationDocumentsDirectory;
 

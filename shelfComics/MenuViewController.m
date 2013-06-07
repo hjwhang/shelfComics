@@ -20,6 +20,9 @@
 
 @implementation MenuViewController
 
+@synthesize query = _query;
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -156,7 +159,7 @@
             
         case kImportTag:
             if (buttonIndex == 1) {
-                // import data
+                [self loadDocument];
             }
             break;
             
@@ -171,8 +174,9 @@
     SaveiCloud *toSave = [[SaveiCloud alloc] initWithFileURL:ubiquitousPackage];
     [toSave testiCloudAvailability];
     
-    [[NSFileManager defaultManager] copyItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:@"shelfComics.sqlite"]
-                                            toPath:[[pathInDocumentDirectory(@"") stringByAppendingPathComponent:@"Images"] stringByAppendingPathComponent:kBackupDB] error:nil];
+    [[NSFileManager defaultManager] copyItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName]
+                                            toPath:pathInDocumentDirectory(kDBName)
+                                             error:nil];
     
     /********************************************************************/
     /*                      Zipping "Documents"                         */
@@ -198,8 +202,6 @@
     
     if (successCompressing) {
         DLog(@"Compressing directory succeded");
-        [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory(kBackupDB) error:nil];
-        
     } else {
         DLog(@"Compressing directory failed.");
     }
@@ -216,11 +218,76 @@
     completionHandler:^(BOOL success) {
         if (success) {
             DLog(@"backup saved on iCloud.");
+            [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup] error:nil];
         } else {
             DLog(@"backup saved on device.");
         }
     }];
+}
 
+-(void)loadDocument {
+    NSMetadataQuery *query = [[NSMetadataQuery alloc] init];
+    _query = query; 
+    [query setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey, kBackup];
+    [query setPredicate:predicate];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(queryDidFinishgathering:)
+                                                 name:NSMetadataQueryDidFinishGatheringNotification
+                                               object:query];
+    
+    [query startQuery];
+}
+
+-(void)loadData:(NSMetadataQuery*)query {
+    
+    for (NSMetadataItem *item in [query results]) {
+        NSString *fileName = [item valueForAttribute:NSMetadataItemFSNameKey];
+        NSURL *url = [item valueForAttribute:NSMetadataItemURLKey];
+        SaveiCloud *saveDocument = [[SaveiCloud alloc] initWithFileURL:url];
+        
+        if ([fileName isEqualToString:kBackup]) {
+            [saveDocument openWithCompletionHandler:^(BOOL success) {
+                DLog(@"Backup file open.");
+                NSData *file = [NSData dataWithContentsOfURL:url];
+                NSString *documentsDirectory = pathInDocumentDirectory(@"");
+                NSString *zipFile = [documentsDirectory stringByAppendingPathComponent:kBackup];
+                [[NSFileManager defaultManager] createFileAtPath:zipFile contents:file attributes:nil];
+                NSString *outputFolder = [documentsDirectory stringByAppendingPathComponent:@"Images"];
+                ZipArchive *za = [[ZipArchive alloc] init];
+                if ([za UnzipOpenFile:zipFile]) {
+                    if ([za UnzipFileTo:outputFolder overWrite:YES]) {
+                        DLog(@"Backup successfully unzip.");
+                        [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup] error:nil];
+                        
+                        // DB transfer
+                        [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName] error:nil];
+                        
+                        [[NSFileManager defaultManager] copyItemAtPath:pathInDocumentDirectory(kDBName)
+                                                                toPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName]
+                                                                 error:nil];
+                        [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory(kDBName) error:nil];
+                        
+                    }
+                    [za UnzipCloseFile];
+                }
+            }];
+        }
+    }
+}
+
+-(void)queryDidFinishgathering:(NSNotification*)notification {
+    NSMetadataQuery *query = [notification object];
+    [query disableUpdates];
+    [query stopQuery];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NSMetadataQueryDidFinishGatheringNotification
+                                                  object:query];
+    _query = nil;
+    
+    [self loadData:query];
 }
 
 @end

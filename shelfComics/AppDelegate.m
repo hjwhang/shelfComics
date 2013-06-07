@@ -47,9 +47,11 @@
                 DLog(@"FILE --> Images/%@", name);
             }
         }
+        /*
         if ([file isEqualToString:kBackup]) {
             [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup] error:nil];
         }
+         */
         DLog(@"FILE --> %@", file);
     }
     
@@ -291,72 +293,6 @@
 }
 
 #pragma mark - iCloud methods
-
--(void)loadDocument {
-    NSMetadataQuery *query = [[NSMetadataQuery alloc] init];
-    _query = query;
-    
-    [query setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
-    
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey, kBackup];
-    [query setPredicate:pred];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(queryDidFinishGathering:)
-                                                 name:NSMetadataQueryDidFinishGatheringNotification
-                                               object:query];
-    [query startQuery];
-}
-
--(void)queryDidFinishGathering:(NSNotification*)notification {
-    NSMetadataQuery *query = [notification object];
-    [query disableUpdates];
-    [query stopQuery];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:NSMetadataQueryDidFinishGatheringNotification
-                                                  object:query];
-    _query = nil;
-    [self loadData:query];
-}
-
--(void)loadData:(NSMetadataQuery*)query {
-    if ([query resultCount] == 1) {
-        NSMetadataItem *item = [query resultAtIndex:0];
-        NSURL *url = [item valueForAttribute:NSMetadataItemURLKey];
-        SaveiCloud *DBBackup = [[SaveiCloud alloc] initWithFileURL:url];
-        self.backup = DBBackup;
-        [self.backup openWithCompletionHandler:^(BOOL success) {
-            if (success) {
-                DLog(@"iCloud Document open");
-            } else {
-                DLog(@"Failed opening iCloud document");
-            }
-        }];
-    } else {
-        NSURL *ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-        NSURL *ubiquitousPackage = [[ubiq URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:kBackup];
-        SaveiCloud *DBBackup = [[SaveiCloud alloc] initWithFileURL:ubiquitousPackage];
-        
-        self.backup = DBBackup;
-
-        [DBBackup saveToURL:[DBBackup fileURL]
-           forSaveOperation:UIDocumentSaveForCreating
-          completionHandler:^(BOOL success) {
-              if (success) {
-                  // Code to open backup sqlite
-                  /*
-                  [DBBackup openWithCompletionHandler:^(BOOL success) {
-                      DLog(@"New document opened from iCloud");
-                  }];
-                   */
-                  DLog(@"Saving DB backup succeded.");
-              } else {
-                  DLog(@"Saving backup failed");
-              }
-          }];
-    }
-}
 
 #pragma mark - AlertView Delegate Methods
 
