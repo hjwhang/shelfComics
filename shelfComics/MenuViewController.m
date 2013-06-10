@@ -263,8 +263,7 @@
                         
                         // DB transfer
                         [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName] error:nil];
-                        
-                        // TEST
+
                         AppDelegate* appDelegate = [AppDelegate sharedAppDelegate];
                         [appDelegate resetDB];
                         

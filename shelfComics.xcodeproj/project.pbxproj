@@ -16,6 +16,7 @@
 		9021C2BB174276700052841B /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9021C2BA174276700052841B /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9021C2BD1743C3990052841B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9021C2BC1743C3990052841B /* Localizable.strings */; };
 		9021C2BF1743D2710052841B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9021C2BE1743D2710052841B /* QuartzCore.framework */; };
+		903A727B17661EEF0081BE27 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 903A727A17661EEF0081BE27 /* libFlurry.a */; };
 		9041129817608B5C008D19A0 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 9041128E17608B5C008D19A0 /* ioapi.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9041129917608B5C008D19A0 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 9041129017608B5C008D19A0 /* mztools.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9041129A17608B5C008D19A0 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 9041129217608B5C008D19A0 /* unzip.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -87,6 +88,8 @@
 		9021C2BA174276700052841B /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		9021C2BC1743C3990052841B /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		9021C2BE1743D2710052841B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		903A727917661EEF0081BE27 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		903A727A17661EEF0081BE27 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 		9041128D17608B5C008D19A0 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		9041128E17608B5C008D19A0 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
 		9041128F17608B5C008D19A0 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
@@ -214,6 +217,7 @@
 				90B8E86C171FE09D00452F68 /* CoreGraphics.framework in Frameworks */,
 				90F44E0517450B6600B191F2 /* libzbar.a in Frameworks */,
 				90F2EAB9175DEA5F000A08F5 /* Crashlytics.framework in Frameworks */,
+				903A727B17661EEF0081BE27 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +240,15 @@
 				9021C2BA174276700052841B /* JSONKit.m */,
 			);
 			name = JSONKit;
+			sourceTree = "<group>";
+		};
+		903A727817661EEF0081BE27 /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				903A727917661EEF0081BE27 /* Flurry.h */,
+				903A727A17661EEF0081BE27 /* libFlurry.a */,
+			);
+			path = Flurry;
 			sourceTree = "<group>";
 		};
 		9041128B17608B5C008D19A0 /* ZipArchive */ = {
@@ -407,6 +420,7 @@
 				904E946A172141A90050A676 /* MKNetworkKit */,
 				90B8E88E171FE1D100452F68 /* SWRevealViewController.h */,
 				90B8E88F171FE1D100452F68 /* SWRevealViewController.m */,
+				903A727817661EEF0081BE27 /* Flurry */,
 			);
 			name = Externals;
 			sourceTree = "<group>";
@@ -727,6 +741,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/shelfComics/ZBarSDK\"",
+					"\"$(SRCROOT)/shelfComics/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "FC87883A-13EE-4968-AE43-A2DBFBBE9952";
@@ -754,6 +769,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/shelfComics/ZBarSDK\"",
+					"\"$(SRCROOT)/shelfComics/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8D23D854-2602-4A2D-80FA-1E4823D52B10";

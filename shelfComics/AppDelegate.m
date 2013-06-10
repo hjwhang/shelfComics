@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "Constants.h"
+#import "Flurry.h"
 
 @implementation AppDelegate
 
@@ -27,6 +28,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [Crashlytics startWithAPIKey:@"b3bcdce93e4c5843db8eb73320637a4294753e88"];
+    
+    [Flurry startSession:@"KVQSWQRPN6FSK3VFZDCR"];
     
     NSString *iCloudAuth = [[NSUserDefaults standardUserDefaults] objectForKey:@"iCloudAuth"];
     
@@ -259,9 +262,6 @@
     
     return __persistentStoreCoordinator;
 }
-
-/***********************/
-/* MEGA TEST */
 
 -(void)resetDB {
     __managedObjectModel = nil;
