@@ -9,6 +9,7 @@
 #import "MenuViewController.h"
 #import "HomeViewController.h"
 #import "Constants.h"
+#import "AppDelegate.h"
 #import "SaveiCloud.h"
 
 // TEST iCLOUD
@@ -251,10 +252,9 @@
             [saveDocument openWithCompletionHandler:^(BOOL success) {
                 DLog(@"Backup file open.");
                 NSData *file = [NSData dataWithContentsOfURL:url];
-                NSString *documentsDirectory = pathInDocumentDirectory(@"");
-                NSString *zipFile = [documentsDirectory stringByAppendingPathComponent:kBackup];
+                NSString *zipFile = [pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup];
                 [[NSFileManager defaultManager] createFileAtPath:zipFile contents:file attributes:nil];
-                NSString *outputFolder = [documentsDirectory stringByAppendingPathComponent:@"Images"];
+                NSString *outputFolder = [pathInDocumentDirectory(@"") stringByAppendingPathComponent:@"Images"];
                 ZipArchive *za = [[ZipArchive alloc] init];
                 if ([za UnzipOpenFile:zipFile]) {
                     if ([za UnzipFileTo:outputFolder overWrite:YES]) {
@@ -264,13 +264,26 @@
                         // DB transfer
                         [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName] error:nil];
                         
+                        // TEST
+                        AppDelegate* appDelegate = [AppDelegate sharedAppDelegate];
+                        [appDelegate resetDB];
+                        
                         [[NSFileManager defaultManager] copyItemAtPath:pathInDocumentDirectory(kDBName)
                                                                 toPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName]
                                                                  error:nil];
                         [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory(kDBName) error:nil];
-                        
                     }
                     [za UnzipCloseFile];
+                } else {
+                    DLog(@"Unable to unzip backup.");
+                    [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory(kDBName) error:nil];
+                    
+                    UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Import Title", nil)
+                                                                             message:NSLocalizedString(@"Error Import Msg", nil)
+                                                                            delegate:self
+                                                                   cancelButtonTitle:@"Close"
+                                                                   otherButtonTitles:nil];
+                    [errorAlertView show];
                 }
             }];
         }

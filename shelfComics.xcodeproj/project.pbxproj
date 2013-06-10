@@ -11,7 +11,7 @@
 		9021C2A41740F6480052841B /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9021C2A31740F6480052841B /* XMLReader.m */; };
 		9021C2A61740F8030052841B /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9021C2A51740F8030052841B /* AWSRuntime.framework */; };
 		9021C2AB17426AF20052841B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9021C2AA17426AF20052841B /* CoreData.framework */; };
-		9021C2AE17426C7C0052841B /* shlefComics.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9021C2AC17426C7C0052841B /* shlefComics.xcdatamodeld */; };
+		9021C2AE17426C7C0052841B /* shelfComics.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9021C2AC17426C7C0052841B /* shelfComics.xcdatamodeld */; };
 		9021C2B7174274250052841B /* Comics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9021C2B6174274250052841B /* Comics.m */; };
 		9021C2BB174276700052841B /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9021C2BA174276700052841B /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9021C2BD1743C3990052841B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9021C2BC1743C3990052841B /* Localizable.strings */; };
@@ -80,7 +80,7 @@
 		9021C2A31740F6480052841B /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		9021C2A51740F8030052841B /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSRuntime.framework; path = shelfComics/AWSRuntime.framework; sourceTree = "<group>"; };
 		9021C2AA17426AF20052841B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		9021C2AD17426C7C0052841B /* shlefComics.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = shlefComics.xcdatamodel; sourceTree = "<group>"; };
+		9021C2AD17426C7C0052841B /* shelfComics.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = shelfComics.xcdatamodel; sourceTree = "<group>"; };
 		9021C2B5174274250052841B /* Comics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Comics.h; path = ../Comics.h; sourceTree = "<group>"; };
 		9021C2B6174274250052841B /* Comics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Comics.m; path = ../Comics.m; sourceTree = "<group>"; };
 		9021C2B9174276700052841B /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
@@ -373,7 +373,7 @@
 				90D080B2174A18EB00BF07F0 /* FileHelpers.m */,
 				9021C2B5174274250052841B /* Comics.h */,
 				9021C2B6174274250052841B /* Comics.m */,
-				9021C2AC17426C7C0052841B /* shlefComics.xcdatamodeld */,
+				9021C2AC17426C7C0052841B /* shelfComics.xcdatamodeld */,
 				90B8E87F171FE09E00452F68 /* MainStoryboard_iPhone.storyboard */,
 				90B8E882171FE09E00452F68 /* MainStoryboard_iPad.storyboard */,
 				90B8E86E171FE09D00452F68 /* Supporting Files */,
@@ -599,7 +599,7 @@
 				904E948B172141A90050A676 /* Reachability.m in Sources */,
 				90147F9617253DCA002C593A /* NetworkEngine.m in Sources */,
 				9021C2A41740F6480052841B /* XMLReader.m in Sources */,
-				9021C2AE17426C7C0052841B /* shlefComics.xcdatamodeld in Sources */,
+				9021C2AE17426C7C0052841B /* shelfComics.xcdatamodeld in Sources */,
 				9021C2B7174274250052841B /* Comics.m in Sources */,
 				9021C2BB174276700052841B /* JSONKit.m in Sources */,
 				90D080B3174A18EB00BF07F0 /* FileHelpers.m in Sources */,
@@ -786,13 +786,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		9021C2AC17426C7C0052841B /* shlefComics.xcdatamodeld */ = {
+		9021C2AC17426C7C0052841B /* shelfComics.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				9021C2AD17426C7C0052841B /* shlefComics.xcdatamodel */,
+				9021C2AD17426C7C0052841B /* shelfComics.xcdatamodel */,
 			);
-			currentVersion = 9021C2AD17426C7C0052841B /* shlefComics.xcdatamodel */;
-			path = shlefComics.xcdatamodeld;
+			currentVersion = 9021C2AD17426C7C0052841B /* shelfComics.xcdatamodel */;
+			path = shelfComics.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

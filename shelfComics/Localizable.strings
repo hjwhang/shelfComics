@@ -31,9 +31,9 @@
 
 // Sync iCloud
 "save Title" = "Save on iCloud";
-"save Msg" = "Do you want to save the datas on iCloud ?";
-"import Title" = "Importing datas";
-"import Msg" = "Do you want to import data from your iCloud account ?\nIf you had datas stored in iCloud, they will erase the local ones.";
+"save Msg" = "Do you want to save your library on iCloud ?";
+"import Title" = "Importing Library";
+"import Msg" = "Do you want to import your library from your iCloud account ?\nIf you had datas stored in iCloud, they will erase the local ones.";
 
 // ActionSheet
 "Cancel" = "Cancel";
@@ -49,4 +49,8 @@
 "iCloud Cancel" = "No";
 "iCloud OK" = "Yes";
 "iCloud Close" = "Close";
+
+// Import AlertView
+"Error Import Title" = "An error occured";
+"Error Import Msg" = "An error occured while importing your library. Please, try again later.";
 
