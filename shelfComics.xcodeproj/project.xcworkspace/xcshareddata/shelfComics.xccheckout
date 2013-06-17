@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>598A7402-2A64-4893-9501-51B2F187ACD3</string>
+	<key>IDESourceControlProjectName</key>
+	<string>shelfComics</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8D7B87C2-0EF4-448E-951B-0AD1BAC135E7</key>
+		<string>https://github.com/alienfamily/shelfComics.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>shelfComics.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8D7B87C2-0EF4-448E-951B-0AD1BAC135E7</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/alienfamily/shelfComics.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>8D7B87C2-0EF4-448E-951B-0AD1BAC135E7</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8D7B87C2-0EF4-448E-951B-0AD1BAC135E7</string>
+			<key>IDESourceControlWCCName</key>
+			<string>shelfComics</string>
+		</dict>
+	</array>
+</dict>
+</plist>
