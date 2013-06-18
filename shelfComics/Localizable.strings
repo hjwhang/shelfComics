@@ -41,7 +41,15 @@
 "Camera" = "From camera";
 "Gallery" = "From gallery";
 
+// Network availability
+"noNetwork Title" = "No network available";
+"noNetwork Msg" = "No network is available. Please check your network connection.";
+"noNetwork Close" = "Close";
+
 // iCloud AlertView
+"noBackup Title" = "An error occured";
+"noBackup Msg" = "No backup were found on your iCloud account.";
+"noBackup Close" = "Close";
 "iCloud Auth Title" = "iCloud Authorization";
 "iCloud Auth Title2" = "iCloud not available";
 "iCloud Auth Message" = "Do you want to save your comics database with iCloud ?";

@@ -136,23 +136,47 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if ([cellTaped.reuseIdentifier isEqualToString:@"syncSave"]) {
-        UIAlertView *toSync = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"save Title", nil)
-                                                         message:NSLocalizedString(@"save Msg", nil)
-                                                        delegate:self
-                                               cancelButtonTitle:@"Cancel"
-                                               otherButtonTitles:@"Save", nil];
-        [toSync setTag:kSaveTag];
-        [toSync show];
+        BOOL ok =[[Reachability reachabilityForInternetConnection] isReachable];
+        
+        if (!ok) {
+            UIAlertView *noNetwork = [[UIAlertView  alloc] initWithTitle:NSLocalizedString(@"noNetwork Title", nil)
+                                                                 message:NSLocalizedString(@"noNetwork Msg", nil)
+                                                                delegate:self
+                                                       cancelButtonTitle:NSLocalizedString(@"noNetwork Close", nil)
+                                                       otherButtonTitles:nil];
+            [noNetwork show];
+            return;
+        } else {
+            UIAlertView *toSync = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"save Title", nil)
+                                                             message:NSLocalizedString(@"save Msg", nil)
+                                                            delegate:self
+                                                   cancelButtonTitle:@"Cancel"
+                                                   otherButtonTitles:@"Save", nil];
+            [toSync setTag:kSaveTag];
+            [toSync show];
+        }
     }
     
     if ([cellTaped.reuseIdentifier isEqualToString:@"syncImport"]) {
-        UIAlertView *toImport = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"import Title", nil)
-                                                           message:NSLocalizedString(@"import Msg", nil)
-                                                          delegate:self
-                                                 cancelButtonTitle:@"Cancel"
-                                                 otherButtonTitles:@"Import", nil];
-        [toImport setTag:kImportTag];
-        [toImport show];
+        BOOL ok =[[Reachability reachabilityForInternetConnection] isReachable];
+        
+        if (!ok) {
+            UIAlertView *noNetwork = [[UIAlertView  alloc] initWithTitle:NSLocalizedString(@"noNetwork Title", nil)
+                                                                 message:NSLocalizedString(@"noNetwork Msg", nil)
+                                                                delegate:self
+                                                       cancelButtonTitle:NSLocalizedString(@"noNetwork Close", nil)
+                                                       otherButtonTitles:nil];
+            [noNetwork show];
+            return;
+        } else {
+            UIAlertView *toImport = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"import Title", nil)
+                                                               message:NSLocalizedString(@"import Msg", nil)
+                                                              delegate:self
+                                                     cancelButtonTitle:@"Cancel"
+                                                     otherButtonTitles:@"Import", nil];
+            [toImport setTag:kImportTag];
+            [toImport show];
+        }
     }
 }
 
@@ -274,6 +298,17 @@
 }
 
 -(void)loadData:(NSMetadataQuery*)query {
+    
+    if ([query resultCount] == 0) {
+        [self hideLoadingView];
+        UIAlertView *noBackupView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"noBackup Title", nil)
+                                                               message:NSLocalizedString(@"noBackup Msg", nil)
+                                                              delegate:self
+                                                     cancelButtonTitle:NSLocalizedString(@"noBackup Close", nil)
+                                                     otherButtonTitles:nil];
+        [noBackupView show];
+        return;
+    }
     
     for (NSMetadataItem *item in [query results]) {
         NSString *fileName = [item valueForAttribute:NSMetadataItemFSNameKey];
