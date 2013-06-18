@@ -208,7 +208,7 @@
 		
 		// check if it contains directory
         // REMY modify this for warning
-		NSString * strPath = [NSString  stringWithCString:filename encoding:nil];
+		NSString * strPath = [NSString  stringWithCString:filename encoding:NSASCIIStringEncoding];
 		BOOL isDirectory = NO;
 		if( filename[fileInfo.size_filename-1]=='/' || filename[fileInfo.size_filename-1]=='\\')
 			isDirectory = YES;

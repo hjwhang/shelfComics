@@ -20,5 +20,7 @@
 -(void)backupDatas;
 -(void)loadDocument;
 -(void)loadData:(NSMetadataQuery*)query;
+-(void)printLoadingView;
+-(void)hideLoadingView;
 
 @end

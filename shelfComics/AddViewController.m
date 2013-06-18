@@ -579,7 +579,7 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
         [loadingView setAlpha:0.8];
         
         UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 220, 100, 100)];
-        [loadingLabel setText:@"Loading"];
+        [loadingLabel setText:NSLocalizedString(@"Loading", nil)];
         [loadingLabel setTextAlignment:NSTextAlignmentCenter];
         [loadingLabel setTextColor:[UIColor colorWithRed:255.0f green:255.0f blue:255.0f alpha:1.0f]];
         [loadingLabel setBackgroundColor:[UIColor colorWithRed:255.0f green:255.0f blue:255.0f alpha:0.0]];

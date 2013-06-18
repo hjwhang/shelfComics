@@ -14,7 +14,6 @@
 
 @synthesize zipDataContent;
 
-
 #pragma mark - iCloud methods
 
 

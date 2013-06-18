@@ -28,6 +28,7 @@
 "pages" = " pages";
 "isbn" = "ISBN code: ";
 "volume" = "Vol. ";
+"Loading" = "Loading";
 
 // Sync iCloud
 "save Title" = "Save on iCloud";
@@ -49,8 +50,16 @@
 "iCloud Cancel" = "No";
 "iCloud OK" = "Yes";
 "iCloud Close" = "Close";
-
-// Import AlertView
+"okView Title" = "Backup restored";
+"okView Msg" = "Your library has been restored from iCloud.";
+"okView Close" = "Close";
+"koSave Title" = "An error occured";
+"koSave Msg" = "An error occured while preparing the backup.";
+"koSave Msg 1" = "An error occured while uploading your backup to iCloud. Don't worry your local library is still in shape.";
+"koSave Close" = "Close";
+"okSave Title" = "Library saved";
+"okSave Msg" = "Your library has been saved on your iCloud account.";
+"okSave Close" = "Close";
 "Error Import Title" = "An error occured";
 "Error Import Msg" = "An error occured while importing your library. Please, try again later.";
 

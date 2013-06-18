@@ -11,8 +11,6 @@
 #import "Constants.h"
 #import "AppDelegate.h"
 #import "SaveiCloud.h"
-
-// TEST iCLOUD
 #import "ZipArchive.h"
 
 @interface MenuViewController ()
@@ -87,7 +85,15 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 6;
+    return 7;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        return 64.0f;
+    } else {
+        return 44.0f;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -95,21 +101,24 @@
     
     switch (indexPath.row) {
         case 0:
-            CellIdentifier = @"titleShelf";
+            CellIdentifier = @"empty";
             break;
         case 1:
-            CellIdentifier = @"shelfAdd";
+            CellIdentifier = @"titleShelf";
             break;
         case 2:
-            CellIdentifier = @"shelfCheck";
+            CellIdentifier = @"shelfAdd";
             break;
         case 3:
-            CellIdentifier = @"titleSync";
+            CellIdentifier = @"shelfCheck";
             break;
         case 4:
-            CellIdentifier = @"syncSave";
+            CellIdentifier = @"titleSync";
             break;
         case 5:
+            CellIdentifier = @"syncSave";
+            break;
+        case 6:
             CellIdentifier = @"syncImport";
             break;
     }
@@ -153,7 +162,6 @@
     switch (alertView.tag) {
         case kSaveTag:
             if (buttonIndex == 1) {
-                DLog(@"Save");
                 [self backupDatas];
             }
             break;
@@ -170,6 +178,8 @@
 }
 
 -(void)backupDatas {
+    [self printLoadingView];
+    
     NSURL *ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
     NSURL *ubiquitousPackage = [[ubiq URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:kBackup];
     SaveiCloud *toSave = [[SaveiCloud alloc] initWithFileURL:ubiquitousPackage];
@@ -188,7 +198,6 @@
     NSString *toCompress = @"Images";
     NSString *pathToCompress = [documentsDirectory stringByAppendingPathComponent:toCompress];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    //if ([fileManager fileExistsAtPath:pathToCompress isDirectory:YES])
     subPaths = [fileManager subpathsAtPath:pathToCompress];
     NSString *zipFilePath = [documentsDirectory stringByAppendingPathComponent:kBackup];
     ZipArchive *za = [[ZipArchive alloc] init];
@@ -205,6 +214,13 @@
         DLog(@"Compressing directory succeded");
     } else {
         DLog(@"Compressing directory failed.");
+        [self hideLoadingView];
+        UIAlertView *koSave = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"koSave Title", nil)
+                                                         message:NSLocalizedString(@"koSave Msg", nil)
+                                                        delegate:self
+                                               cancelButtonTitle:NSLocalizedString(@"koSaveClose", nil)
+                                               otherButtonTitles:nil];
+        [koSave show];
     }
     
     /********************************************************************/
@@ -219,9 +235,22 @@
     completionHandler:^(BOOL success) {
         if (success) {
             DLog(@"backup saved on iCloud.");
+            [self hideLoadingView];
+            UIAlertView *okSave = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"okSave Title", nil)
+                                                             message:NSLocalizedString(@"okSave Msg", nil)
+                                                            delegate:self
+                                                   cancelButtonTitle:NSLocalizedString(@"okSave Close", nil)
+                                                   otherButtonTitles:nil];
+            [okSave show];
             [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup] error:nil];
         } else {
             DLog(@"backup saved on device.");
+            UIAlertView *koSave = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"koSave Title", nil)
+                                                             message:NSLocalizedString(@"koSave Msg 1", nil)
+                                                            delegate:self
+                                                   cancelButtonTitle:NSLocalizedString(@"koSave Close", nil)
+                                                   otherButtonTitles:nil];
+            [koSave show];
         }
     }];
 }
@@ -233,12 +262,15 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey, kBackup];
     [query setPredicate:predicate];
     
+    [query setValueListAttributes:@[NSMetadataUbiquitousItemPercentDownloadedKey, NSMetadataUbiquitousItemIsDownloadedKey]];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(queryDidFinishgathering:)
                                                  name:NSMetadataQueryDidFinishGatheringNotification
                                                object:query];
     
     [query startQuery];
+    [self printLoadingView];
 }
 
 -(void)loadData:(NSMetadataQuery*)query {
@@ -250,37 +282,57 @@
         
         if ([fileName isEqualToString:kBackup]) {
             [saveDocument openWithCompletionHandler:^(BOOL success) {
-                DLog(@"Backup file open.");
-                NSData *file = [NSData dataWithContentsOfURL:url];
-                NSString *zipFile = [pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup];
-                [[NSFileManager defaultManager] createFileAtPath:zipFile contents:file attributes:nil];
-                NSString *outputFolder = [pathInDocumentDirectory(@"") stringByAppendingPathComponent:@"Images"];
-                ZipArchive *za = [[ZipArchive alloc] init];
-                if ([za UnzipOpenFile:zipFile]) {
-                    if ([za UnzipFileTo:outputFolder overWrite:YES]) {
-                        DLog(@"Backup successfully unzip.");
-                        [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup] error:nil];
-                        
-                        // DB transfer
-                        [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName] error:nil];
-
-                        AppDelegate* appDelegate = [AppDelegate sharedAppDelegate];
-                        [appDelegate resetDB];
-                        
-                        [[NSFileManager defaultManager] copyItemAtPath:pathInDocumentDirectory(kDBName)
-                                                                toPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName]
-                                                                 error:nil];
+                if (success) {
+                    DLog(@"Backup file open.");
+                    NSData *file = [NSData dataWithContentsOfURL:url];
+                    NSString *zipFile = [pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup];
+                    [[NSFileManager defaultManager] createFileAtPath:zipFile contents:file attributes:nil];
+                    NSString *outputFolder = [pathInDocumentDirectory(@"") stringByAppendingPathComponent:@"Images"];
+                    ZipArchive *za = [[ZipArchive alloc] init];
+                    if ([za UnzipOpenFile:zipFile]) {
+                        if ([za UnzipFileTo:outputFolder overWrite:YES]) {
+                            DLog(@"Backup successfully unzip.");
+                            [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup] error:nil];
+                            
+                            // DB transfer
+                            [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName] error:nil];
+                            
+                            AppDelegate* appDelegate = [AppDelegate sharedAppDelegate];
+                            [appDelegate resetDB];
+                            
+                            [[NSFileManager defaultManager] copyItemAtPath:pathInDocumentDirectory(kDBName)
+                                                                    toPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName]
+                                                                     error:nil];
+                            [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory(kDBName) error:nil];
+                            
+                            // Everything went right
+                            [self hideLoadingView];
+                            UIAlertView *okView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"okView Title", nil)
+                                                                             message:NSLocalizedString(@"okView Msg", nil)
+                                                                            delegate:self
+                                                                   cancelButtonTitle:NSLocalizedString(@"okView Close", nil)
+                                                                   otherButtonTitles:nil];
+                            [okView show];
+                            
+                        }
+                        [za UnzipCloseFile];
+                    } else {
+                        DLog(@"Unable to unzip backup.");
                         [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory(kDBName) error:nil];
+                        [self hideLoadingView];
+                        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Import Title", nil)
+                                                                                 message:NSLocalizedString(@"Error Import Msg", nil)
+                                                                                delegate:self
+                                                                       cancelButtonTitle:NSLocalizedString(@"okView Close", nil)
+                                                                       otherButtonTitles:nil];
+                        [errorAlertView show];
                     }
-                    [za UnzipCloseFile];
                 } else {
-                    DLog(@"Unable to unzip backup.");
-                    [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory(kDBName) error:nil];
-                    
+                    [self hideLoadingView];
                     UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error Import Title", nil)
                                                                              message:NSLocalizedString(@"Error Import Msg", nil)
                                                                             delegate:self
-                                                                   cancelButtonTitle:@"Close"
+                                                                   cancelButtonTitle:NSLocalizedString(@"okView Close", nil)
                                                                    otherButtonTitles:nil];
                     [errorAlertView show];
                 }
@@ -300,6 +352,37 @@
     _query = nil;
     
     [self loadData:query];
+}
+
+-(void)printLoadingView {
+    UIView *loadingView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [loadingView setBackgroundColor:[UIColor lightGrayColor]];
+    [loadingView setAlpha:0.8];
+    
+    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 220, 100, 100)];
+    [loadingLabel setText:NSLocalizedString(@"Loading", nil)];
+    [loadingLabel setTextAlignment:NSTextAlignmentCenter];
+    [loadingLabel setTextColor:[UIColor colorWithRed:255.0f green:255.0f blue:255.0f alpha:1.0f]];
+    [loadingLabel setBackgroundColor:[UIColor colorWithRed:255.0f green:255.0f blue:255.0f alpha:0.0]];
+    [loadingView addSubview:loadingLabel];
+    
+    UIActivityIndicatorView *loadingActivity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [loadingActivity startAnimating];
+    [loadingActivity setCenter:CGPointMake(160, 225)];
+    [loadingView addSubview:loadingActivity];
+    
+    [loadingView setTag:[kLoadingViewTag intValue]];
+    
+    //[self.view addSubview:loadingView];
+    [self.view.window.rootViewController.view addSubview:loadingView];
+}
+
+-(void)hideLoadingView {
+    for (UIView *subview in [self.view.window.rootViewController.view subviews]) {
+        if (subview.tag == [kLoadingViewTag intValue]) {
+            [subview removeFromSuperview];
+        }
+    }
 }
 
 @end
