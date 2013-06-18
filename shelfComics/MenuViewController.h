@@ -18,6 +18,7 @@
 - (void)backHome:(UIButton *)sender;
 
 -(void)backupDatas;
+-(void)uploadDatas;
 -(void)loadDocument;
 -(void)loadData:(NSMetadataQuery*)query;
 -(void)printLoadingView;

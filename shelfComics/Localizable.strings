@@ -70,4 +70,8 @@
 "okSave Close" = "Close";
 "Error Import Title" = "An error occured";
 "Error Import Msg" = "An error occured while importing your library. Please, try again later.";
+"fileWeight Title" = "File is over 5 Mb";
+"fileWeight Msg" = "Your backup is over 5 Mb and your wifi connection is not available. Do you want to upload it anyway ?";
+"fileWeight Cancel" = "Cancel";
+"fileWeight OK" = "Upload";
 

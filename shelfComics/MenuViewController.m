@@ -195,6 +195,10 @@
                 [self loadDocument];
             }
             break;
+        case kUploadTag:
+            if (buttonIndex == 1) {
+                [self uploadDatas];
+            }
             
         default:
             break;
@@ -235,7 +239,7 @@
     BOOL successCompressing = [za CloseZipFile2];
     
     if (successCompressing) {
-        DLog(@"Compressing directory succeded");
+        DLog(@"Compressing directory succeeded");
     } else {
         DLog(@"Compressing directory failed.");
         [self hideLoadingView];
@@ -247,9 +251,28 @@
         [koSave show];
     }
     
+    uint64_t fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:zipFilePath error:nil] fileSize];
+    
+    if ((fileSize > 5300000) && ![[Reachability reachabilityForInternetConnection] isReachableViaWiFi]) {
+        UIAlertView *fileWeight = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"fileWeight Title", nil)
+                                                             message:NSLocalizedString(@"fileWeight Msg", nil)
+                                                            delegate:self
+                                                   cancelButtonTitle:NSLocalizedString(@"fileWeight Cancel", nil)
+                                                   otherButtonTitles:NSLocalizedString(@"fileWeight OK", nil), nil];
+        [fileWeight setTag:kUploadTag];
+        [fileWeight show];
+    } else {
+        [self uploadDatas];
+    }
+}
+
+-(void)uploadDatas {
     /********************************************************************/
     /*                      Sync backup.zip                             */
     /********************************************************************/
+    NSURL *ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+    NSURL *ubiquitousPackage = [[ubiq URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:kBackup];
+    SaveiCloud *toSave = [[SaveiCloud alloc] initWithFileURL:ubiquitousPackage];
     
     NSURL *url = [[NSURL alloc] initFileURLWithPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kBackup]];
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
