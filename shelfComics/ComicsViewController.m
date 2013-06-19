@@ -106,7 +106,14 @@
     }
     
     self.searchResults = [NSMutableArray arrayWithCapacity:[self.comics count]];
-    
+    /*
+    CGRect newBounds = self.tableView.bounds;
+    newBounds.origin.y = newBounds.origin.y + comicsSearchBar.bounds.size.height;
+    self.tableView.bounds = newBounds;
+     */
+}
+
+-(void)viewWillAppear:(BOOL)animated {
     CGRect newBounds = self.tableView.bounds;
     newBounds.origin.y = newBounds.origin.y + comicsSearchBar.bounds.size.height;
     self.tableView.bounds = newBounds;

@@ -50,6 +50,9 @@
 "noBackup Title" = "An error occured";
 "noBackup Msg" = "No backup were found on your iCloud account.";
 "noBackup Close" = "Close";
+"iCloudAccount Title" = "No iCloud account found";
+"iCloudAccount Msg" = "There is no iCloud account set for this device. Please modify your settings if you want to use Import / Save feature.";
+"iCloudAccount Close" = "Close";
 "iCloud Auth Title" = "iCloud Authorization";
 "iCloud Auth Title2" = "iCloud not available";
 "iCloud Auth Message" = "Do you want to save your comics database with iCloud ?";

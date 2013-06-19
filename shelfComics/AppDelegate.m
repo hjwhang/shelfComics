@@ -32,6 +32,7 @@
     [Flurry startSession:@"KVQSWQRPN6FSK3VFZDCR"];
     
     NSString *iCloudAuth = [[NSUserDefaults standardUserDefaults] objectForKey:@"iCloudAuth"];
+    [self testiCloudAccount];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *documentsFile = [fileManager contentsOfDirectoryAtPath:pathInDocumentDirectory(@"") error:nil];
@@ -296,6 +297,24 @@
         default:
             break;
     }
+}
+
+-(void)testiCloudAccount {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if ([[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil] != nil) {
+            DLog(@"An iCloud account is available on device.");
+            [[NSUserDefaults standardUserDefaults] setObject:@"OK" forKey:@"iCloudAccount"];
+        } else {
+            DLog(@"There is no iCloud account set for this device.");
+            [[NSUserDefaults standardUserDefaults] setObject:@"KO" forKey:@"iCloudAccount"];
+            UIAlertView *noiCloudAccount = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"iCloudAccount Title", nil)
+                                                                      message:NSLocalizedString(@"iCloudAccount Msg", nil)
+                                                                     delegate:self
+                                                            cancelButtonTitle:NSLocalizedString(@"iCloudAccount Close", nil)
+                                                            otherButtonTitles:nil];
+            [noiCloudAccount show];
+        }
+    });
 }
 
 

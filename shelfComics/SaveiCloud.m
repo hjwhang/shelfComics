@@ -35,13 +35,24 @@
 -(void)testiCloudAvailability {
     NSString *iCloudAuth = [[NSUserDefaults standardUserDefaults] objectForKey:@"iCloudAuth"];
     
-    if (![iCloudAuth isEqualToString:@"OK"]) {
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"iCloud Auth Title", nil)
-                                                     message:NSLocalizedString(@"iCloud Auth Message2", nil)
-                                                    delegate:self
-                                           cancelButtonTitle:NSLocalizedString(@"iCloud Cancel", nil)
-                                           otherButtonTitles:NSLocalizedString(@"iCloud OK", nil), nil];
-        [av show];
+    NSString *iCloudAccount = [[NSUserDefaults standardUserDefaults] objectForKey:@"iCloudAccount"];
+    
+    if ([iCloudAccount isEqualToString:@"KO"]) {
+        UIAlertView *noiCloudAccount = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"iCloudAccount Title", nil)
+                                                                  message:NSLocalizedString(@"iCloudAccount Msg", nil)
+                                                                 delegate:self
+                                                        cancelButtonTitle:NSLocalizedString(@"iCloudAccount Close", nil)
+                                                        otherButtonTitles:nil];
+        [noiCloudAccount show];
+    } else {
+        if (![iCloudAuth isEqualToString:@"OK"]) {
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"iCloud Auth Title", nil)
+                                                         message:NSLocalizedString(@"iCloud Auth Message2", nil)
+                                                        delegate:self
+                                               cancelButtonTitle:NSLocalizedString(@"iCloud Cancel", nil)
+                                               otherButtonTitles:NSLocalizedString(@"iCloud OK", nil), nil];
+            [av show];
+        }
     }
 }
 

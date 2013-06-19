@@ -28,7 +28,7 @@
 
 -(void)saveContext;
 -(NSURL *)applicationDocumentsDirectory;
-
+-(void)testiCloudAccount;
 -(void)resetDB;
 
 +(AppDelegate *)sharedAppDelegate;

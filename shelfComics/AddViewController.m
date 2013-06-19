@@ -480,7 +480,8 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
         pick.allowsEditing = NO;
         pick.mediaTypes = [NSArray arrayWithObject:(NSString*) kUTTypeImage];
         pick.delegate = self;
-        [self presentModalViewController:pick animated:YES];
+        //change for presentModalViewController deprecated in iOS 6
+        [self presentViewController:pick animated:YES completion:nil];
     } else {
         UIAlertView *noPhoto = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"noPhoto Title", nil)
                                                           message:NSLocalizedString(@"noPhoto Msg", nil)
@@ -499,7 +500,8 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
         pick.allowsEditing = NO;
         pick.mediaTypes = [NSArray arrayWithObject:(NSString*) kUTTypeImage];
         pick.delegate = self;
-        [self presentModalViewController:pick animated:YES];
+        // Change for presentModalViewController deprecated in iOS 6
+        [self presentViewController:pick animated:YES completion:nil];
     }
     imageComingFrom = 1;
 }
@@ -526,7 +528,8 @@ static int imageComingFrom = 0; // 0 == scan barcode ; 1 == cover picture
     } else {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
         self.imageToSave = [image copy];
-        [reader dismissModalViewControllerAnimated:NO];
+        // Change for dissmissModalViewController deprecated in iOS 6
+        [reader dismissViewControllerAnimated:NO completion:nil];
         if (image) {
             [self.cover setBackgroundImage:image forState:UIControlStateNormal];
         }
