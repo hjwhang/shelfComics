@@ -324,7 +324,11 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Comics" id="NI9-ps-oaV">
-                        <barButtonItem key="leftBarButtonItem" image="reveal-icon.png" id="2nT-Pq-Yfi"/>
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="bVZ-q2-20A">
+                            <connections>
+                                <segue destination="huJ-Dx-5tA" kind="push" id="EQu-tE-jba"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="eXc-Mo-SBL"/>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -338,7 +342,6 @@
                         <outlet property="price" destination="h9T-GQ-PfS" id="UdV-e8-bh4"/>
                         <outlet property="publicationDate" destination="7tt-Pz-rzn" id="Xbb-x1-hrX"/>
                         <outlet property="publisher" destination="lhz-Or-WrC" id="13k-9Q-nm7"/>
-                        <outlet property="revealButtonItem" destination="2nT-Pq-Yfi" id="M3b-5n-d5V"/>
                         <outlet property="thumbnail" destination="6YY-Xi-Mv5" id="Pu7-Nv-D1c"/>
                         <outlet property="volume" destination="G2D-N6-h1T" id="LfO-Sm-84T"/>
                     </connections>
@@ -641,8 +644,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="xO9-Xj-9z5"/>
         <segue reference="qNi-GT-ajB"/>
         <segue reference="Q8G-At-ric"/>
+        <segue reference="EQu-tE-jba"/>
     </inferredMetricsTieBreakers>
 </document>

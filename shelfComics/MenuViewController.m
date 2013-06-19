@@ -216,6 +216,12 @@
     [[NSFileManager defaultManager] copyItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName]
                                             toPath:pathInDocumentDirectory(kDBName)
                                              error:nil];
+    [[NSFileManager defaultManager] copyItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:[kDBName stringByAppendingString:@"-shm"]]
+                                            toPath:pathInDocumentDirectory([kDBName stringByAppendingString:@"-shm"])
+                                             error:nil];
+    [[NSFileManager defaultManager] copyItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:[kDBName stringByAppendingString:@"-wal"]]
+                                            toPath:pathInDocumentDirectory([kDBName stringByAppendingString:@"-wal"])
+                                             error:nil];
     
     /********************************************************************/
     /*                      Zipping "Documents"                         */
@@ -354,6 +360,8 @@
                             
                             // DB transfer
                             [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName] error:nil];
+                            [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:[kDBName stringByAppendingString:@"-shm"]] error:nil];
+                            [[NSFileManager defaultManager] removeItemAtPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:[kDBName stringByAppendingString:@"-wal"]] error:nil];
                             
                             AppDelegate* appDelegate = [AppDelegate sharedAppDelegate];
                             [appDelegate resetDB];
@@ -361,7 +369,15 @@
                             [[NSFileManager defaultManager] copyItemAtPath:pathInDocumentDirectory(kDBName)
                                                                     toPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:kDBName]
                                                                      error:nil];
+                            [[NSFileManager defaultManager] copyItemAtPath:pathInDocumentDirectory([kDBName stringByAppendingString:@"-shm"])
+                                                                    toPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:[kDBName stringByAppendingString:@"-shm"]]
+                                                                     error:nil];
+                            [[NSFileManager defaultManager] copyItemAtPath:pathInDocumentDirectory([kDBName stringByAppendingString:@"-wal"])
+                                                                    toPath:[pathInDocumentDirectory(@"") stringByAppendingPathComponent:[kDBName stringByAppendingString:@"-wal"]]
+                                                                     error:nil];
                             [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory(kDBName) error:nil];
+                            [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory([kDBName stringByAppendingString:@"-shm"]) error:nil];
+                            [[NSFileManager defaultManager] removeItemAtPath:pathInDocumentDirectory([kDBName stringByAppendingString:@"-wal"]) error:nil];
                             
                             // Everything went right
                             [self hideLoadingView];
